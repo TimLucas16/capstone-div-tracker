@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection ="stocks")
+@Document(collection ="stockCol")
 public class Stock {
 
     @Id

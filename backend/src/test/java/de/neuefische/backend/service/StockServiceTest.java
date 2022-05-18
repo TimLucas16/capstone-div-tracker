@@ -32,8 +32,8 @@ class StockServiceTest {
     }
 
     @Test
-    void addNewStock_whenAmountOfShares_isNotValid_shouldThrowException() {
-        //GIVEN
+    void addNewStock_whenAmountOfSharesIsZeroOrLess_shouldThrowException() {
+        //GIVEN + WHEN
         CreateStock newStock = CreateStock.builder().name("Apple").symbol("AAPL").amountOfShares(0).build();
 
         //THEN

@@ -24,8 +24,8 @@ class StockControllerTest {
     private WebTestClient testClient;
 
     @BeforeEach
-    void setUp() {
-
+    void cleanUp() {
+        stockRepo.deleteAll();
     }
 
     @Test
@@ -47,6 +47,7 @@ class StockControllerTest {
         assertNotNull(actual);
         assertNotNull(actual.getId());
         Stock expected = Stock.builder().id(actual.getId()).name("Apple").symbol("AAPL").amountOfShares(10).build();
+        assertEquals(24, actual.getId().length());
         assertEquals(expected, actual);
     }
 }
