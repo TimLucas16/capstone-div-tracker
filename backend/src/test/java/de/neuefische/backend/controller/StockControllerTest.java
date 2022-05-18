@@ -35,7 +35,7 @@ class StockControllerTest {
 
         //WHEN
         Stock actual = testClient.post()
-                .uri("stock")
+                .uri("api/stock")
                 .bodyValue(stock)
                 .exchange()
                 .expectStatus().is2xxSuccessful()
