@@ -17,13 +17,14 @@ public class StockService {
     }
 
     public Stock addNewStock(CreateStockDto newStock) {
-        if(newStock.getAmountOfShares() <= 0) {
-            throw new IllegalArgumentException("Number of shares can´t be 0 or less");
+        if(newStock.getAmountOfShares() <= 0 || newStock.getCourse() <= 0) {
+            throw new IllegalArgumentException("Number of shares or course can´t be 0 or less");
         }
         Stock stock = new Stock();
         stock.setName(newStock.getName());
         stock.setSymbol(newStock.getSymbol());
         stock.setAmountOfShares(newStock.getAmountOfShares());
+        stock.setCourse(newStock.getCourse());
         return repo.insert(stock);
     }
 }
