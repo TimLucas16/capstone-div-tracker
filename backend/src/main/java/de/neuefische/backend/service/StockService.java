@@ -6,6 +6,8 @@ import de.neuefische.backend.repository.StockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StockService {
 
@@ -25,5 +27,9 @@ public class StockService {
         stock.setSymbol(newStock.getSymbol());
         stock.setAmountOfShares(newStock.getAmountOfShares());
         return repo.insert(stock);
+    }
+
+    public List<Stock> getAllStocks() {
+        return repo.findAll();
     }
 }
