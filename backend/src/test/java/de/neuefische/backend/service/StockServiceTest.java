@@ -18,15 +18,15 @@ class StockServiceTest {
     @Test
     void addNewStock() {
         //GIVEN
-        Stock stockToInsert = Stock.builder().name("Apple").symbol("AAPL").amountOfShares(10).build();
-        when(stockRepo.insert(stockToInsert)).thenReturn(Stock.builder().id("123456").name("Apple").symbol("AAPL").amountOfShares(10).build());
+        Stock stockToInsert = Stock.builder().name("Apple").symbol("AAPL").course(10).amountOfShares(10).build();
+        when(stockRepo.insert(stockToInsert)).thenReturn(Stock.builder().id("123456").name("Apple").symbol("AAPL").course(10).amountOfShares(10).build());
 
         //WHEN
-        CreateStockDto newStock = CreateStockDto.builder().name("Apple").symbol("AAPL").amountOfShares(10).build();
+        CreateStockDto newStock = CreateStockDto.builder().name("Apple").symbol("AAPL").course(10).amountOfShares(10).build();
         Stock actual = stockService.addNewStock(newStock);
 
         //THEN
-        Stock expected = Stock.builder().id("123456").name("Apple").symbol("AAPL").amountOfShares(10).build();
+        Stock expected = Stock.builder().id("123456").name("Apple").symbol("AAPL").course(10).amountOfShares(10).build();
         verify(stockRepo).insert(stockToInsert);
         assertEquals(expected, actual);
     }

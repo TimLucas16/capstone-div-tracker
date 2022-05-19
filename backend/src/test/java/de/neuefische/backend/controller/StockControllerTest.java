@@ -32,9 +32,10 @@ class StockControllerTest {
     void addNewStock() {
         //GIVEN
         Stock stock = Stock.builder()
-        .name("Apple")
-        .symbol("AAPL")
-        .amountOfShares(10).build();
+                .name("Apple")
+                .symbol("AAPL")
+                .course(10)
+                .amountOfShares(10).build();
 
         //WHEN
         Stock actual = testClient.post()
@@ -49,7 +50,15 @@ class StockControllerTest {
         //Then
         assertNotNull(actual);
         assertNotNull(actual.getId());
-        Stock expected = Stock.builder().id(actual.getId()).name("Apple").symbol("AAPL").amountOfShares(10).build();
+
+        Stock expected = Stock.builder()
+                .id(actual.getId())
+                .name("Apple")
+                .symbol("AAPL")
+                .course(10)
+                .amountOfShares(10)
+                .build();
+
         assertEquals(24, actual.getId().length());
         assertEquals(expected, actual);
     }
