@@ -69,6 +69,7 @@ class StockControllerTest {
         Stock stock = Stock.builder()
                 .name("Apple")
                 .symbol("AAPL")
+                .course(10)
                 .amountOfShares(0).build();
 
         //WHEN
