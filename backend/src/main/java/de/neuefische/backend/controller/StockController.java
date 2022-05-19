@@ -21,7 +21,7 @@ public class StockController {
     }
 
     @PostMapping
-    public Stock addNewStock(@RequestBody CreateStock newStock) {
+    public Stock addNewStock(@RequestBody CreateStockDto newStock) {
         return service.addNewStock(newStock);
     }
 }
