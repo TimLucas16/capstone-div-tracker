@@ -1,6 +1,6 @@
 package de.neuefische.backend.controller;
 
-import de.neuefische.backend.dto.CreateStock;
+import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
