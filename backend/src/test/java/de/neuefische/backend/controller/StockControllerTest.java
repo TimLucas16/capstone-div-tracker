@@ -53,4 +53,20 @@ class StockControllerTest {
         assertEquals(24, actual.getId().length());
         assertEquals(expected, actual);
     }
+
+    @Test
+    void addNewStock_whenAmountOfSharesIsNotValid_shouldThrowException() {
+        //GIVEN
+        Stock stock = Stock.builder()
+                .name("Apple")
+                .symbol("AAPL")
+                .amountOfShares(0).build();
+
+        //WHEN
+        testClient.post()
+                .uri("api/stock")
+                .bodyValue(stock)
+                .exchange()
+                .expectStatus().is5xxServerError();
+    }
 }
