@@ -16,7 +16,7 @@ public class StockService {
         this.repo = repo;
     }
 
-    public Stock addNewStock(CreateStock newStock) {
+    public Stock addNewStock(CreateStockDto newStock) {
         if(newStock.getAmountOfShares() <= 0) {
             throw new IllegalArgumentException("Number of shares can´t be 0 or less");
         }
