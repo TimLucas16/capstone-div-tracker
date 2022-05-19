@@ -31,7 +31,10 @@ class StockControllerTest {
     @Test
     void addNewStock() {
         //GIVEN
-        Stock stock = Stock.builder().name("Apple").symbol("AAPL").amountOfShares(10).build();
+        Stock stock = Stock.builder()
+        .name("Apple")
+        .symbol("AAPL")
+        .amountOfShares(10).build();
 
         //WHEN
         Stock actual = testClient.post()
