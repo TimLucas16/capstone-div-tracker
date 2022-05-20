@@ -1,9 +1,16 @@
-import NavBar from "../component/NavBar";
+import StockCard from "../component/StockCard";
+import {Stock} from "../model/Stock";
 
-export default function StartPage() {
+export type StartPageProps = {
+    stocks : Stock[]
+}
+
+export default function StartPage({stocks} : StartPageProps) {
+
+
     return (
-        <div>
-            <NavBar />
-        </div>
+            <div>
+                {stocks.map(stock => <StockCard stock={stock}/>)}
+            </div>
     )
 }
