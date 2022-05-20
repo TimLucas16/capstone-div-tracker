@@ -6,8 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.web.reactive.server.WebTestClient;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,14 +18,11 @@ class StockControllerTest {
     @Autowired
     private StockRepo stockRepo;
 
-    @LocalServerPort
-    private int port;
-
     @Autowired
     private WebTestClient testClient;
 
     @BeforeEach
-    void cleanUp() {
+    public void cleanUp() {
         stockRepo.deleteAll();
     }
 
@@ -35,7 +33,8 @@ class StockControllerTest {
                 .name("Apple")
                 .symbol("AAPL")
                 .course(10)
-                .amountOfShares(10).build();
+                .amountOfShares(10)
+                .build();
 
         //WHEN
         Stock actual = testClient.post()
@@ -70,7 +69,8 @@ class StockControllerTest {
                 .name("Apple")
                 .symbol("AAPL")
                 .course(10)
-                .amountOfShares(0).build();
+                .amountOfShares(0)
+                .build();
 
         //WHEN
         testClient.post()
@@ -78,5 +78,36 @@ class StockControllerTest {
                 .bodyValue(stock)
                 .exchange()
                 .expectStatus().is5xxServerError();
+    }
+
+    @Test
+    void getAllStocks() {
+        //GIVEN
+        Stock stock = Stock.builder()
+                .name("Apple")
+                .symbol("AAPL")
+                .course(10)
+                .amountOfShares(0)
+                .build();
+        stockRepo.insert(stock);
+
+        //WHEN
+        List<Stock> actual = testClient.get()
+                .uri("/api/stock")
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(Stock.class)
+                .returnResult()
+                .getResponseBody();
+
+        //THEN
+        List<Stock> expected = List.of(Stock.builder()
+                .id(stock.getId())
+                .name("Apple")
+                .symbol("AAPL")
+                .course(10)
+                .amountOfShares(0)
+                .build());
+        assertEquals(expected, actual);
     }
 }
