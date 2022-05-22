@@ -32,8 +32,8 @@ class StockControllerTest {
         Stock stock = Stock.builder()
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
                 .build();
 
         //WHEN
@@ -54,8 +54,8 @@ class StockControllerTest {
                 .id(actual.getId())
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
                 .build();
 
         assertEquals(24, actual.getId().length());
@@ -68,8 +68,8 @@ class StockControllerTest {
         Stock stock = Stock.builder()
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(0)
+                .price(10)
+                .shares(0)
                 .build();
 
         //WHEN
@@ -86,8 +86,8 @@ class StockControllerTest {
         Stock stock = Stock.builder()
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(0)
+                .price(10)
+                .shares(0)
                 .build();
         stockRepo.insert(stock);
 
@@ -105,8 +105,8 @@ class StockControllerTest {
                 .id(stock.getId())
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(0)
+                .price(10)
+                .shares(0)
                 .build());
         assertEquals(expected, actual);
     }

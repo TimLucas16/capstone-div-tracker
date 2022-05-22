@@ -21,23 +21,23 @@ class StockServiceTest {
         Stock stockToInsert = Stock.builder()
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
                 .build();
         when(stockRepo.insert(stockToInsert)).thenReturn(Stock.builder()
                 .id("123456")
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
                 .build());
 
         //WHEN
         CreateStockDto newStock = CreateStockDto.builder()
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
                 .build();
         Stock actual = stockService.addNewStock(newStock);
 
@@ -46,8 +46,8 @@ class StockServiceTest {
                 .id("123456")
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
                 .build();
         verify(stockRepo).insert(stockToInsert);
         assertEquals(expected, actual);
@@ -59,8 +59,8 @@ class StockServiceTest {
         CreateStockDto newStock = CreateStockDto.builder()
                 .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(0).build();
+                .price(10)
+                .shares(0).build();
 
         //THEN
         assertThrows(IllegalArgumentException.class, () -> stockService.addNewStock(newStock));
