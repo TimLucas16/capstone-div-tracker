@@ -17,7 +17,7 @@ public class Stock {
     @Id
     private String id;
     private String symbol;
-    private String name;
+    private String companyName;
     private double shares;
     private double price;
     private String website;

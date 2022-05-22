@@ -30,7 +30,7 @@ class StockControllerTest {
     void addNewStock() {
         //GIVEN
         Stock stock = Stock.builder()
-                .name("Apple")
+                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
                 .shares(10)
@@ -52,7 +52,7 @@ class StockControllerTest {
 
         Stock expected = Stock.builder()
                 .id(actual.getId())
-                .name("Apple")
+                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
                 .shares(10)
@@ -66,7 +66,7 @@ class StockControllerTest {
     void addNewStock_whenAmountOfSharesIsNotValid_shouldThrowException() {
         //GIVEN
         Stock stock = Stock.builder()
-                .name("Apple")
+                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
                 .shares(0)
@@ -84,7 +84,7 @@ class StockControllerTest {
     void getAllStocks() {
         //GIVEN
         Stock stock = Stock.builder()
-                .name("Apple")
+                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
                 .shares(0)
@@ -103,7 +103,7 @@ class StockControllerTest {
         //THEN
         List<Stock> expected = List.of(Stock.builder()
                 .id(stock.getId())
-                .name("Apple")
+                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
                 .shares(0)

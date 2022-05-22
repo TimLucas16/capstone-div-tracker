@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 public class CreateStockDto {
 
     private String symbol;
-    private String name;
     private double shares;
     private double price;
 }
