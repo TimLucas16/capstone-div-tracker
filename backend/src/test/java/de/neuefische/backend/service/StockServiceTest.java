@@ -20,17 +20,28 @@ class StockServiceTest {
     void addNewStock() {
         //GIVEN
         Stock stockToInsert = Stock.builder()
-                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
                 .shares(10)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build();
+
         when(stockRepo.insert(stockToInsert)).thenReturn(Stock.builder()
                 .id("123456")
-                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
                 .shares(10)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .build());
+
+        when(apiService.getProfileBySymbol("AAPL")).thenReturn(Stock.builder()
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build());
 
         //WHEN
@@ -44,10 +55,12 @@ class StockServiceTest {
         //THEN
         Stock expected = Stock.builder()
                 .id("123456")
-                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
                 .shares(10)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build();
         verify(stockRepo).insert(stockToInsert);
         assertEquals(expected, actual);

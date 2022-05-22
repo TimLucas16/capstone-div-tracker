@@ -1,5 +1,6 @@
 package de.neuefische.backend.controller;
 
+import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +30,7 @@ class StockControllerTest {
     @Test
     void addNewStock() {
         //GIVEN
-        Stock stock = Stock.builder()
-                .companyName("Apple")
+        CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
                 .price(10)
                 .shares(10)
@@ -52,10 +52,12 @@ class StockControllerTest {
 
         Stock expected = Stock.builder()
                 .id(actual.getId())
-                .companyName("Apple")
+                .companyName("Apple Inc.")
                 .symbol("AAPL")
                 .price(10)
                 .shares(10)
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build();
 
         assertEquals(24, actual.getId().length());

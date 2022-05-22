@@ -16,14 +16,15 @@ public class ApiService {
         this.webClient = webClient;
     }
 
-    public Stock[] getProfileBySymbol(String symbol) {
+    public Stock getProfileBySymbol(String symbol) {
 
-        return webClient.get()
+        Stock[] stock = webClient.get()
                     .uri("/profile/" + symbol + "?apikey=" + apiKey)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntity(Stock[].class)
                     .block()
                     .getBody();
+        return stock[0];
     }
 }

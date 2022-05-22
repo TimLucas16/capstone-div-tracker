@@ -21,10 +21,10 @@ public class StockService {
     }
 
     public Stock addNewStock(CreateStockDto newStock) {
-        if(newStock.getShares() <= 0 || newStock.getPrice() <= 0) {
+        if(newStock.getShares() <= 0 || newStock.getPrice() <= 0 || newStock.getSymbol() == null) {
             throw new IllegalArgumentException("shares or course can´t be 0 or less");
         }
-        Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol())[0];
+        Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol());
         Stock stock = Stock.builder()
                 .symbol(newStock.getSymbol())
                 .shares(newStock.getShares())
