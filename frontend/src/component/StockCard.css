@@ -15,7 +15,7 @@
 .card-details {
     display: flex;
     justify-content: space-between;
-    background-color: #f3f0f0;
+    background-color: rgba(243, 239, 239, 0.78);
 }
 
 .card-details, .card-legend {
@@ -44,26 +44,7 @@
     flex-grow: 1;
 }
 
-.shares {
-    width: 40px;
-}
-
-.price {
-    flex-grow: 1;
-}
-
-.value {
-    width: 60px;
-    flex-grow: 1;
-}
-
-.allocation {
+.value, .allocation, .total-return, .price, .shares {
     width: 50px;
     flex-grow: 1;
 }
-
-.total-return {
-    width: 50px;
-    flex-grow: 1;
-}
-
