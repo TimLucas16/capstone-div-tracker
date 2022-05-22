@@ -12,9 +12,12 @@ export default function StartPage({stocks} : StartPageProps) {
         <div>
             <div className={"card-container"}>
                 <div className={"card-legend"}>
-                    <div className={"logo-legend"}> Logo </div>
-                    <div className={"name-legend"}> Name </div>
-                    <div className={"share-legend"}> shares </div>
+                    <div className={"anker"}> Logo </div>
+                    <div className={"name"}> Name </div>
+                    <div className={"shares"}> Shares </div>
+                    <div className={"price"}>Price</div>
+                    <div className={"allocation"}>Allocation</div>
+                    <div className={"total-return"}>Total Return</div>
                 </div>
             </div>
 
