@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class ApiService {
-    private String apiKey = "";
+    private String apiKey = "9eafa28db1b3dd701c8d112b5bbe75d9";
     private final WebClient webClient;
 
     public ApiService(WebClient webClient) {
