@@ -67,8 +67,7 @@ class StockControllerTest {
     @Test
     void addNewStock_whenAmountOfSharesIsNotValid_shouldThrowException() {
         //GIVEN
-        Stock stock = Stock.builder()
-                .companyName("Apple")
+        CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
                 .price(10)
                 .shares(0)
@@ -86,10 +85,12 @@ class StockControllerTest {
     void getAllStocks() {
         //GIVEN
         Stock stock = Stock.builder()
-                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
-                .shares(0)
+                .shares(10)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build();
         stockRepo.insert(stock);
 
@@ -105,10 +106,12 @@ class StockControllerTest {
         //THEN
         List<Stock> expected = List.of(Stock.builder()
                 .id(stock.getId())
-                .companyName("Apple")
                 .symbol("AAPL")
                 .price(10)
-                .shares(0)
+                .shares(10)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build());
         assertEquals(expected, actual);
     }
