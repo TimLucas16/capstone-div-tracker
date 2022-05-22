@@ -34,6 +34,10 @@
     flex-grow: 1;
 }
 
+.shares, .share-legend {
+    width: 50px;
+}
+
 .name, .shares, .name-legend, .share-legend {
     padding: 9px 0;
 }
