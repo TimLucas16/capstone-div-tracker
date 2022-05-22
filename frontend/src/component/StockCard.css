@@ -21,7 +21,7 @@
 .card-details, .card-legend {
     display: flex;
     align-items: center;
-    width: 600px;
+    width: 750px;
     height: 40px;
     border-radius: 10px;
 }
@@ -31,6 +31,7 @@
 }
 
 .logo {
+    padding-top: 4px;
     width: 30px;
     height: auto;
     border-radius: 50%;
@@ -51,11 +52,18 @@
     flex-grow: 1;
 }
 
+.value {
+    width: 60px;
+    flex-grow: 1;
+}
+
 .allocation {
-    width: 80px;
+    width: 50px;
+    flex-grow: 1;
 }
 
 .total-return {
+    width: 50px;
     flex-grow: 1;
 }
 

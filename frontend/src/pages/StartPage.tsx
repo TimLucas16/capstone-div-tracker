@@ -15,9 +15,10 @@ export default function StartPage({stocks} : StartPageProps) {
                     <div className={"anker"}> Logo </div>
                     <div className={"name"}> Name </div>
                     <div className={"shares"}> Shares </div>
-                    <div className={"price"}>Price</div>
-                    <div className={"allocation"}>Allocation</div>
-                    <div className={"total-return"}>Total Return</div>
+                    <div className={"price"}> Price </div>
+                    <div className={"value"}> Value </div>
+                    <div className={"total-return"}> Total Return </div>
+                    <div className={"allocation"}> Allocation </div>
                 </div>
             </div>
 
