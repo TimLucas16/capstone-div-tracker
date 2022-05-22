@@ -1,0 +1,39 @@
+.card-legend {
+
+}
+
+.card-legend {
+    background-color: gainsboro;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.card-details, .card-legend {
+    display: flex;
+    width: 500px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.card-details {
+    background-color: #f3f0f0;
+}
+
+.logo, .logo-legend {
+    width: 25px;
+    height: auto;
+    border-radius: 50%;
+    padding: 7px 20px;
+}
+
+.name, .name-legend {
+    flex-grow: 1;
+}
+
+.name, .shares, .name-legend, .share-legend {
+    padding: 9px 0;
+}
