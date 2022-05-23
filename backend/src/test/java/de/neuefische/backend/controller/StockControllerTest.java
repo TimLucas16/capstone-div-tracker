@@ -1,18 +1,25 @@
 package de.neuefische.backend.controller;
 
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.junit.jupiter.api.Assertions.*;
 
+@WireMockTest
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class StockControllerTest {
 
@@ -22,9 +29,27 @@ class StockControllerTest {
     @Autowired
     private WebTestClient testClient;
 
+    @Value("${neuefische.capstone.div.tracker}")
+    private String API_KEY;
+
     @BeforeEach
     public void cleanUp() {
         stockRepo.deleteAll();
+    }
+
+    @Test
+    void test_something_with_wiremock(WireMockRuntimeInfo wmRuntimeInfo) {
+        // The static DSL will be automatically configured for you
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY).willReturn(ok()));
+
+        // Instance DSL can be obtained from the runtime info parameter
+        WireMock wireMock = wmRuntimeInfo.getWireMock();
+        wireMock.register(get("/instance-dsl").willReturn(ok()));
+
+        // Info such as port numbers is also available
+        int port = wmRuntimeInfo.getHttpPort();
+
+        // Do some testing...
     }
 
     @Test
