@@ -43,15 +43,17 @@ public class StockService {
     }
 
     public void getStockPrice() {
-        LocalDate dateTimer = LocalDate.of(2022, 5, 22);
 
-        if (!dateTimer.isEqual(LocalDate.now())) {
-            System.out.println("läuft!");
-            System.out.println(dateTimer);
-            System.out.println(LocalDate.now());
-            dateTimer = LocalDate.now();
-            System.out.println(dateTimer);
-        }
+
+//        LocalDate dateTimer = LocalDate.of(2022, 5, 22);
+//
+//        if (!dateTimer.isEqual(LocalDate.now())) {
+//            System.out.println("läuft!");
+//            System.out.println(dateTimer);
+//            System.out.println(LocalDate.now());
+//            dateTimer = LocalDate.now();
+//            System.out.println(dateTimer);
+//        }
 
     }
 }

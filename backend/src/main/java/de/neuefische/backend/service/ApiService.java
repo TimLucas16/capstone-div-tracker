@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -36,17 +38,20 @@ public class ApiService {
         return stock[0];
     }
 
-    public Map<String, String> getPrice(String symbol) {
+    public List<Stock> getPrice(List<String> symbolList) {
+        List<Stock> profileStockList = new ArrayList<>();
 
-        Stock[] stock = webClient.get()
-                .uri("/quote-short/"+ symbol + API_KEY)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .retrieve()
-                .toEntity(Stock[].class)
-                .block()
-                .getBody();
+        for (String symbol : symbolList) {
+            Stock[] stock = webClient.get()
+                    .uri("/quote-short/" + symbol + API_KEY)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .retrieve()
+                    .toEntity(Stock[].class)
+                    .block()
+                    .getBody();
 
-        return stock;
-
+            profileStockList.add(stock[0]);
+        }
+        return profileStockList;
     }
 }
