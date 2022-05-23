@@ -12,10 +12,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class ApiService {
 
-//    @Value("${neuefische.capstone.div.tracker}")
-//    private String API_KEY;
+    @Value("${neuefische.capstone.div.tracker}")
+    private String API_KEY;
 
-    private String apikey = "9eafa28db1b3dd701c8d112b5bbe75d9";
     private final WebClient webClient;
 
     @Autowired
@@ -26,7 +25,7 @@ public class ApiService {
     public Stock getProfileBySymbol(String symbol) {
 
         Stock[] stock = webClient.get()
-                .uri("/profile/" + symbol + "?apikey=" + apikey)
+                .uri("/profile/" + symbol + "?apikey=" + API_KEY)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .toEntity(Stock[].class)
