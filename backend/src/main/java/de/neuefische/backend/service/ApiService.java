@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ApiService {
 
@@ -38,5 +41,23 @@ public class ApiService {
             throw new RuntimeException("API-ERROR");
         }
             return stocks[0];
+    }
+
+
+    public List<Stock> getPrice(List<String> symbolList) {
+        List<Stock> profileStockList = new ArrayList<>();
+
+        for (String symbol : symbolList) {
+            Stock[] stock = webClient.get()
+                    .uri("/quote-short/" + symbol + "?apikey=" + API_KEY)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .retrieve()
+                    .toEntity(Stock[].class)
+                    .block()
+                    .getBody();
+
+            profileStockList.add(stock[0]);
+        }
+        return profileStockList;
     }
 }
