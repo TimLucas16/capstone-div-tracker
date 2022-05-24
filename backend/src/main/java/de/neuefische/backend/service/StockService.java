@@ -51,6 +51,11 @@ public class StockService {
     }
 
     public void changePrice(List<Stock> stockList) {
+//        stockList.stream()
+//                .map(tempStock -> repo.findBySymbol(tempStock.getSymbol()))
+//                .map(someStock -> someStock.setPrice(tempStock.getPrice())
+
+
         for(int i = 0; i < stockList.size(); i++) {
             Stock tempStock = repo.findBySymbol(stockList.get(i).getSymbol());
             tempStock.setPrice(stockList.get(i).getPrice());
