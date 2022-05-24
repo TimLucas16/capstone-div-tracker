@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +23,7 @@ public class StockService {
     }
 
     public Stock addNewStock(CreateStockDto newStock) {
-        if(newStock.getShares() <= 0 || newStock.getPrice() <= 0 || newStock.getSymbol() == null) {
+        if (newStock.getShares() <= 0 || newStock.getPrice() <= 0 || newStock.getSymbol() == null) {
             throw new IllegalArgumentException("shares or course can´t be 0 or less");
         }
         Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol());
@@ -38,22 +39,46 @@ public class StockService {
     }
 
     public List<Stock> getAllStocks() {
-        getStockPrice();
+        updateStockPrice();
         return repo.findAll();
     }
 
-    public void getStockPrice() {
+    public List<String> getAllSymbols() {
+        List<Stock> stockList = repo.findAll();
+        return stockList.stream()
+                .map(symbol -> symbol.getSymbol())
+                .toList();
+    }
+
+    public void updateStockPrice() {
+        changePrice(getStockPrice());
+    }
+
+    public List<Stock> getStockPrice() {
+        List<String> symbolList = getAllSymbols();
+        return apiService.getPrice(symbolList);
+    }
+
+    public void changePrice(List<Stock> stockList) {
+        for(int i = 0; i < stockList.size(); i++) {
+            Stock tempStock = repo.findBySymbol(stockList.get(i).getSymbol());
+            tempStock.setPrice(stockList.get(i).getPrice());
+            repo.save(tempStock);
+        }
+    }
+
+}
+
+
+
+
+
+
+
 
 
 //        LocalDate dateTimer = LocalDate.of(2022, 5, 22);
 //
 //        if (!dateTimer.isEqual(LocalDate.now())) {
-//            System.out.println("läuft!");
-//            System.out.println(dateTimer);
-//            System.out.println(LocalDate.now());
 //            dateTimer = LocalDate.now();
-//            System.out.println(dateTimer);
-//        }
-
-    }
-}
+//        }  --Java.instant--

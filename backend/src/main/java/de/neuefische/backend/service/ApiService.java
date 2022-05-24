@@ -38,12 +38,13 @@ public class ApiService {
         return stock[0];
     }
 
+
     public List<Stock> getPrice(List<String> symbolList) {
         List<Stock> profileStockList = new ArrayList<>();
 
         for (String symbol : symbolList) {
             Stock[] stock = webClient.get()
-                    .uri("/quote-short/" + symbol + API_KEY)
+                    .uri("/quote-short/" + symbol + "?apikey=" + API_KEY)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntity(Stock[].class)
@@ -55,3 +56,25 @@ public class ApiService {
         return profileStockList;
     }
 }
+
+
+
+
+
+
+
+
+
+//    public List<Stock> getPrice2(List<Stock> stockList) {
+//
+//        stockList.stream().map(stock -> stock.getSymbol())
+//                                .map(symbol -> webClient.get()
+//                                        .uri("/quote-short/" + symbol + API_KEY)
+//                                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+//                                        .retrieve()
+//                                        .toEntity(Stock[].class)
+//                                        .block()
+//                                        .getBody())
+//                                .toList();
+//    }
+
