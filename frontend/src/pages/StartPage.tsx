@@ -9,8 +9,19 @@ export default function StartPage({stocks} : StartPageProps) {
 
 
     return (
-            <div>
-                {stocks.map(stock => <StockCard stock={stock}/>)}
+        <div>
+            <div className={"card-container"}>
+                <div className={"card-legend"}>
+                    <div className={"anker"}> Logo </div>
+                    <div className={"name"}> Name </div>
+                    <div className={"shares"}> Shares </div>
+                    <div className={"price"}> Price </div>
+                    <div className={"value"}> Value </div>
+                    <div className={"total-return"}> Total Return </div>
+                    <div className={"allocation"}> Allocation </div>
+                </div>
             </div>
+            <div> {stocks.map(stock => <StockCard stock={stock}/>)} </div>
+        </div>
     )
 }

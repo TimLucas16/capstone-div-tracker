@@ -1,0 +1,50 @@
+.card-legend {
+    font-size: 80%;
+}
+
+.card-legend {
+    background-color: gainsboro;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(243, 239, 239, 0.78);
+}
+
+.card-details, .card-legend {
+    display: flex;
+    align-items: center;
+    width: 750px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.anker {
+    width: 50px;
+}
+
+.logo {
+    padding-top: 4px;
+    width: 30px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.name {
+    display: flex;
+    justify-content: flex-start;
+    width: 150px;
+    flex-grow: 1;
+}
+
+.value, .allocation, .total-return, .price, .shares {
+    width: 50px;
+    flex-grow: 1;
+}
