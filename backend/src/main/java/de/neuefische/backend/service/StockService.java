@@ -6,9 +6,8 @@ import de.neuefische.backend.repository.StockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class StockService {
@@ -31,6 +30,7 @@ public class StockService {
                 .symbol(newStock.getSymbol())
                 .shares(newStock.getShares())
                 .price(newStock.getPrice())
+                .value(calcValue(newStock.getPrice(), newStock.getShares()))
                 .companyName(apiStock.getCompanyName())
                 .website(apiStock.getWebsite())
                 .image(apiStock.getImage())
@@ -39,24 +39,15 @@ public class StockService {
     }
 
     public List<Stock> getAllStocks() {
-        updateStockPrice();
+        changePrice(getStockPrice());
         return repo.findAll();
     }
 
     public List<String> getAllSymbols() {
         List<Stock> stockList = repo.findAll();
         return stockList.stream()
-                .map(symbol -> symbol.getSymbol())
+                .map(Stock::getSymbol)
                 .toList();
-    }
-
-    public void updateStockPrice() {
-        changePrice(getStockPrice());
-    }
-
-    public List<Stock> getStockPrice() {
-        List<String> symbolList = getAllSymbols();
-        return apiService.getPrice(symbolList);
     }
 
     public void changePrice(List<Stock> stockList) {
@@ -67,6 +58,14 @@ public class StockService {
         }
     }
 
+    public List<Stock> getStockPrice() {
+        List<String> symbolList = getAllSymbols();
+        return apiService.getPrice(symbolList);
+    }
+
+    public double calcValue(double price, double shares) {
+        return price * shares;
+    }
 }
 
 
@@ -77,8 +76,4 @@ public class StockService {
 
 
 
-//        LocalDate dateTimer = LocalDate.of(2022, 5, 22);
-//
-//        if (!dateTimer.isEqual(LocalDate.now())) {
-//            dateTimer = LocalDate.now();
-//        }  --Java.instant--
+
