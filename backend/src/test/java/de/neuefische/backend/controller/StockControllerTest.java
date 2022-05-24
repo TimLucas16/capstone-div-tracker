@@ -1,6 +1,5 @@
 package de.neuefische.backend.controller;
 
-import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.neuefische.backend.dto.CreateStockDto;
@@ -41,6 +40,7 @@ class StockControllerTest {
     void test_something_with_wiremock(WireMockRuntimeInfo wmRuntimeInfo) {
         // The static DSL will be automatically configured for you
         stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY).willReturn(ok()));
+        assertTrue(true);
     }
 
     @Test
