@@ -19,7 +19,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.junit.jupiter.api.Assertions.*;
 
-@WireMockTest
+@WireMockTest(httpPort = 8484)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class StockControllerTest {
 
@@ -41,15 +41,6 @@ class StockControllerTest {
     void test_something_with_wiremock(WireMockRuntimeInfo wmRuntimeInfo) {
         // The static DSL will be automatically configured for you
         stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY).willReturn(ok()));
-
-        // Instance DSL can be obtained from the runtime info parameter
-        WireMock wireMock = wmRuntimeInfo.getWireMock();
-        wireMock.register(get("/instance-dsl").willReturn(ok()));
-
-        // Info such as port numbers is also available
-        int port = wmRuntimeInfo.getHttpPort();
-
-        // Do some testing...
     }
 
     @Test
