@@ -12,42 +12,55 @@ import static org.mockito.Mockito.*;
 class StockServiceTest {
 
     private final StockRepo stockRepo = mock(StockRepo.class);
+    private final ApiService apiService = mock(ApiService.class);
 
-    private final StockService stockService = new StockService(stockRepo);
+    private final StockService stockService = new StockService(stockRepo, apiService);
 
     @Test
     void addNewStock() {
         //GIVEN
         Stock stockToInsert = Stock.builder()
-                .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build();
+
         when(stockRepo.insert(stockToInsert)).thenReturn(Stock.builder()
                 .id("123456")
-                .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .build());
+
+        when(apiService.getProfileBySymbol("AAPL")).thenReturn(Stock.builder()
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build());
 
         //WHEN
         CreateStockDto newStock = CreateStockDto.builder()
-                .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
                 .build();
         Stock actual = stockService.addNewStock(newStock);
 
         //THEN
         Stock expected = Stock.builder()
                 .id("123456")
-                .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(10)
+                .price(10)
+                .shares(10)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build();
         verify(stockRepo).insert(stockToInsert);
         assertEquals(expected, actual);
@@ -57,10 +70,9 @@ class StockServiceTest {
     void addNewStock_whenAmountOfSharesIsZeroOrLess_shouldThrowException() {
         //GIVEN + WHEN
         CreateStockDto newStock = CreateStockDto.builder()
-                .name("Apple")
                 .symbol("AAPL")
-                .course(10)
-                .amountOfShares(0).build();
+                .price(10)
+                .shares(0).build();
 
         //THEN
         assertThrows(IllegalArgumentException.class, () -> stockService.addNewStock(newStock));

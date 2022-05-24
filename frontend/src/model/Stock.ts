@@ -1,6 +1,8 @@
 export type Stock = {
     symbol : string
-    name : string
-    amountOfShares : number
-    course : number
+    companyName : string
+    shares : number
+    price : number
+    image : string;
+    website : string;
 }

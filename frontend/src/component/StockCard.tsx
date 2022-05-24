@@ -1,14 +1,17 @@
 import {Stock} from "../model/Stock";
 
 type StockProp = {
-    stock : Stock
+    stock: Stock
 }
 
-export default function StockCard({stock} : StockProp) {
+export default function StockCard({stock}: StockProp) {
 
     return (
         <div>
-            {stock.name}
+            <img src={stock.image} alt={stock.companyName}/>
+            <div>
+                {stock.companyName}
+            </div>
         </div>
     )
 }

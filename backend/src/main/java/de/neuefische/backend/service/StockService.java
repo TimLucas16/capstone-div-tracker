@@ -12,21 +12,27 @@ import java.util.List;
 public class StockService {
 
     private final StockRepo repo;
+    private final ApiService apiService;
 
     @Autowired
-    public StockService(StockRepo repo) {
+    public StockService(StockRepo repo, ApiService apiService) {
         this.repo = repo;
+        this.apiService = apiService;
     }
 
     public Stock addNewStock(CreateStockDto newStock) {
-        if(newStock.getAmountOfShares() <= 0 || newStock.getCourse() <= 0) {
-            throw new IllegalArgumentException("Number of shares or course can´t be 0 or less");
+        if(newStock.getShares() <= 0 || newStock.getPrice() <= 0 || newStock.getSymbol() == null) {
+            throw new IllegalArgumentException("shares or course can´t be 0 or less");
         }
-        Stock stock = new Stock();
-        stock.setName(newStock.getName());
-        stock.setSymbol(newStock.getSymbol());
-        stock.setAmountOfShares(newStock.getAmountOfShares());
-        stock.setCourse(newStock.getCourse());
+        Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol());
+        Stock stock = Stock.builder()
+                .symbol(newStock.getSymbol())
+                .shares(newStock.getShares())
+                .price(newStock.getPrice())
+                .companyName(apiStock.getCompanyName())
+                .website(apiStock.getWebsite())
+                .image(apiStock.getImage())
+                .build();
         return repo.insert(stock);
     }
 
