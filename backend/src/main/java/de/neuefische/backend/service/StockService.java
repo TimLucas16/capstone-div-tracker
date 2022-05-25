@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
 @Service
 public class StockService {
 
@@ -64,8 +65,8 @@ public class StockService {
         return apiService.getPrice(symbolList);
     }
 
-    public double calcValue(double price, double shares) {
-        return price * shares;
+    public static double calcValue(double price, double shares) {
+        return Math.round((price * shares) * 100)/100.0;
     }
 }
 
