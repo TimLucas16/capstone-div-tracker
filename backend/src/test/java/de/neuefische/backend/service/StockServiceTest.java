@@ -5,9 +5,6 @@ import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
 
-
-import java.text.NumberFormat;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -30,6 +27,7 @@ class StockServiceTest {
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .price(28.0345)
+                .totalReturn(-0.21)
                 .build();
 
         when(stockRepo.insert(stockToInsert)).thenReturn(Stock.builder()
@@ -39,9 +37,10 @@ class StockServiceTest {
                 .costPrice(280.56)
                 .value(280.35)
                 .companyName("Apple Inc.")
-                .price(28.0345)
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .price(28.0345)
+                .totalReturn(-0.21)
                 .build());
 
         when(apiService.getProfileBySymbol("AAPL")).thenReturn(Stock.builder()
@@ -67,9 +66,10 @@ class StockServiceTest {
                 .shares(10)
                 .value(280.35)
                 .companyName("Apple Inc.")
-                .price(28.0345)
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .price(28.0345)
+                .totalReturn(-0.21)
                 .build();
         verify(stockRepo).insert(stockToInsert);
         assertEquals(expected, actual);
@@ -88,8 +88,13 @@ class StockServiceTest {
     }
 
     @Test
-    void calcValuea() {
+    void calcValue() {
         assertEquals(143.66, StockService.calcValue(14.3655, 10));
         assertEquals(143.62, StockService.calcValue(14.3624, 10));
+    }
+
+    @Test
+    void calcTotalReturn() {
+        assertEquals(-0.34,StockService.calcTotalReturn(265.87, 266.21));
     }
 }

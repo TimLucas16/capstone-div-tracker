@@ -17,7 +17,7 @@ export default function StockCard({stock}: StockProp) {
                 <div className={"shares"}> {stock.shares} </div>
                 <div className={"price"}> {stock.price} $ </div>
                 <div className={"value"}> {stock.value} $ </div>
-                <div className={"total-return"}> 121,34 $ </div>
+                <div className={"total-return"}> {stock.totalReturn} $ </div>
                 <div className={"allocation"}> 21,56 % </div>
             </div>
         </div>

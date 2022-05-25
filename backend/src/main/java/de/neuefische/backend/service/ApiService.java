@@ -44,7 +44,7 @@ public class ApiService {
         List<Stock> profileStockList = new ArrayList<>();
         for (String symbol : symbolList) {
             ResponseEntity<Stock[]> response = webClient.get()
-                    .uri("/quote-short/" + symbol + "?apikey=" + API_KEY)
+                    .uri("/profile/" + symbol + "?apikey=" + API_KEY)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntity(Stock[].class)

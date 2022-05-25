@@ -1,6 +1,5 @@
 package de.neuefische.backend.controller;
 
-import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.Stock;
@@ -37,23 +36,109 @@ class StockControllerTest {
     }
 
     @Test
-    void test_something_with_wiremock(WireMockRuntimeInfo wmRuntimeInfo) {
-        // The static DSL will be automatically configured for you
-        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY).willReturn(ok()));
-        assertTrue(true);
-    }
-
-    @Test
     void addNewStock() {
         //GIVEN
         CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .costPrice(10)
+                .costPrice(1400.43)
                 .shares(10)
                 .build();
 
         // Mock FMP API
-        String json = """
+
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY)
+                .willReturn(okJson(json)));
+
+        //WHEN
+        Stock actual = testClient.post()
+                .uri("api/stock")
+                .bodyValue(stock)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(Stock.class)
+                .returnResult()
+                .getResponseBody();
+
+        //Then
+        assertNotNull(actual);
+        assertNotNull(actual.getId());
+
+        Stock expected = Stock.builder()
+                .id(actual.getId())
+                .companyName("Apple Inc.")
+                .symbol("AAPL")
+                .costPrice(1400.43)
+                .shares(10)
+                .value(1403.62)
+                .price(140.3623)
+                .totalReturn(3.19)
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .build();
+
+        assertEquals(24, actual.getId().length());
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void addNewStock_whenAmountOfSharesIsNotValid_shouldThrowException() {
+        //GIVEN
+        CreateStockDto stock = CreateStockDto.builder()
+                .symbol("AAPL")
+                .costPrice(280.56)
+                .shares(0)
+                .build();
+
+        //WHEN
+        testClient.post()
+                .uri("api/stock")
+                .bodyValue(stock)
+                .exchange()
+                .expectStatus().is5xxServerError();
+    }
+
+    @Test
+    void getAllStocks() {
+        //GIVEN
+        Stock stock = Stock.builder()
+                .symbol("AAPL")
+                .costPrice(1400.56)
+                .shares(10)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .build();
+        stockRepo.insert(stock);
+
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY)
+                .willReturn(okJson(json)));
+
+        //WHEN
+        List<Stock> actual = testClient.get()
+                .uri("/api/stock")
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(Stock.class)
+                .returnResult()
+                .getResponseBody();
+
+        //THEN
+        List<Stock> expected = List.of(Stock.builder()
+                .id(stock.getId())
+                .symbol("AAPL")
+                .costPrice(1400.56)
+                .shares(10)
+                .value(1403.62)
+                .price(140.3623)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .totalReturn(3.06)
+                .build());
+        assertEquals(expected, actual);
+    }
+
+    String json = """
                 [ {
                   "symbol" : "AAPL",
                   "price" : 140.3623,
@@ -92,99 +177,4 @@ class StockControllerTest {
                   "isAdr" : false,
                   "isFund" : false
                 } ]""";
-        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY)
-                .willReturn(okJson(json)));
-
-        //WHEN
-        Stock actual = testClient.post()
-                .uri("api/stock")
-                .bodyValue(stock)
-                .exchange()
-                .expectStatus().is2xxSuccessful()
-                .expectBody(Stock.class)
-                .returnResult()
-                .getResponseBody();
-
-        //Then
-        assertNotNull(actual);
-        assertNotNull(actual.getId());
-
-        Stock expected = Stock.builder()
-                .id(actual.getId())
-                .companyName("Apple Inc.")
-                .symbol("AAPL")
-                .costPrice(10)
-                .shares(10)
-                .value(1403.62)
-                .price(140.3623)
-                .website("https://www.apple.com")
-                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .build();
-
-        assertEquals(24, actual.getId().length());
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void addNewStock_whenAmountOfSharesIsNotValid_shouldThrowException() {
-        //GIVEN
-        CreateStockDto stock = CreateStockDto.builder()
-                .symbol("AAPL")
-                .costPrice(280.56)
-                .shares(0)
-                .build();
-
-        //WHEN
-        testClient.post()
-                .uri("api/stock")
-                .bodyValue(stock)
-                .exchange()
-                .expectStatus().is5xxServerError();
-    }
-
-    @Test
-    void getAllStocks() {
-        //GIVEN
-        Stock stock = Stock.builder()
-                .symbol("AAPL")
-                .costPrice(280.56)
-                .shares(10)
-                .companyName("Apple Inc.")
-                .website("https://www.apple.com")
-                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .build();
-        stockRepo.insert(stock);
-
-        String json = """
-                  [ {
-                  "symbol" : "AAPL",
-                  "price" : 140.3623,
-                  "volume" : 29134433
-                } ]""";
-        stubFor(get("/quote-short/" + "AAPL" + "?apikey=" + API_KEY)
-                .willReturn(okJson(json)));
-
-        //WHEN
-        List<Stock> actual = testClient.get()
-                .uri("/api/stock")
-                .exchange()
-                .expectStatus().is2xxSuccessful()
-                .expectBodyList(Stock.class)
-                .returnResult()
-                .getResponseBody();
-
-        //THEN
-        List<Stock> expected = List.of(Stock.builder()
-                .id(stock.getId())
-                .symbol("AAPL")
-                .costPrice(280.56)
-                .shares(10)
-                .value(1403.62)
-                .price(140.3623)
-                .companyName("Apple Inc.")
-                .website("https://www.apple.com")
-                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .build());
-        assertEquals(expected, actual);
-    }
 }
