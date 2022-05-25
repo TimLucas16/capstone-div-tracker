@@ -5,9 +5,6 @@ import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
 
-
-import java.text.NumberFormat;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -91,7 +88,7 @@ class StockServiceTest {
     }
 
     @Test
-    void calcValuea() {
+    void calcValue() {
         assertEquals(143.66, StockService.calcValue(14.3655, 10));
         assertEquals(143.62, StockService.calcValue(14.3624, 10));
     }
