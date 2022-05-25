@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 @Service
 public class StockService {
@@ -23,18 +21,19 @@ public class StockService {
     }
 
     public Stock addNewStock(CreateStockDto newStock) {
-        if (newStock.getShares() <= 0 || newStock.getPrice() <= 0 || newStock.getSymbol() == null) {
+        if (newStock.getShares() <= 0 || newStock.getCostPrice() <= 0 || newStock.getSymbol() == null) {
             throw new IllegalArgumentException("shares or course can´t be 0 or less");
         }
         Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol());
         Stock stock = Stock.builder()
                 .symbol(newStock.getSymbol())
                 .shares(newStock.getShares())
-                .price(newStock.getPrice())
-                .value(calcValue(newStock.getPrice(), newStock.getShares()))
+                .costPrice(newStock.getCostPrice())
+                .value(calcValue(apiStock.getPrice(), newStock.getShares()))
                 .companyName(apiStock.getCompanyName())
                 .website(apiStock.getWebsite())
                 .image(apiStock.getImage())
+                .price(apiStock.getPrice())
                 .build();
         return repo.insert(stock);
     }
