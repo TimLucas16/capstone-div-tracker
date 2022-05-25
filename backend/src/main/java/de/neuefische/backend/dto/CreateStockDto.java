@@ -13,5 +13,5 @@ public class CreateStockDto {
 
     private String symbol;
     private double shares;
-    private double price;
+    private double costPrice;
 }

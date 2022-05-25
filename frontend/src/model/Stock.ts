@@ -3,6 +3,7 @@ export type Stock = {
     companyName : string
     shares : number
     price : number
-    image : string;
-    website : string;
+    value : number
+    image : string
+    website : string
 }

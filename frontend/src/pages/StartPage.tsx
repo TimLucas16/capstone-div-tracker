@@ -21,7 +21,7 @@ export default function StartPage({stocks} : StartPageProps) {
                     <div className={"allocation"}> Allocation </div>
                 </div>
             </div>
-            <div> {stocks.map(stock => <StockCard stock={stock}/>)} </div>
+            <div> {stocks.map(stock => <StockCard key={stock.symbol} stock={stock}/>)} </div>
         </div>
     )
 }

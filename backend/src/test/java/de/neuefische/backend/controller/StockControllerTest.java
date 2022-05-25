@@ -48,49 +48,50 @@ class StockControllerTest {
         //GIVEN
         CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .price(10)
+                .costPrice(10)
                 .shares(10)
                 .build();
 
         // Mock FMP API
-        String json = "[ {\n" +
-                "  \"symbol\" : \"AAPL\",\n" +
-                "  \"price\" : 137.59,\n" +
-                "  \"beta\" : 1.194642,\n" +
-                "  \"volAvg\" : 98319826,\n" +
-                "  \"mktCap\" : 2226921668608,\n" +
-                "  \"lastDiv\" : 0.89,\n" +
-                "  \"range\" : \"123.13-182.94\",\n" +
-                "  \"changes\" : 0.23999023,\n" +
-                "  \"companyName\" : \"Apple Inc.\",\n" +
-                "  \"currency\" : \"USD\",\n" +
-                "  \"cik\" : \"0000320193\",\n" +
-                "  \"isin\" : \"US0378331005\",\n" +
-                "  \"cusip\" : \"037833100\",\n" +
-                "  \"exchange\" : \"NASDAQ Global Select\",\n" +
-                "  \"exchangeShortName\" : \"NASDAQ\",\n" +
-                "  \"industry\" : \"Consumer Electronics\",\n" +
-                "  \"website\" : \"https://www.apple.com\",\n" +
-                "  \"description\" : \"Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. It also sells various related services. In addition, the company offers iPhone, a line of smartphones; Mac, a line of personal computers; iPad, a line of multi-purpose tablets; AirPods Max, an over-ear wireless headphone; and wearables, home, and accessories comprising AirPods, Apple TV, Apple Watch, Beats products, HomePod, and iPod touch. Further, it provides AppleCare support services; cloud services store services; and operates various platforms, including the App Store that allow customers to discover and download applications and digital content, such as books, music, video, games, and podcasts. Additionally, the company offers various services, such as Apple Arcade, a game subscription service; Apple Music, which offers users a curated listening experience with on-demand radio stations; Apple News+, a subscription news and magazine service; Apple TV+, which offers exclusive original content; Apple Card, a co-branded credit card; and Apple Pay, a cashless payment service, as well as licenses its intellectual property. The company serves consumers, and small and mid-sized businesses; and the education, enterprise, and government markets. It distributes third-party applications for its products through the App Store. The company also sells its products through its retail and online stores, and direct sales force; and third-party cellular network carriers, wholesalers, retailers, and resellers. Apple Inc. was incorporated in 1977 and is headquartered in Cupertino, California.\",\n" +
-                "  \"ceo\" : \"Mr. Timothy Cook\",\n" +
-                "  \"sector\" : \"Technology\",\n" +
-                "  \"country\" : \"US\",\n" +
-                "  \"fullTimeEmployees\" : \"154000\",\n" +
-                "  \"phone\" : \"14089961010\",\n" +
-                "  \"address\" : \"1 Apple Park Way\",\n" +
-                "  \"city\" : \"Cupertino\",\n" +
-                "  \"state\" : \"CALIFORNIA\",\n" +
-                "  \"zip\" : \"95014\",\n" +
-                "  \"dcfDiff\" : 2.07176,\n" +
-                "  \"dcf\" : 139.662,\n" +
-                "  \"image\" : \"https://financialmodelingprep.com/image-stock/AAPL.png\",\n" +
-                "  \"ipoDate\" : \"1980-12-12\",\n" +
-                "  \"defaultImage\" : false,\n" +
-                "  \"isEtf\" : false,\n" +
-                "  \"isActivelyTrading\" : true,\n" +
-                "  \"isAdr\" : false,\n" +
-                "  \"isFund\" : false\n" +
-                "} ]";
+        String json = """
+                [ {
+                  "symbol" : "AAPL",
+                  "price" : 140.3623,
+                  "beta" : 1.194642,
+                  "volAvg" : 98131227,
+                  "mktCap" : 2271754584064,
+                  "lastDiv" : 0.89,
+                  "range" : "123.13-182.94",
+                  "changes" : -2.75,
+                  "companyName" : "Apple Inc.",
+                  "currency" : "USD",
+                  "cik" : "0000320193",
+                  "isin" : "US0378331005",
+                  "cusip" : "037833100",
+                  "exchange" : "NASDAQ Global Select",
+                  "exchangeShortName" : "NASDAQ",
+                  "industry" : "Consumer Electronics",
+                  "website" : "https://www.apple.com",
+                  "description" : "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. It also sells various related services. In addition, the company offers iPhone, a line of smartphones; Mac, a line of personal computers; iPad, a line of multi-purpose tablets; AirPods Max, an over-ear wireless headphone; and wearables, home, and accessories comprising AirPods, Apple TV, Apple Watch, Beats products, HomePod, and iPod touch. Further, it provides AppleCare support services; cloud services store services; and operates various platforms, including the App Store that allow customers to discover and download applications and digital content, such as books, music, video, games, and podcasts. Additionally, the company offers various services, such as Apple Arcade, a game subscription service; Apple Music, which offers users a curated listening experience with on-demand radio stations; Apple News+, a subscription news and magazine service; Apple TV+, which offers exclusive original content; Apple Card, a co-branded credit card; and Apple Pay, a cashless payment service, as well as licenses its intellectual property. The company serves consumers, and small and mid-sized businesses; and the education, enterprise, and government markets. It distributes third-party applications for its products through the App Store. The company also sells its products through its retail and online stores, and direct sales force; and third-party cellular network carriers, wholesalers, retailers, and resellers. Apple Inc. was incorporated in 1977 and is headquartered in Cupertino, California.",
+                  "ceo" : "Mr. Timothy Cook",
+                  "sector" : "Technology",
+                  "country" : "US",
+                  "fullTimeEmployees" : "154000",
+                  "phone" : "14089961010",
+                  "address" : "1 Apple Park Way",
+                  "city" : "Cupertino",
+                  "state" : "CALIFORNIA",
+                  "zip" : "95014",
+                  "dcfDiff" : 2.07176,
+                  "dcf" : 142.432,
+                  "image" : "https://financialmodelingprep.com/image-stock/AAPL.png",
+                  "ipoDate" : "1980-12-12",
+                  "defaultImage" : false,
+                  "isEtf" : false,
+                  "isActivelyTrading" : true,
+                  "isAdr" : false,
+                  "isFund" : false
+                } ]""";
         stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY)
                 .willReturn(okJson(json)));
 
@@ -112,8 +113,10 @@ class StockControllerTest {
                 .id(actual.getId())
                 .companyName("Apple Inc.")
                 .symbol("AAPL")
-                .price(10)
+                .costPrice(10)
                 .shares(10)
+                .value(1403.62)
+                .price(140.3623)
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build();
@@ -127,7 +130,7 @@ class StockControllerTest {
         //GIVEN
         CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .price(10)
+                .costPrice(280.56)
                 .shares(0)
                 .build();
 
@@ -144,13 +147,22 @@ class StockControllerTest {
         //GIVEN
         Stock stock = Stock.builder()
                 .symbol("AAPL")
-                .price(10)
+                .costPrice(280.56)
                 .shares(10)
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build();
         stockRepo.insert(stock);
+
+        String json = """
+                  [ {
+                  "symbol" : "AAPL",
+                  "price" : 140.3623,
+                  "volume" : 29134433
+                } ]""";
+        stubFor(get("/quote-short/" + "AAPL" + "?apikey=" + API_KEY)
+                .willReturn(okJson(json)));
 
         //WHEN
         List<Stock> actual = testClient.get()
@@ -165,8 +177,10 @@ class StockControllerTest {
         List<Stock> expected = List.of(Stock.builder()
                 .id(stock.getId())
                 .symbol("AAPL")
-                .price(10)
+                .costPrice(280.56)
                 .shares(10)
+                .value(1403.62)
+                .price(140.3623)
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")

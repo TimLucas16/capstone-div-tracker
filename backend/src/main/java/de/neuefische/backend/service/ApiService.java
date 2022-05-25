@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ApiService {
 
@@ -25,18 +28,33 @@ public class ApiService {
     public Stock getProfileBySymbol(String symbol) {
 
         ResponseEntity<Stock[]> response = webClient.get()
-                    .uri("/profile/" + symbol + "?apikey=" + API_KEY)
+                .uri("/profile/" + symbol + "?apikey=" + API_KEY)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve()
+                .toEntity(Stock[].class)
+                .block();
+
+        if(response == null || response.getBody() == null) {
+            throw new RuntimeException("API-ERROR");
+        }
+        return response.getBody()[0];
+    }
+
+    public List<Stock> getPrice(List<String> symbolList) {
+        List<Stock> profileStockList = new ArrayList<>();
+        for (String symbol : symbolList) {
+            ResponseEntity<Stock[]> response = webClient.get()
+                    .uri("/quote-short/" + symbol + "?apikey=" + API_KEY)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntity(Stock[].class)
                     .block();
-        if(response == null) {
-            throw new RuntimeException("API-ERROR");
+
+            if (response == null || response.getBody() == null) {
+                throw new RuntimeException("API-ERROR");
+            }
+            profileStockList.add(response.getBody()[0]);
         }
-        Stock[] stocks = response.getBody();
-        if(stocks == null) {
-            throw new RuntimeException("API-ERROR");
-        }
-            return stocks[0];
+        return profileStockList;
     }
 }
