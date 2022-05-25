@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -44,21 +45,17 @@ public class StockService {
     }
 
     public List<String> getAllSymbols() {
-        List<Stock> stockList = repo.findAll();
-        return stockList.stream()
+        return repo.findAll().stream()
                 .map(Stock::getSymbol)
                 .toList();
     }
 
     public void changePrice(List<Stock> stockList) {
-//        stockList.stream()
-//                .map(tempStock -> repo.findBySymbol(tempStock.getSymbol()))
-//                .map(someStock -> someStock.setPrice(tempStock.getPrice())
 
-
-        for(int i = 0; i < stockList.size(); i++) {
-            Stock tempStock = repo.findBySymbol(stockList.get(i).getSymbol());
-            tempStock.setPrice(stockList.get(i).getPrice());
+        for (Stock stock : stockList) {
+            Stock tempStock = repo.findBySymbol(stock.getSymbol());
+            tempStock.setPrice(stock.getPrice());
+            tempStock.setValue(calcValue(stock.getPrice(), tempStock.getShares()));
             repo.save(tempStock);
         }
     }

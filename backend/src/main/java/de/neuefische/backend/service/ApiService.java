@@ -33,14 +33,10 @@ public class ApiService {
                     .retrieve()
                     .toEntity(Stock[].class)
                     .block();
-        if(response == null) {
+        if(response == null || response.getBody() == null) {
             throw new RuntimeException("API-ERROR");
         }
-        Stock[] stocks = response.getBody();
-        if(stocks == null) {
-            throw new RuntimeException("API-ERROR");
-        }
-            return stocks[0];
+        return response.getBody()[0];
     }
 
 
