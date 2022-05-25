@@ -22,6 +22,7 @@ public class Stock {
     private double costPrice;
     private double value;
     private double price;
+    private double totalReturn;
     private String website;
     private String image;
 
