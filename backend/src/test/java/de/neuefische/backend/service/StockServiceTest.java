@@ -2,6 +2,7 @@ package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.Stock;
+import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
 
@@ -11,9 +12,10 @@ import static org.mockito.Mockito.*;
 class StockServiceTest {
 
     private final StockRepo stockRepo = mock(StockRepo.class);
+    private final DailyUpdateRepo dURepo = mock(DailyUpdateRepo.class);
     private final ApiService apiService = mock(ApiService.class);
 
-    private final StockService stockService = new StockService(stockRepo, apiService);
+    private final StockService stockService = new StockService(stockRepo, dURepo, apiService);
 
     @Test
     void addNewStock() {

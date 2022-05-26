@@ -18,6 +18,9 @@ public class ApiService {
     @Value("${neuefische.capstone.div.tracker}")
     private String API_KEY;
 
+    @Value("${neuefische.capstone.div.tracker2}")
+    private String API_KEY2;
+
     private final WebClient webClient;
 
     @Autowired
@@ -28,7 +31,7 @@ public class ApiService {
     public Stock getProfileBySymbol(String symbol) {
 
         ResponseEntity<Stock[]> response = webClient.get()
-                .uri("/profile/" + symbol + "?apikey=" + API_KEY)
+                .uri("/profile/" + symbol + "?apikey=" + API_KEY2)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .toEntity(Stock[].class)
@@ -44,7 +47,7 @@ public class ApiService {
         List<Stock> profileStockList = new ArrayList<>();
         for (String symbol : symbolList) {
             ResponseEntity<Stock[]> response = webClient.get()
-                    .uri("/profile/" + symbol + "?apikey=" + API_KEY)
+                    .uri("/profile/" + symbol + "?apikey=" + API_KEY2)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntity(Stock[].class)

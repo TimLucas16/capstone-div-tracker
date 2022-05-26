@@ -30,6 +30,9 @@ class StockControllerTest {
     @Value("${neuefische.capstone.div.tracker}")
     private String API_KEY;
 
+    @Value("${neuefische.capstone.div.tracker2}")
+    private String API_KEY2;
+
     @BeforeEach
     public void cleanUp() {
         stockRepo.deleteAll();
@@ -46,7 +49,7 @@ class StockControllerTest {
 
         // Mock FMP API
 
-        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY)
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY2)
                 .willReturn(okJson(json)));
 
         //WHEN
@@ -110,7 +113,7 @@ class StockControllerTest {
                 .build();
         stockRepo.insert(stock);
 
-        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY)
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY2)
                 .willReturn(okJson(json)));
 
         //WHEN

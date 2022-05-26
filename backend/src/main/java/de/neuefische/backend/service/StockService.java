@@ -1,22 +1,27 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.CreateStockDto;
+import de.neuefische.backend.model.Portfolio;
 import de.neuefische.backend.model.Stock;
+import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class StockService {
 
     private final StockRepo repo;
+    private final DailyUpdateRepo dURepo;
     private final ApiService apiService;
 
     @Autowired
-    public StockService(StockRepo repo, ApiService apiService) {
+    public StockService(StockRepo repo, DailyUpdateRepo dURepo, ApiService apiService) {
         this.repo = repo;
+        this.dURepo = dURepo;
         this.apiService = apiService;
     }
 
@@ -40,7 +45,7 @@ public class StockService {
     }
 
     public List<Stock> getAllStocks() {
-        updateStock(getUpdatedStock());
+        checkForDailyUpdate();
         return repo.findAll();
     }
 
@@ -64,6 +69,25 @@ public class StockService {
     public List<Stock> getUpdatedStock() {
         List<String> symbolList = getAllSymbols();
         return apiService.getPrice(symbolList);
+    }
+
+    public void checkForDailyUpdate() {
+        String name = "Portfolio";
+        if(!dURepo.existsByName(name)) {
+            dURepo.insert(Portfolio.builder()
+                    .name(name)
+                    .updateDay(LocalDate.of(2022,5,25))
+                    .build());
+        }
+
+        LocalDate dateTimer = dURepo.findByName(name).getUpdateDay();
+
+        if(!dateTimer.isEqual(LocalDate.now())) {
+            updateStock(getUpdatedStock());
+            Portfolio newDate = dURepo.findByName(name);
+            newDate.setUpdateDay(LocalDate.now());
+            dURepo.save(newDate);
+        }
     }
 
     public static double calcValue(double price, double shares) {

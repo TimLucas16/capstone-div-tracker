@@ -7,23 +7,18 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Document(collection = "stockCol")
-public class Stock {
+@Document(collection = "portfolio")
+public class Portfolio {
 
     @Id
     private String id;
-    private String symbol;
-    private String companyName;
-    private double shares;
-    private double costPrice;
-    private double value;
-    private double price;
-    private double totalReturn;
-    private String website;
-    private String image;
+    private String name;
+    private LocalDate updateDay;
 
 }
