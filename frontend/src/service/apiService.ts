@@ -10,3 +10,8 @@ export const postStock = (newStock : StockDto) => {
     return axios.post("/api/stock", newStock)
         .then(response => response.data)
 }
+
+export const getPortfolioValues = () => {
+    return axios.get("/api/stock/portfolio")
+        .then(response => response.data)
+}

@@ -1,15 +1,20 @@
 import StockCard from "../component/StockCard";
 import {Stock} from "../model/Stock";
+import {Portfolio} from "../model/Portfolio";
 
 export type StartPageProps = {
     stocks : Stock[]
+    pfValues : Portfolio
 }
 
-export default function StartPage({stocks} : StartPageProps) {
+export default function StartPage({stocks, pfValues} : StartPageProps) {
 
 
     return (
         <div>
+            <div>{pfValues.pfValue} $</div>
+            <div>{pfValues.pfTotalReturnAbsolute} $</div>
+            <div>{pfValues.pfTotalReturnPercent} %</div>
             <div className={"card-container"}>
                 <div className={"card-legend"}>
                     <div className={"anker"}> Logo </div>

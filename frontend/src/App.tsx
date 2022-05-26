@@ -8,14 +8,19 @@ import NavBar from "./component/NavBar";
 
 export default function App() {
 
-    const {stocks, addStock} = useStocks()
+    const {stocks, addStock, pfValues} = useStocks()
 
     return (
         <div className="App">
             <NavBar />
             <Routes>
-                <Route path="/" element={<StartPage stocks={stocks}/>}/>
-                <Route path="/addStock" element={<NewStock addStock={addStock}/>}/>
+                <Route path="/"
+                       element={<StartPage
+                           stocks={stocks}
+                           pfValues={pfValues}/>}/>
+                <Route path="/addStock"
+                       element={<NewStock
+                           addStock={addStock}/>}/>
             </Routes>
         </div>
     );
