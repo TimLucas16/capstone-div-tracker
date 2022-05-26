@@ -1,6 +1,7 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.CreateStockDto;
+import de.neuefische.backend.model.DailyUpdate;
 import de.neuefische.backend.model.Portfolio;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.DailyUpdateRepo;
@@ -55,6 +56,14 @@ public class StockService {
                 .toList();
     }
 
+    public Portfolio getPortfolioValues() {
+        return Portfolio.builder()
+                .pfValue(calcPortfolioValue())
+                .pfTotalReturnAbsolute(calcPfTotalReturnAbs())
+                .pfTotalReturnPercent(calcPfTotalReturnPercent())
+                .build();
+    }
+
     public void updateStock(List<Stock> stockList) {
 
         for (Stock stock : stockList) {
@@ -74,7 +83,7 @@ public class StockService {
     public void checkForDailyUpdate() {
         String name = "Portfolio";
         if(!dURepo.existsByName(name)) {
-            dURepo.insert(Portfolio.builder()
+            dURepo.insert(DailyUpdate.builder()
                     .name(name)
                     .updateDay(LocalDate.of(2022,5,25))
                     .build());
@@ -84,10 +93,23 @@ public class StockService {
 
         if(!dateTimer.isEqual(LocalDate.now())) {
             updateStock(getUpdatedStock());
-            Portfolio newDate = dURepo.findByName(name);
+            DailyUpdate newDate = dURepo.findByName(name);
             newDate.setUpdateDay(LocalDate.now());
             dURepo.save(newDate);
         }
+    }
+
+    public double calcPortfolioValue() {
+        return repo.findAll().stream().mapToDouble(Stock::getValue).sum();
+    }
+
+    public double calcPfTotalReturnAbs() {
+        return calcTotalReturn(repo.findAll().stream().mapToDouble(Stock::getValue).sum(),
+                repo.findAll().stream().mapToDouble(Stock::getCostPrice).sum());
+    }
+
+    public double calcPfTotalReturnPercent() {
+        return (calcPfTotalReturnAbs() / calcPortfolioValue())*100;
     }
 
     public static double calcValue(double price, double shares) {
