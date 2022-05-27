@@ -41,6 +41,7 @@ public class StockService {
                 .image(apiStock.getImage())
                 .price(apiStock.getPrice())
                 .totalReturn(calcTotalReturn((calcValue(apiStock.getPrice(), newStock.getShares())), newStock.getCostPrice()))
+                .allocation(calcAllocation(calcValue(apiStock.getPrice(), newStock.getShares()), calcPortfolioValue()))
                 .build();
         return repo.insert(stock);
     }
@@ -118,6 +119,10 @@ public class StockService {
 
     public static double calcTotalReturn(double value, double costPrice) {
         return Math.round((value - costPrice) * 100)/100.0;
+    }
+
+    public double calcAllocation(double value, double pfValue) {
+        return Math.round((value / pfValue) / 100) * 100.0;
     }
 }
 
