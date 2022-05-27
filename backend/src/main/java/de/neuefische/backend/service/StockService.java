@@ -41,12 +41,12 @@ public class StockService {
                 .image(apiStock.getImage())
                 .price(apiStock.getPrice())
                 .totalReturn(calcTotalReturn((calcValue(apiStock.getPrice(), newStock.getShares())), newStock.getCostPrice()))
-                .allocation(calcAllocation(calcValue(apiStock.getPrice(), newStock.getShares()), calcPortfolioValue()))
                 .build();
         return repo.insert(stock);
     }
 
     public List<Stock> getAllStocks() {
+        updateAllocation();
         checkForDailyUpdate();
         return repo.findAll();
     }
@@ -84,7 +84,7 @@ public class StockService {
     public void checkForDailyUpdate() {
         String name = "Portfolio";
         if(!dURepo.existsByName(name)) {
-            dURepo.insert(DailyUpdate.builder()
+            dURepo.save(DailyUpdate.builder()
                     .name(name)
                     .updateDay(LocalDate.of(2022,5,25))
                     .build());
@@ -98,6 +98,18 @@ public class StockService {
             newDate.setUpdateDay(LocalDate.now());
             dURepo.save(newDate);
         }
+    }
+
+    public void updateAllocation() {
+        List<Stock> list = repo.findAll();
+        for(Stock stock : list) {
+            stock.setAllocation(calcAllocation(stock.getValue(), calcPortfolioValue()));
+            repo.save(stock);
+        }
+    }
+
+    public static double calcAllocation(double value, double pfValue) {
+        return (value / pfValue) * 100.0;
     }
 
     public double calcPortfolioValue() {
@@ -121,9 +133,6 @@ public class StockService {
         return Math.round((value - costPrice) * 100)/100.0;
     }
 
-    public double calcAllocation(double value, double pfValue) {
-        return Math.round((value / pfValue) / 100) * 100.0;
-    }
 }
 
 

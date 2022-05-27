@@ -99,4 +99,10 @@ class StockServiceTest {
     void calcTotalReturn() {
         assertEquals(-0.34,StockService.calcTotalReturn(265.87, 266.21));
     }
+
+    @Test
+    void calcAllocation() {
+        assertEquals(10.00, StockService.calcAllocation(100, 1000));
+    }
+
 }

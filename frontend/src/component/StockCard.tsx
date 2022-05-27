@@ -16,9 +16,9 @@ export default function StockCard({stock}: StockProp) {
                 <div className={"name"}> {stock.companyName} </div>
                 <div className={"shares"}> {stock.shares} </div>
                 <div className={"price"}> {stock.price} $ </div>
-                <div className={"value"}> {stock.value} $ </div>
-                <div className={"total-return"}> {stock.totalReturn} $ </div>
-                <div className={"allocation"}> {stock.allocation} % </div>
+                <div className={"value"}> {stock.value.toFixed(2)} $ </div>
+                <div className={"total-return"}> {stock.totalReturn.toFixed(2)} $ </div>
+                <div className={"allocation"}> {stock.allocation.toFixed(2)} % </div>
             </div>
         </div>
     )
