@@ -110,9 +110,7 @@ public class StockService {
     }
 
     public static double calcAllocation(int value, int pfValue) {
-        double valueAsDouble = value;
-        double pfValueAsDouble = pfValue;
-        return (valueAsDouble / pfValueAsDouble) * 100;
+        return Math.round(((double) value / (double) pfValue) * 10000)/100.0;
     }
 
     public static int calcValue(double price, int shares) {
@@ -132,8 +130,8 @@ public class StockService {
                 repo.findAll().stream().mapToInt(Stock::getCostPrice).sum());
     }
 
-    public int calcPfTotalReturnPercent() {
-        return (calcPfTotalReturnAbs() / repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*100;
+    public double calcPfTotalReturnPercent() {
+        return ((double) calcPfTotalReturnAbs() / (double) repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*100;
     }
 
 }

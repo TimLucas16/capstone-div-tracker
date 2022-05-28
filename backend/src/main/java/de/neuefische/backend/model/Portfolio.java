@@ -13,5 +13,5 @@ public class Portfolio {
 
     private int pfValue;
     private int pfTotalReturnAbsolute;
-    private int pfTotalReturnPercent;
+    private double pfTotalReturnPercent;
 }
