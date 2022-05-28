@@ -18,12 +18,12 @@ public class Stock {
     private String id;
     private String symbol;
     private String companyName;
-    private double shares;
-    private double costPrice;
-    private double value;
+    private int shares;
+    private int costPrice;
+    private int value;
     private double price;
-    private double totalReturn;
-    private double allocation;
+    private int totalReturn;
+    private int allocation;
     private String website;
     private String image;
 

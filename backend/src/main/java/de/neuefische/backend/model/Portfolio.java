@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Portfolio {
 
-    private double pfValue;
-    private double pfTotalReturnAbsolute;
-    private double pfTotalReturnPercent;
+    private int pfValue;
+    private int pfTotalReturnAbsolute;
+    private int pfTotalReturnPercent;
 }

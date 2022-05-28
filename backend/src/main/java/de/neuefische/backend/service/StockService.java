@@ -110,28 +110,29 @@ public class StockService {
         }
     }
 
-    public static double calcAllocation(double value, double pfValue) {
+    public static int calcAllocation(int value, int pfValue) {
         return (value / pfValue) * 100;
     }
 
-    public double calcPortfolioValue() {
-        return repo.findAll().stream().mapToDouble(Stock::getValue).sum();
+    public int calcPortfolioValue() {
+        return repo.findAll().stream().mapToInt(Stock::getValue).sum();
     }
 
-    public double calcPfTotalReturnAbs() {
-        return calcTotalReturn(repo.findAll().stream().mapToDouble(Stock::getValue).sum(),
-                repo.findAll().stream().mapToDouble(Stock::getCostPrice).sum());
+    public int calcPfTotalReturnAbs() {
+        return calcTotalReturn(repo.findAll().stream().mapToInt(Stock::getValue).sum(),
+                repo.findAll().stream().mapToInt(Stock::getCostPrice).sum());
     }
 
-    public double calcPfTotalReturnPercent() {
+    public int calcPfTotalReturnPercent() {
         return (calcPfTotalReturnAbs() / calcPortfolioValue())*100;
     }
 
-    public static double calcValue(double price, double shares) {
-        return price * shares;
+    public static int calcValue(double price, int shares) {
+        int a = (int)price*100;
+        return a * shares;
     }
 
-    public static double calcTotalReturn(double value, double costPrice) {
+    public static int calcTotalReturn(int value, int costPrice) {
         return value - costPrice;
     }
 
