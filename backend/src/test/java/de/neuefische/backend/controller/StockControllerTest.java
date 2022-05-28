@@ -2,6 +2,7 @@ package de.neuefische.backend.controller;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.neuefische.backend.dto.CreateStockDto;
+import de.neuefische.backend.model.Portfolio;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -138,6 +139,45 @@ class StockControllerTest {
                 .totalReturn(304)
                 .build());
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void getPortfolioValues() {
+        //GIVEN
+        Stock stock = Stock.builder()
+                .symbol("AAPL")
+                .costPrice(140056)
+                .shares(10)
+                .value(140360)
+                .price(140.36)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .totalReturn(304)
+                .build();
+        stockRepo.insert(stock);
+
+        // Mock FMP API
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY2)
+                .willReturn(okJson(json)));
+
+        //WHEN
+        Portfolio actual = testClient.get()
+                .uri("/api/stock/portfolio")
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(Portfolio.class)
+                .returnResult()
+                .getResponseBody();
+
+        //THEN
+        Portfolio expected = Portfolio.builder()
+                .pfTotalReturnPercent(0.22)
+                .pfTotalReturnAbsolute(304)
+                .pfValue(140360)
+                .build();
+        assertEquals(expected,actual);
+
     }
 
     String json = """

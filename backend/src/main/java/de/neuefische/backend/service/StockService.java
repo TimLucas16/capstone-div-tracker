@@ -131,7 +131,7 @@ public class StockService {
     }
 
     public double calcPfTotalReturnPercent() {
-        return ((double) calcPfTotalReturnAbs() / (double) repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*100;
+        return Math.round(((double) calcPfTotalReturnAbs() / (double) repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*10000)/100.0;
     }
 
 }
