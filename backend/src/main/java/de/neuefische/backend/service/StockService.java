@@ -41,7 +41,7 @@ public class StockService {
                 .image(apiStock.getImage())
                 .price(apiStock.getPrice())
                 .totalReturn(calcTotalReturn((calcValue(apiStock.getPrice(), newStock.getShares())), newStock.getCostPrice()))
-                .allocation(calcAllocation(calcValue(apiStock.getPrice(), newStock.getShares()),calcPortfolioValue() + calcValue(apiStock.getPrice(), newStock.getShares())))
+                //.allocation(calcAllocation(calcValue(apiStock.getPrice(), newStock.getShares()),calcPortfolioValue() + calcValue(apiStock.getPrice(), newStock.getShares())))
                 .build();
         return repo.insert(stock);
     }
@@ -105,16 +105,14 @@ public class StockService {
         List<Stock> list = repo.findAll();
         for(Stock stock : list) {
             stock.setAllocation(calcAllocation(stock.getValue(), calcPortfolioValue()));
-            System.out.println(calcPortfolioValue());
             repo.save(stock);
         }
     }
 
-    public static int calcAllocation(int value, int pfValue) {
-        int a = value;
-        int b = pfValue;
-        int c = (100/1000)*100;
-        return c;
+    public static double calcAllocation(int value, int pfValue) {
+        double valueAsDouble = value;
+        double pfValueAsDouble = pfValue;
+        return (valueAsDouble / pfValueAsDouble) * 100;
     }
 
     public static int calcValue(double price, int shares) {
@@ -135,7 +133,7 @@ public class StockService {
     }
 
     public int calcPfTotalReturnPercent() {
-        return (calcPfTotalReturnAbs() / calcPortfolioValue())*100;
+        return (calcPfTotalReturnAbs() / repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*100;
     }
 
 }
