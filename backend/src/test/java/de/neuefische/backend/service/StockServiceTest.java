@@ -89,20 +89,5 @@ class StockServiceTest {
         assertThrows(IllegalArgumentException.class, () -> stockService.addNewStock(newStock));
     }
 
-    @Test
-    void calcValue() {
-        assertEquals(143.66, StockService.calcValue(14.3655, 10));
-        assertEquals(143.62, StockService.calcValue(14.3624, 10));
-    }
-
-    @Test
-    void calcTotalReturn() {
-        assertEquals(-0.34,StockService.calcTotalReturn(265.87, 266.21));
-    }
-
-    @Test
-    void calcAllocation() {
-        assertEquals(10.00, StockService.calcAllocation(100, 1000));
-    }
 
 }

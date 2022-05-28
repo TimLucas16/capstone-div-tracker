@@ -15,6 +15,7 @@ import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
+import static de.neuefische.backend.service.StockService.calcAllocation;
 import static org.junit.jupiter.api.Assertions.*;
 
 @WireMockTest(httpPort = 8484)
