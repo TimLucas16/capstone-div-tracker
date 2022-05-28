@@ -22,7 +22,7 @@ export default function NewStock({addStock} : NewStockProps) {
         const newStock : StockDto = {
             symbol : symbol,
             shares : amount,
-            costPrice : costPrice
+            costPrice : costPrice*100
         }
         addStock(newStock)
     }

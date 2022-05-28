@@ -12,9 +12,9 @@ export default function StartPage({stocks, pfValues} : StartPageProps) {
 
     return (
         <div>
-            <div>{(Math.round(pfValues.pfValue*100)/100).toFixed(2)} $</div>
-            <div>{(Math.round(pfValues.pfTotalReturnAbsolute*100)/100).toFixed(2)} $</div>
-            <div>{(Math.round(pfValues.pfTotalReturnPercent*100)/100).toFixed(2)} %</div>
+            <div>{(pfValues.pfValue / 100).toFixed(2)} $</div>
+            <div>{(pfValues.pfTotalReturnAbsolute / 100).toFixed(2)} $</div>
+            <div>{pfValues.pfTotalReturnPercent} %</div>
             <div className={"card-container"}>
                 <div className={"card-legend"}>
                     <div className={"anker"}> Logo </div>

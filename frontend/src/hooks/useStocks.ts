@@ -13,15 +13,17 @@ export default function useStocks() {
         getAllStocks()
             .then(stock => setStocks(stock))
             .catch(console.error)
+    }, [])
 
+    useEffect(() => {
         getPortfolioValues()
             .then(pfData => setPfValues(pfData))
             .catch(console.error)
-    }, [stocks])
+    },[stocks])
 
     const addStock = (newStock : StockDto) => {
         postStock(newStock)
-            .then(addedStock => setStocks(addedStock))
+            .then(addedStock => setStocks([...stocks, addedStock]))
             .catch(console.error)
     }
 
