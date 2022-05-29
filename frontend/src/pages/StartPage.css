@@ -1,0 +1,11 @@
+.chartValueContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.nochnscheisscontainer {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    padding-bottom: 30px;
+}
