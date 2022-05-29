@@ -8,13 +8,7 @@ type DonutProps = {
 
 export default function DonutChart({values, names}: DonutProps) {
 
-
-    const hoverLabel = {
-        id: "hoverLabel",
-    }
-
     const data = {
-        //labels: names,
         datasets: [
             {
                 data: values,
@@ -36,8 +30,6 @@ export default function DonutChart({values, names}: DonutProps) {
         cutout:"70%",
 
     }
-
-
 
     return (
         <div id={"donutchart"}>
