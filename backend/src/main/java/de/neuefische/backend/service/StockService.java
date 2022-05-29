@@ -1,22 +1,28 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.CreateStockDto;
+import de.neuefische.backend.model.DailyUpdate;
+import de.neuefische.backend.model.Portfolio;
 import de.neuefische.backend.model.Stock;
+import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class StockService {
 
     private final StockRepo repo;
+    private final DailyUpdateRepo dURepo;
     private final ApiService apiService;
 
     @Autowired
-    public StockService(StockRepo repo, ApiService apiService) {
+    public StockService(StockRepo repo, DailyUpdateRepo dURepo, ApiService apiService) {
         this.repo = repo;
+        this.dURepo = dURepo;
         this.apiService = apiService;
     }
 
@@ -35,12 +41,14 @@ public class StockService {
                 .image(apiStock.getImage())
                 .price(apiStock.getPrice())
                 .totalReturn(calcTotalReturn((calcValue(apiStock.getPrice(), newStock.getShares())), newStock.getCostPrice()))
+                //.allocation(calcAllocation(calcValue(apiStock.getPrice(), newStock.getShares()),calcPortfolioValue() + calcValue(apiStock.getPrice(), newStock.getShares())))
                 .build();
         return repo.insert(stock);
     }
 
     public List<Stock> getAllStocks() {
-        updateStock(getUpdatedStock());
+        updateAllocation();
+        checkForDailyUpdate();
         return repo.findAll();
     }
 
@@ -48,6 +56,14 @@ public class StockService {
         return repo.findAll().stream()
                 .map(Stock::getSymbol)
                 .toList();
+    }
+
+    public Portfolio getPortfolioValues() {
+        return Portfolio.builder()
+                .pfValue(calcPortfolioValue())
+                .pfTotalReturnAbsolute(calcPfTotalReturnAbs())
+                .pfTotalReturnPercent(calcPfTotalReturnPercent())
+                .build();
     }
 
     public void updateStock(List<Stock> stockList) {
@@ -66,13 +82,58 @@ public class StockService {
         return apiService.getPrice(symbolList);
     }
 
-    public static double calcValue(double price, double shares) {
-        return Math.round((price * shares) * 100)/100.0;
+    public void checkForDailyUpdate() {
+        String name = "Portfolio";
+        if(!dURepo.existsByName(name)) {
+            dURepo.save(DailyUpdate.builder()
+                    .name(name)
+                    .updateDay(LocalDate.of(2022,5,25))
+                    .build());
+        }
+
+        LocalDate dateTimer = dURepo.findByName(name).getUpdateDay();
+
+        if(!dateTimer.isEqual(LocalDate.now())) {
+            updateStock(getUpdatedStock());
+            DailyUpdate newDate = dURepo.findByName(name);
+            newDate.setUpdateDay(LocalDate.now());
+            dURepo.save(newDate);
+        }
     }
 
-    public static double calcTotalReturn(double value, double costPrice) {
-        return Math.round((value - costPrice) * 100)/100.0;
+    public void updateAllocation() {
+        List<Stock> list = repo.findAll();
+        for(Stock stock : list) {
+            stock.setAllocation(calcAllocation(stock.getValue(), calcPortfolioValue()));
+            repo.save(stock);
+        }
     }
+
+    public static double calcAllocation(int value, int pfValue) {
+        return Math.round(((double) value / (double) pfValue) * 10000)/100.0;
+    }
+
+    public static int calcValue(double price, int shares) {
+        return (int)Math.round(price*100) * shares;
+    }
+
+    public static int calcTotalReturn(int value, int costPrice) {
+        return value - costPrice;
+    }
+
+    public int calcPortfolioValue() {
+        return repo.findAll().stream().mapToInt(Stock::getValue).sum();
+    }
+
+    public int calcPfTotalReturnAbs() {
+        return calcTotalReturn(repo.findAll().stream().mapToInt(Stock::getValue).sum(),
+                repo.findAll().stream().mapToInt(Stock::getCostPrice).sum());
+    }
+
+    public double calcPfTotalReturnPercent() {
+        return Math.round(((double) calcPfTotalReturnAbs() / (double) repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*10000)/100.0;
+    }
+
 }
 
 

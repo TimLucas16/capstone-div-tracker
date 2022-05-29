@@ -2,6 +2,7 @@ package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.Stock;
+import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
 
@@ -11,9 +12,10 @@ import static org.mockito.Mockito.*;
 class StockServiceTest {
 
     private final StockRepo stockRepo = mock(StockRepo.class);
+    private final DailyUpdateRepo dURepo = mock(DailyUpdateRepo.class);
     private final ApiService apiService = mock(ApiService.class);
 
-    private final StockService stockService = new StockService(stockRepo, apiService);
+    private final StockService stockService = new StockService(stockRepo, dURepo, apiService);
 
     @Test
     void addNewStock() {
@@ -21,31 +23,31 @@ class StockServiceTest {
         Stock stockToInsert = Stock.builder()
                 .symbol("AAPL")
                 .shares(10)
-                .costPrice(280.56)
-                .value(280.35)
+                .costPrice(28056)
+                .value(28030)
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .price(28.0345)
-                .totalReturn(-0.21)
+                .price(28.03)
+                .totalReturn(-26)
                 .build();
 
         when(stockRepo.insert(stockToInsert)).thenReturn(Stock.builder()
                 .id("123456")
                 .symbol("AAPL")
                 .shares(10)
-                .costPrice(280.56)
-                .value(280.35)
+                .costPrice(28056)
+                .value(28030)
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .price(28.0345)
-                .totalReturn(-0.21)
+                .price(28.03)
+                .totalReturn(-26)
                 .build());
 
         when(apiService.getProfileBySymbol("AAPL")).thenReturn(Stock.builder()
                 .companyName("Apple Inc.")
-                .price(28.0345)
+                .price(28.03)
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build());
@@ -53,7 +55,7 @@ class StockServiceTest {
         //WHEN
         CreateStockDto newStock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .costPrice(280.56)
+                .costPrice(28056)
                 .shares(10)
                 .build();
         Stock actual = stockService.addNewStock(newStock);
@@ -62,14 +64,14 @@ class StockServiceTest {
         Stock expected = Stock.builder()
                 .id("123456")
                 .symbol("AAPL")
-                .costPrice(280.56)
+                .costPrice(28056)
                 .shares(10)
-                .value(280.35)
+                .value(28030)
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .price(28.0345)
-                .totalReturn(-0.21)
+                .price(28.03)
+                .totalReturn(-26)
                 .build();
         verify(stockRepo).insert(stockToInsert);
         assertEquals(expected, actual);
@@ -87,14 +89,4 @@ class StockServiceTest {
         assertThrows(IllegalArgumentException.class, () -> stockService.addNewStock(newStock));
     }
 
-    @Test
-    void calcValue() {
-        assertEquals(143.66, StockService.calcValue(14.3655, 10));
-        assertEquals(143.62, StockService.calcValue(14.3624, 10));
-    }
-
-    @Test
-    void calcTotalReturn() {
-        assertEquals(-0.34,StockService.calcTotalReturn(265.87, 266.21));
-    }
 }

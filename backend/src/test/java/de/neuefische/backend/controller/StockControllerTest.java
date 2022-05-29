@@ -2,6 +2,7 @@ package de.neuefische.backend.controller;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.neuefische.backend.dto.CreateStockDto;
+import de.neuefische.backend.model.Portfolio;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,9 @@ class StockControllerTest {
     @Value("${neuefische.capstone.div.tracker}")
     private String API_KEY;
 
+    @Value("${neuefische.capstone.div.tracker2}")
+    private String API_KEY2;
+
     @BeforeEach
     public void cleanUp() {
         stockRepo.deleteAll();
@@ -40,13 +44,12 @@ class StockControllerTest {
         //GIVEN
         CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .costPrice(1400.43)
+                .costPrice(140043)
                 .shares(10)
                 .build();
 
         // Mock FMP API
-
-        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY)
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY2)
                 .willReturn(okJson(json)));
 
         //WHEN
@@ -67,11 +70,11 @@ class StockControllerTest {
                 .id(actual.getId())
                 .companyName("Apple Inc.")
                 .symbol("AAPL")
-                .costPrice(1400.43)
+                .costPrice(140043)
                 .shares(10)
-                .value(1403.62)
-                .price(140.3623)
-                .totalReturn(3.19)
+                .value(140360)
+                .price(140.36)
+                .totalReturn(317)
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build();
@@ -85,7 +88,7 @@ class StockControllerTest {
         //GIVEN
         CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .costPrice(280.56)
+                .costPrice(28056)
                 .shares(0)
                 .build();
 
@@ -102,7 +105,7 @@ class StockControllerTest {
         //GIVEN
         Stock stock = Stock.builder()
                 .symbol("AAPL")
-                .costPrice(1400.56)
+                .costPrice(140056)
                 .shares(10)
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
@@ -110,7 +113,7 @@ class StockControllerTest {
                 .build();
         stockRepo.insert(stock);
 
-        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY)
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY2)
                 .willReturn(okJson(json)));
 
         //WHEN
@@ -126,22 +129,61 @@ class StockControllerTest {
         List<Stock> expected = List.of(Stock.builder()
                 .id(stock.getId())
                 .symbol("AAPL")
-                .costPrice(1400.56)
+                .costPrice(140056)
                 .shares(10)
-                .value(1403.62)
-                .price(140.3623)
+                .value(140360)
+                .price(140.36)
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(3.06)
+                .totalReturn(304)
                 .build());
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void getPortfolioValues() {
+        //GIVEN
+        Stock stock = Stock.builder()
+                .symbol("AAPL")
+                .costPrice(140056)
+                .shares(10)
+                .value(140360)
+                .price(140.36)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .totalReturn(304)
+                .build();
+        stockRepo.insert(stock);
+
+        // Mock FMP API
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY2)
+                .willReturn(okJson(json)));
+
+        //WHEN
+        Portfolio actual = testClient.get()
+                .uri("/api/stock/portfolio")
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(Portfolio.class)
+                .returnResult()
+                .getResponseBody();
+
+        //THEN
+        Portfolio expected = Portfolio.builder()
+                .pfTotalReturnPercent(0.22)
+                .pfTotalReturnAbsolute(304)
+                .pfValue(140360)
+                .build();
+        assertEquals(expected,actual);
+
     }
 
     String json = """
                 [ {
                   "symbol" : "AAPL",
-                  "price" : 140.3623,
+                  "price" : 140.36,
                   "beta" : 1.194642,
                   "volAvg" : 98131227,
                   "mktCap" : 2271754584064,
@@ -177,4 +219,5 @@ class StockControllerTest {
                   "isAdr" : false,
                   "isFund" : false
                 } ]""";
+
 }

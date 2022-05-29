@@ -1,6 +1,7 @@
 package de.neuefische.backend.controller;
 
 import de.neuefische.backend.dto.CreateStockDto;
+import de.neuefische.backend.model.Portfolio;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,10 @@ public class StockController {
     @GetMapping
     public List<Stock> getAllStocks() {
         return service.getAllStocks();
+    }
+
+    @GetMapping(path = "portfolio")
+    public Portfolio getPortfolioValues() {
+        return service.getPortfolioValues();
     }
 }
