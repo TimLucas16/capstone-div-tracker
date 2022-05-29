@@ -34,7 +34,6 @@ export default function DonutChart({values, names}: DonutProps) {
 
     const options = {
         cutout:"70%",
-
     }
 
 
