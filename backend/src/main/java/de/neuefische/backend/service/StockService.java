@@ -41,6 +41,7 @@ public class StockService {
                 .image(apiStock.getImage())
                 .price(apiStock.getPrice())
                 .totalReturn(calcTotalReturn((calcValue(apiStock.getPrice(), newStock.getShares())), newStock.getCostPrice()))
+                .allocation(calcAllocation(calcValue(apiStock.getPrice(), newStock.getShares()),calcPortfolioValue() + calcValue(apiStock.getPrice(), newStock.getShares())))
                 .build();
         return repo.insert(stock);
     }
@@ -134,13 +135,3 @@ public class StockService {
     }
 
 }
-
-
-
-
-
-
-
-
-
-

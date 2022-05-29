@@ -28,6 +28,7 @@
 
 .anker {
     width: 50px;
+    padding-left: 10px;
 }
 
 .logo {
@@ -45,6 +46,9 @@
 }
 
 .value, .allocation, .total-return, .price, .shares {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 10px;
     width: 50px;
     flex-grow: 1;
 }
