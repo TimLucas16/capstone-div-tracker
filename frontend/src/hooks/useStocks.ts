@@ -13,7 +13,7 @@ export default function useStocks() {
         getAllStocks()
             .then(stock => setStocks(stock))
             .catch(console.error)
-    }, [stocks])
+    }, [])
 
     useEffect(() => {
         getPortfolioValues()
