@@ -1,5 +1,9 @@
+import * as React from 'react';
 import {Doughnut} from "react-chartjs-2";
-import "./DonutChart.css";
+import "../styles/DonutChart.css";
+import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 type DonutProps = {
     values: number[]

@@ -1,5 +1,5 @@
 import {Portfolio} from "../model/Portfolio";
-
+import * as React from 'react';
 type PortfolioProps = {
     pfValues : Portfolio
 }

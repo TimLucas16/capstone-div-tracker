@@ -5,7 +5,6 @@ export type Stock = {
     price : number
     value : number
     totalReturn : number
-    allocation : number
     image : string
     website : string
 }
