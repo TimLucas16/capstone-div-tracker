@@ -1,5 +1,3 @@
-
-import * as React from 'react';
 import DonutChart from "./DonutChart";
 import PortfolioValues from "./PortfolioValues";
 import {Portfolio} from "../model/Portfolio";

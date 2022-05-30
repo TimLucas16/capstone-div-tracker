@@ -1,4 +1,3 @@
-import * as React from 'react';
 import StockCard from "../component/StockCard";
 import {Stock} from "../model/Stock";
 import {Portfolio} from "../model/Portfolio";
@@ -19,7 +18,7 @@ export default function StartPage({stocks, pfValues}: StartPageProps) {
 
     useEffect(() => {
         setValues([...stocks.map(value => value.value)])
-        setNames([...stocks.map(names => names.companyName)])
+        setNames([...stocks.map(name => name.companyName)])
     }, [stocks])
 
     return (

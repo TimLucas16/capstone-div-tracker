@@ -1,7 +1,6 @@
 import {Stock} from "../model/Stock";
 import "../styles/StockCard.css";
 import {useEffect, useState} from "react";
-import * as React from 'react';
 type StockProp = {
     stock: Stock
     pfValue : number
