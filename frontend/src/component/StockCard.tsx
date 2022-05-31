@@ -1,7 +1,7 @@
 import {Stock} from "../model/Stock";
 import "../styles/StockCard.css";
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 type StockProp = {
     stock: Stock
@@ -9,7 +9,7 @@ type StockProp = {
 }
 
 export default function StockCard({stock, pfValue}: StockProp) {
-    const {id} = useParams()
+    const navigate = useNavigate()
 
     const [allocation, setAllocation] = useState<number>(0)
 
@@ -29,7 +29,7 @@ export default function StockCard({stock, pfValue}: StockProp) {
                 <div className={"value"}> {(stock.value / 100).toFixed(2)} $</div>
                 <div className={"total-return"}> {(stock.totalReturn / 100).toFixed(2)} $</div>
                 <div className={"allocation"}> {allocation.toFixed(2)} %</div>
-                <div>add</div>
+                <button onClick={() => navigate(`/updateStock/${stock.id}`)} >add</button>
             </div>
         </div>
     )

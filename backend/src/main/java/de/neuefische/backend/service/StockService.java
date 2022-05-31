@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class StockService {
@@ -56,13 +57,19 @@ public class StockService {
                 .toList();
     }
 
-
     public Stock increaseStock(CreateStockDto updatedStock) {
         Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
         toUpdateStock.setShares(toUpdateStock.getShares() + updatedStock.getShares());
         toUpdateStock.setCostPrice(toUpdateStock.getCostPrice() + updatedStock.getCostPrice());
         repo.save(toUpdateStock);
+        if(toUpdateStock.getShares() == 0) {
+            repo.deleteById(toUpdateStock.getId());
+        }
         return toUpdateStock;
+    }
+
+    public Stock getStock(String id) {
+        return repo.findById(id).orElseThrow(() -> new NoSuchElementException("Stock with id: " + id + " not found!"));
     }
 
     public Portfolio getPortfolioValues() {
@@ -128,4 +135,6 @@ public class StockService {
     public double calcPfTotalReturnPercent() {
         return Math.round(((double) calcPfTotalReturnAbs() / (double) repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*10000)/100.0;
     }
+
+
 }

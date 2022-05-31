@@ -39,4 +39,9 @@ public class StockController {
     public Stock increaseStock(@RequestBody CreateStockDto updatedstock) {
         return service.increaseStock(updatedstock);
     }
+
+    @GetMapping("{id}")
+    public Stock getStock(@PathVariable String id) {
+        return service.getStock(id);
+    }
 }

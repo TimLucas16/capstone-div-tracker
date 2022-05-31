@@ -1,11 +1,12 @@
 import {FormEvent, useState} from "react";
 import {StockDto} from "../model/StockDto";
+import {Stock} from "../model/Stock";
 
 type NewStockProps = {
     addStock : (newStock : StockDto) => void
 }
 
-export default function NewStock({addStock} : NewStockProps) {
+export default function NewStockPage({addStock} : NewStockProps) {
 
     const [symbol, setSymbol] = useState<string>("")
     const [amount, setAmount] = useState<number>(0)
