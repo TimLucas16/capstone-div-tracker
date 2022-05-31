@@ -6,18 +6,20 @@ import "../styles/OverviewCard.css";
 type OverviewProps = {
     values: number[]
     names: string[]
-    pfValues : Portfolio
+    pfValues: Portfolio
 }
 
-export default function OverviewCard({values, names, pfValues} : OverviewProps) {
+export default function OverviewCard({values, names, pfValues}: OverviewProps) {
 
     return (
         <div className={"chartValueContainer"}>
             <div>
-                < DonutChart
-                    values={values}
-                    names={names} />
-                < PortfolioValues pfValues={pfValues} />
+                <div id={"donutchart"}>
+                    < DonutChart
+                        values={values}
+                        names={names}/>
+                </div>
+                < PortfolioValues pfValues={pfValues}/>
             </div>
         </div>
     )
