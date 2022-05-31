@@ -17,7 +17,7 @@ export default function StockCard({stock, pfValue}: StockProp) {
     return (
         <div className={"card-container"}>
             <div className={"card-details"}>
-                <a className={"anker"} href={stock.website}>
+                <a className={"anker"} href={stock.website} target="_blank">
                     <img className={"logo"} src={stock.image} alt={stock.companyName}/>
                 </a>
                 <div className={"name"}> {stock.companyName} </div>
