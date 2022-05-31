@@ -1,5 +1,5 @@
 import {Stock} from "../model/Stock";
-import {getAllStocks, getPortfolioValues, postStock} from "../service/apiService";
+import {getAllStocks, getPortfolioValues, postStock, putStock} from "../service/apiService";
 import {useEffect, useState} from "react";
 import {StockDto} from "../model/StockDto";
 import {Portfolio} from "../model/Portfolio";
@@ -26,6 +26,13 @@ export default function useStocks() {
             .then(pfData => setPfValues(pfData))
             .catch(console.error)
     },[stocks])
+
+    const updateStock = (updatedStock : StockDto) => {
+        return putStock(updatedStock)
+            .then(updatedStock => {
+                setStocks(stocks.map(item => item.symbol === updatedStock.symbol ? updatedStock : item))
+            })
+    }
 
 
 

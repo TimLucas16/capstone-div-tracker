@@ -56,6 +56,15 @@ public class StockService {
                 .toList();
     }
 
+
+    public Stock increaseStock(CreateStockDto updatedStock) {
+        Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
+        toUpdateStock.setShares(toUpdateStock.getShares() + updatedStock.getShares());
+        toUpdateStock.setCostPrice(toUpdateStock.getCostPrice() + updatedStock.getCostPrice());
+        repo.save(toUpdateStock);
+        return toUpdateStock;
+    }
+
     public Portfolio getPortfolioValues() {
         return Portfolio.builder()
                 .pfValue(calcPortfolioValue())
@@ -119,5 +128,4 @@ public class StockService {
     public double calcPfTotalReturnPercent() {
         return Math.round(((double) calcPfTotalReturnAbs() / (double) repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*10000)/100.0;
     }
-
 }

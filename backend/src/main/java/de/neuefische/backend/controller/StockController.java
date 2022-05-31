@@ -34,4 +34,9 @@ public class StockController {
     public Portfolio getPortfolioValues() {
         return service.getPortfolioValues();
     }
+
+    @PutMapping
+    public Stock increaseStock(@RequestBody CreateStockDto updatedstock) {
+        return service.increaseStock(updatedstock);
+    }
 }
