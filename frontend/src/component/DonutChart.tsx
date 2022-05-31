@@ -25,10 +25,10 @@ export default function DonutChart({values, names}: DonutProps) {
     };
 
     const data = {
+        //labels: names,
         datasets: [
             {
                 data: values,
-                labels: names,
                 backgroundColor: [
                     '#707B52',
                     '#BDC4A7',
@@ -55,6 +55,8 @@ export default function DonutChart({values, names}: DonutProps) {
     }
 
     return (
-        <Doughnut data={data} options={options}/>
+        <div id={"donutchart"}>
+            <Doughnut data={data} options={options}/>
+        </div>
     )
 }
