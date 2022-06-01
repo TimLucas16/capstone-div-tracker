@@ -1,6 +1,6 @@
 import {Doughnut} from "react-chartjs-2";
 import "../styles/DonutChart.css";
-import {Chart as ChartJS, ArcElement, Tooltip, Legend, Chart} from 'chart.js';
+import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -9,10 +9,9 @@ type DonutProps = {
     names: string[]
 }
 
-export default function DonutChart({values, names}: DonutProps) {
+export default function DonutChart({values}: DonutProps) {
 
     const data = {
-        //labels: names,
         datasets: [
             {
                 data: values,
