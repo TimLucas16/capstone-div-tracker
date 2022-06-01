@@ -17,7 +17,7 @@ export const getPortfolioValues = () => {
         .then(response => response.data)
 }
 
-export const putStock = (updatedStock: StockDto) => {
+export const putStock: (updatedstock: StockDto) => Promise<Stock> = (updatedStock: StockDto) => {
     return axios.put("/api/stock", updatedStock)
         .then(response => response.data)
 }

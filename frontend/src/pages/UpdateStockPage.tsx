@@ -24,7 +24,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
 
     const submit = (event : FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if(amount <= 0 || costPrice <= 0) {
+        if(amount === 0 || costPrice === 0) {
             alert("Bitte bei Shares oder CostPrice eine Zahl größer 0 eingeben!")
         }
         const stockChanges : StockDto = {

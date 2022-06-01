@@ -1,7 +1,7 @@
 import {Stock} from "../model/Stock";
 import "../styles/StockCard.css";
 import {useCallback, useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 type StockProp = {
     stock: Stock
@@ -23,7 +23,7 @@ export default function StockCard({stock, pfValue}: StockProp) {
     return (
         <div className={"card-container"}>
             <div className={"card-details"}>
-                <a className={"anker"} href={stock.website} target="_blank">
+                <a className={"anker"} href={stock.website}>
                     <img className={"logo"} src={stock.image} alt={stock.companyName}/>
                 </a>
                 <div className={"name"}> {stock.companyName} </div>
@@ -32,8 +32,8 @@ export default function StockCard({stock, pfValue}: StockProp) {
                 <div className={"value"}> {(stock.value / 100).toFixed(2)} $</div>
                 <div className={"total-return"}> {(stock.totalReturn / 100).toFixed(2)} $</div>
                 <div className={"allocation"}> {allocation.toFixed(2)} %</div>
-                <button onClick={() => navigate(`/updateStock/${stock.id}`)} >add</button>
             </div>
+            <button onClick={() => navigate(`/updateStock/${stock.id}`)} >add</button>
         </div>
     )
 }

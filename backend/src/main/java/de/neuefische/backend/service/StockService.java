@@ -61,6 +61,8 @@ public class StockService {
         Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
         toUpdateStock.setShares(toUpdateStock.getShares() + updatedStock.getShares());
         toUpdateStock.setCostPrice(toUpdateStock.getCostPrice() + updatedStock.getCostPrice());
+        toUpdateStock.setValue(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares() ));
+        toUpdateStock.setTotalReturn(calcTotalReturn(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares() ), toUpdateStock.getCostPrice()));
         repo.save(toUpdateStock);
         if(toUpdateStock.getShares() == 0) {
             repo.deleteById(toUpdateStock.getId());
