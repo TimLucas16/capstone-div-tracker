@@ -74,7 +74,7 @@ public class StockService {
         return toUpdateStock;
     }
 
-    public Stock getStock(String id) {
+    public Stock getStockById(String id) {
         return repo.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Stock with id: " + id + " not found!"));
     }

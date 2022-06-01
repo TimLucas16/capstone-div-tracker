@@ -41,7 +41,8 @@ public class StockController {
     }
 
     @GetMapping("{id}")
-    public Stock getStock(@PathVariable String id) {
-        return service.getStock(id);
+    public Stock getStockById(@PathVariable String id) {
+        return service.getStockById(id);
     }
 }
+
