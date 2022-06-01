@@ -1,3 +1,4 @@
+
 export default function StockCardLegend() {
     return (
         <div className={"card-container"}>

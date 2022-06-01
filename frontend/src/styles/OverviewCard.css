@@ -3,9 +3,9 @@
     justify-content: center;
 }
 
-.nochnscheisscontainer {
+.chartValueContainer > div {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     width: 50%;
     padding-bottom: 30px;
 }

@@ -1,5 +1,4 @@
 import {Portfolio} from "../model/Portfolio";
-
 type PortfolioProps = {
     pfValues : Portfolio
 }

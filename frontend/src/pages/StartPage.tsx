@@ -1,14 +1,11 @@
 import StockCard from "../component/StockCard";
 import {Stock} from "../model/Stock";
 import {Portfolio} from "../model/Portfolio";
-import DonutChart from "../component/DonutChart";
-import "./StartPage.css";
+import "../styles/StartPage.css";
 import {useEffect, useState} from "react";
-import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import StockCardLegend from "../component/StockCardLegend";
-import PortfolioValues from "../component/PortfolioValues";
+import OverviewCard from "../component/OverviewCard";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
 
 export type StartPageProps = {
     stocks: Stock[]
@@ -20,28 +17,17 @@ export default function StartPage({stocks, pfValues}: StartPageProps) {
     const [names, setNames] = useState<string[]>([])
 
     useEffect(() => {
-        getValues()
-        getNames()
-    }, [stocks])
-
-    const getValues = () => {
         setValues([...stocks.map(value => value.value)])
-    }
-
-    const getNames = () => {
-        setNames([...stocks.map(names => names.companyName)])
-    }
+        setNames([...stocks.map(name => name.companyName)])
+    }, [stocks])
 
     return (
         <div className={"startpage-container"}>
-            <div className={"chartValueContainer"}>
-                <div className={"nochnscheisscontainer"}>
-                    <DonutChart values={values} names={names}/>
-                    <PortfolioValues pfValues={pfValues}/>
-                </div>
-            </div>
+            <OverviewCard values={values}
+                          names={names}
+                          pfValues={pfValues} />
             <StockCardLegend/>
-            <div> {stocks.map(stock => <StockCard key={stock.symbol} stock={stock}/>)} </div>
+            <div> {stocks.map(stock => <StockCard key={stock.symbol} stock={stock} pfValue={pfValues.pfValue}/>)} </div>
         </div>
     )
 }
