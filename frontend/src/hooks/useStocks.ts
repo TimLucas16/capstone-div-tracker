@@ -50,6 +50,5 @@ export default function useStocks() {
             .then(data => setStock(data))
             .catch(console.error)
     }
-
     return {stocks, addStock, pfValues, updateStock, stock, getStockById}
 }

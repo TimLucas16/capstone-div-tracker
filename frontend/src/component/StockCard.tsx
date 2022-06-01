@@ -1,6 +1,6 @@
 import {Stock} from "../model/Stock";
 import "../styles/StockCard.css";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 
 type StockProp = {
