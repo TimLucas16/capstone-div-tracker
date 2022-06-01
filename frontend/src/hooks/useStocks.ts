@@ -41,7 +41,11 @@ export default function useStocks() {
     const updateStock = (updatedStock: StockDto) => {
         return putStock(updatedStock)
             .then(changedStock => {
-                setStocks(stocks.map((item: Stock) => (item.symbol === changedStock.symbol ? changedStock : item)))
+                if (!changedStock) {
+                    setStocks(stocks.filter((item: Stock) => (item.symbol !== updatedStock.symbol)))
+                } else {
+                    setStocks(stocks.map((item: Stock) => (item.symbol === changedStock.symbol ? changedStock : item)))
+                }
             })
             .catch(console.error)
     }

@@ -59,14 +59,18 @@ public class StockService {
 
     public Stock increaseStock(CreateStockDto updatedStock) {
         Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
+
+        if((toUpdateStock.getShares() + updatedStock.getShares()) == 0) {
+            repo.deleteById(toUpdateStock.getId());
+            return null;
+        }
+
         toUpdateStock.setShares(toUpdateStock.getShares() + updatedStock.getShares());
         toUpdateStock.setCostPrice(toUpdateStock.getCostPrice() + updatedStock.getCostPrice());
         toUpdateStock.setValue(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares() ));
-        toUpdateStock.setTotalReturn(calcTotalReturn(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares() ), toUpdateStock.getCostPrice()));
+        toUpdateStock.setTotalReturn(calcTotalReturn(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares()), toUpdateStock.getCostPrice()));
         repo.save(toUpdateStock);
-        if(toUpdateStock.getShares() == 0) {
-            repo.deleteById(toUpdateStock.getId());
-        }
+
         return toUpdateStock;
     }
 
