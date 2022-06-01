@@ -69,7 +69,8 @@ public class StockService {
     }
 
     public Stock getStock(String id) {
-        return repo.findById(id).orElseThrow(() -> new NoSuchElementException("Stock with id: " + id + " not found!"));
+        return repo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Stock with id: " + id + " not found!"));
     }
 
     public Portfolio getPortfolioValues() {
