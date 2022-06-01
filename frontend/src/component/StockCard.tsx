@@ -10,9 +10,12 @@ export default function StockCard({stock, pfValue}: StockProp) {
 
     const [allocation, setAllocation] = useState<number>(0)
 
+    const allocationChanged = useCallback (() =>
+        setAllocation((stock.value / pfValue)*100),[stock.value, pfValue]);
+
   useEffect(() => {
-      setAllocation((stock.value / pfValue)*100)
-  },[stock.value, pfValue])
+      allocationChanged()
+  },[allocationChanged])
 
     return (
         <div className={"card-container"}>
