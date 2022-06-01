@@ -38,9 +38,11 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
 
             <form>
                 <input type="hidden" value={stock.symbol} disabled/>
-                <label htmlFor="shares"></label>
-                <input for="shares" type="number" placeholder={`${stock.shares}`} value={amount}
+
+                <label for="shares" > shares </label>
+                <input type="number" id="shares" placeholder={`${stock.shares}`} value={amount}
                        onChange={event => setAmount(Number(event.target.value))}/>
+
                 <input type="number" placeholder={"costPrice"} value={costPrice}
                        onChange={event => setCostPrice(Number(event.target.value))}/>
                 <button type={"submit"}>submit</button>
