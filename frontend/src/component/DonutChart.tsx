@@ -11,19 +11,6 @@ type DonutProps = {
 
 export default function DonutChart({values, names}: DonutProps) {
 
-    const hoverLabel = {
-        id: 'hoverLabel',
-        afterDraw(chart: Chart) {
-            const {ctx, chartArea: {width, height}} = chart;
-            ctx.save();
-
-            ctx.font = "bolder 50px Arial";
-            ctx.fillStyle = "blue";
-            ctx.textAlign = "center";
-            ctx.fillText("Test", width / 2, height / 2)
-        }
-    };
-
     const data = {
         //labels: names,
         datasets: [
