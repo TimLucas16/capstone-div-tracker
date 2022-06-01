@@ -12,7 +12,7 @@ export default function StockCard({stock, pfValue}: StockProp) {
 
   useEffect(() => {
       setAllocation((stock.value / pfValue)*100)
-  })
+  },[stock.value, pfValue])
 
     return (
         <div className={"card-container"}>
