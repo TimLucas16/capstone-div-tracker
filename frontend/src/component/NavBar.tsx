@@ -8,6 +8,7 @@ export default function NavBar() {
         <div className={"navbar"}>
             <h1>Div-Tracker</h1>
             <Link to={"/addStock"}>add Stock</Link>
+            <Link to={"/"}>startpage</Link>
         </div>
     )
 }

@@ -31,14 +31,8 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
             <div>{stock.companyName}</div>
             <div>{stock.shares} shares</div>
 
-
-
-
-
-
             <form>
                 <input type="hidden" value={stock.symbol} disabled/>
-
 
                 <input type="number" id="shares" placeholder={`${stock.shares}`} value={amount}
                        onChange={event => setAmount(Number(event.target.value))}/>
