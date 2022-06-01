@@ -1,6 +1,6 @@
 import {Stock} from "../model/Stock";
 import "../styles/StockCard.css";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 type StockProp = {
     stock: Stock
     pfValue : number
@@ -10,14 +10,17 @@ export default function StockCard({stock, pfValue}: StockProp) {
 
     const [allocation, setAllocation] = useState<number>(0)
 
+    const allocationChanged = useCallback (() =>
+        setAllocation((stock.value / pfValue)*100),[stock.value, pfValue]);
+
   useEffect(() => {
-      setAllocation((stock.value / pfValue)*100)
-  })
+      allocationChanged()
+  },[allocationChanged])
 
     return (
         <div className={"card-container"}>
             <div className={"card-details"}>
-                <a className={"anker"} href={stock.website} target="_blank">
+                <a className={"anker"} href={stock.website} >
                     <img className={"logo"} src={stock.image} alt={stock.companyName}/>
                 </a>
                 <div className={"name"}> {stock.companyName} </div>
