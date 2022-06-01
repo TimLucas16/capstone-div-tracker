@@ -1,6 +1,6 @@
 import {StockDto} from "../model/StockDto";
 import {useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {Stock} from "../model/Stock";
 
 type UpdateProps = {
@@ -22,6 +22,19 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
         }
     }, [])
 
+    const submit = (event : FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        if(amount <= 0 || costPrice <= 0) {
+            alert("Bitte bei Shares oder CostPrice eine Zahl größer 0 eingeben!")
+        }
+        const stockChanges : StockDto = {
+            symbol : stock.symbol,
+            shares : amount,
+            costPrice : costPrice*100
+        }
+        updateStock(stockChanges)
+    }
+
 
     return (
         <div>
@@ -31,7 +44,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
             <div>{stock.companyName}</div>
             <div>{stock.shares} shares</div>
 
-            <form>
+            <form onSubmit={submit}>
                 <input type="hidden" value={stock.symbol} disabled/>
 
                 <input type="number" id="shares" placeholder={`${stock.shares}`} value={amount}
