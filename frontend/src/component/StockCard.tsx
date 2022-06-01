@@ -5,7 +5,7 @@ import {useNavigate, useParams} from "react-router-dom";
 
 type StockProp = {
     stock: Stock
-    pfValue: number
+    pfValue : number
 }
 
 export default function StockCard({stock, pfValue}: StockProp) {
@@ -13,9 +13,12 @@ export default function StockCard({stock, pfValue}: StockProp) {
 
     const [allocation, setAllocation] = useState<number>(0)
 
-    useEffect(() => {
-        setAllocation((stock.value / pfValue) * 100)
-    })
+    const allocationChanged = useCallback (() =>
+        setAllocation((stock.value / pfValue)*100),[stock.value, pfValue]);
+
+  useEffect(() => {
+      allocationChanged()
+  },[allocationChanged])
 
     return (
         <div className={"card-container"}>

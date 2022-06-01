@@ -1,6 +1,6 @@
 import {Doughnut} from "react-chartjs-2";
 import "../styles/DonutChart.css";
-import {Chart as ChartJS, ArcElement, Tooltip, Legend, Chart} from 'chart.js';
+import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -9,23 +9,9 @@ type DonutProps = {
     names: string[]
 }
 
-export default function DonutChart({values, names}: DonutProps) {
-
-    const hoverLabel = {
-        id: 'hoverLabel',
-        afterDraw(chart: Chart) {
-            const {ctx, chartArea: {width, height}} = chart;
-            ctx.save();
-
-            ctx.font = "bolder 50px Arial";
-            ctx.fillStyle = "blue";
-            ctx.textAlign = "center";
-            ctx.fillText("Test", width / 2, height / 2)
-        }
-    };
+export default function DonutChart({values}: DonutProps) {
 
     const data = {
-        //labels: names,
         datasets: [
             {
                 data: values,
