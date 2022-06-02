@@ -34,4 +34,15 @@ public class StockController {
     public Portfolio getPortfolioValues() {
         return service.getPortfolioValues();
     }
+
+    @PutMapping
+    public Stock updateStock(@RequestBody CreateStockDto updatedstock) {
+        return service.updateStock(updatedstock);
+    }
+
+    @GetMapping("{id}")
+    public Stock getStockById(@PathVariable String id) {
+        return service.getStockById(id);
+    }
 }
+

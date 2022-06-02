@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class StockService {
@@ -56,6 +57,28 @@ public class StockService {
                 .toList();
     }
 
+    public Stock updateStock(CreateStockDto updatedStock) {
+        Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
+
+        if((toUpdateStock.getShares() + updatedStock.getShares()) == 0) {
+            repo.deleteById(toUpdateStock.getId());
+            return null;
+        }
+
+        toUpdateStock.setShares(toUpdateStock.getShares() + updatedStock.getShares());
+        toUpdateStock.setCostPrice(toUpdateStock.getCostPrice() + updatedStock.getCostPrice());
+        toUpdateStock.setValue(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares() ));
+        toUpdateStock.setTotalReturn(calcTotalReturn(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares()), toUpdateStock.getCostPrice()));
+        repo.save(toUpdateStock);
+
+        return toUpdateStock;
+    }
+
+    public Stock getStockById(String id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Stock with id: " + id + " not found!"));
+    }
+
     public Portfolio getPortfolioValues() {
         return Portfolio.builder()
                 .pfValue(calcPortfolioValue())
@@ -64,7 +87,7 @@ public class StockService {
                 .build();
     }
 
-    public void updateStock(List<Stock> stockList) {
+    public void refreshStockDatas(List<Stock> stockList) {
 
         for (Stock stock : stockList) {
             Stock tempStock = repo.findBySymbol(stock.getSymbol());
@@ -92,7 +115,7 @@ public class StockService {
         LocalDate dateTimer = dURepo.findByName(name).getUpdateDay();
 
         if(!dateTimer.isEqual(LocalDate.now())) {
-            updateStock(getUpdatedStock());
+            refreshStockDatas(getUpdatedStock());
             DailyUpdate newDate = dURepo.findByName(name);
             newDate.setUpdateDay(LocalDate.now());
             dURepo.save(newDate);
@@ -119,5 +142,6 @@ public class StockService {
     public double calcPfTotalReturnPercent() {
         return Math.round(((double) calcPfTotalReturnAbs() / (double) repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*10000)/100.0;
     }
+
 
 }

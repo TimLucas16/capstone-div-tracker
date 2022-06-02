@@ -2,25 +2,35 @@ import React from 'react';
 import './App.css';
 import {Route, Routes} from 'react-router-dom';
 import StartPage from "./pages/StartPage";
-import NewStock from "./component/NewStock";
+import NewStockPage from "./pages/NewStockPage";
 import useStocks from "./hooks/useStocks";
 import NavBar from "./component/NavBar";
+import UpdateStockPage from './pages/UpdateStockPage';
 
 export default function App() {
 
-    const {stocks, addStock, pfValues} = useStocks()
+    const {stocks, addStock, pfValues, updateStock, stock, getStockById} = useStocks()
 
     return (
         <div className="App">
-            <NavBar />
+            <NavBar/>
             <Routes>
+
                 <Route path="/"
                        element={<StartPage
                            stocks={stocks}
                            pfValues={pfValues}/>}/>
+
                 <Route path="/addStock"
-                       element={<NewStock
+                       element={<NewStockPage
                            addStock={addStock}/>}/>
+
+                <Route path="/updateStock/:id"
+                       element={<UpdateStockPage
+                           updateStock={updateStock}
+                           getStockById={getStockById}
+                           stock={stock}/>}/>
+
             </Routes>
         </div>
     );

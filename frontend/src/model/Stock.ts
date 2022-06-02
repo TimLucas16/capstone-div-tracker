@@ -1,4 +1,5 @@
 export type Stock = {
+    id : string
     symbol : string
     companyName : string
     shares : number
