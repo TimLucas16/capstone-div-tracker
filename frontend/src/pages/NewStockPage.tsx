@@ -1,6 +1,5 @@
 import {FormEvent, useState} from "react";
 import {StockDto} from "../model/StockDto";
-import {Stock} from "../model/Stock";
 
 type NewStockProps = {
     addStock : (newStock : StockDto) => void
