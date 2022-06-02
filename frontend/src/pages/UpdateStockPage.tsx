@@ -15,11 +15,10 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
     const [amount, setAmount] = useState<number>(0)
     const [costPrice, setCostPrice] = useState<number>(0)
 
-
     useEffect(() => {
         if (id) {
             getStockById(id)
-        }
+        }// eslint-disable-next-line
     }, [])
 
     const submit = (event : FormEvent<HTMLFormElement>) => {
@@ -38,7 +37,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
 
     return (
         <div>
-            <a className={"anker"} href={stock.website} target="_blank">
+            <a className={"anker"} href={stock.website}>
                 <img className={"logo"} src={stock.image} alt={stock.companyName}/>
             </a>
             <div>{stock.companyName}</div>
