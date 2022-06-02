@@ -245,7 +245,7 @@ class StockControllerTest {
     }
 
     @Test
-    void increaseStock_whenIncreaseStock() {
+    void updateStock_whenIncreaseStock() {
         //GIVEN
         CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
@@ -293,7 +293,7 @@ class StockControllerTest {
     }
 
     @Test
-    void increaseStock_whenDecreaseStock() {
+    void updateStock_whenDecreaseStock() {
         //GIVEN
         CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
@@ -341,7 +341,7 @@ class StockControllerTest {
     }
 
     @Test
-    void increaseStock_whenSharesIsZero() {
+    void updateStock_whenSharesIsZero() {
         //GIVEN
         CreateStockDto stock = CreateStockDto.builder()
                 .symbol("AAPL")
