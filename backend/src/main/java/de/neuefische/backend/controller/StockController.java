@@ -36,8 +36,8 @@ public class StockController {
     }
 
     @PutMapping
-    public Stock increaseStock(@RequestBody CreateStockDto updatedstock) {
-        return service.increaseStock(updatedstock);
+    public Stock updateStock(@RequestBody CreateStockDto updatedstock) {
+        return service.updateStock(updatedstock);
     }
 
     @GetMapping("{id}")

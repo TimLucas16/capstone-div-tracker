@@ -240,8 +240,140 @@ class StockControllerTest {
         testClient.get()
                 .uri("/api/stock/" + "123")
                 .exchange()
-        //THEN
+                //THEN
                 .expectStatus().is5xxServerError();
+    }
+
+    @Test
+    void increaseStock_whenIncreaseStock() {
+        //GIVEN
+        CreateStockDto stock = CreateStockDto.builder()
+                .symbol("AAPL")
+                .costPrice(150000)
+                .shares(10)
+                .build();
+
+        Stock stockDB = Stock.builder()
+                .symbol("AAPL")
+                .costPrice(140056)
+                .shares(10)
+                .value(140360)
+                .price(140.36)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .totalReturn(304)
+                .build();
+        stockRepo.insert(stockDB);
+
+        //WHEN
+        Stock actual = testClient.put()
+                .uri("api/stock")
+                .bodyValue(stock)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(Stock.class)
+                .returnResult()
+                .getResponseBody();
+
+        //THEN
+        Stock expected = Stock.builder()
+                .id(actual.getId())
+                .symbol("AAPL")
+                .costPrice(290056)
+                .shares(20)
+                .value(280720)
+                .price(140.36)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .totalReturn(-9336)
+                .build();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void increaseStock_whenDecreaseStock() {
+        //GIVEN
+        CreateStockDto stock = CreateStockDto.builder()
+                .symbol("AAPL")
+                .costPrice(-150000)
+                .shares(-5)
+                .build();
+
+        Stock stockDB = Stock.builder()
+                .symbol("AAPL")
+                .costPrice(140056)
+                .shares(10)
+                .value(140360)
+                .price(140.36)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .totalReturn(304)
+                .build();
+        stockRepo.insert(stockDB);
+
+        //WHEN
+        Stock actual = testClient.put()
+                .uri("api/stock")
+                .bodyValue(stock)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(Stock.class)
+                .returnResult()
+                .getResponseBody();
+
+        //THEN
+        Stock expected = Stock.builder()
+                .id(actual.getId())
+                .symbol("AAPL")
+                .costPrice(-9944)
+                .shares(5)
+                .value(70180)
+                .price(140.36)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .totalReturn(80124)
+                .build();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void increaseStock_whenSharesIsZero() {
+        //GIVEN
+        CreateStockDto stock = CreateStockDto.builder()
+                .symbol("AAPL")
+                .costPrice(-150000)
+                .shares(-10)
+                .build();
+
+        Stock stockDB = Stock.builder()
+                .symbol("AAPL")
+                .costPrice(140056)
+                .shares(10)
+                .value(140360)
+                .price(140.36)
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .totalReturn(304)
+                .build();
+        stockRepo.insert(stockDB);
+
+        //WHEN
+        Stock actual = testClient.put()
+                .uri("api/stock")
+                .bodyValue(stock)
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBody(Stock.class)
+                .returnResult()
+                .getResponseBody();
+
+        //THEN
+        assertNull(actual);
     }
 
     String json = """

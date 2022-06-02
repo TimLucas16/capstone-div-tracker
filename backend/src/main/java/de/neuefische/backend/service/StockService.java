@@ -57,7 +57,7 @@ public class StockService {
                 .toList();
     }
 
-    public Stock increaseStock(CreateStockDto updatedStock) {
+    public Stock updateStock(CreateStockDto updatedStock) {
         Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
 
         if((toUpdateStock.getShares() + updatedStock.getShares()) == 0) {
@@ -87,7 +87,7 @@ public class StockService {
                 .build();
     }
 
-    public void updateStock(List<Stock> stockList) {
+    public void refreshStockDatas(List<Stock> stockList) {
 
         for (Stock stock : stockList) {
             Stock tempStock = repo.findBySymbol(stock.getSymbol());
@@ -115,7 +115,7 @@ public class StockService {
         LocalDate dateTimer = dURepo.findByName(name).getUpdateDay();
 
         if(!dateTimer.isEqual(LocalDate.now())) {
-            updateStock(getUpdatedStock());
+            refreshStockDatas(getUpdatedStock());
             DailyUpdate newDate = dURepo.findByName(name);
             newDate.setUpdateDay(LocalDate.now());
             dURepo.save(newDate);
