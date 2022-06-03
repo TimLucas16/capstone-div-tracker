@@ -3,15 +3,14 @@ import {FormEvent} from "react";
 
 type SearchCardProps = {
     stock: SearchStock
-    selectStock: (symbol: string) => void
- }
+    selectStock: () => void
+}
 
 export default function SearchCard({stock, selectStock}: SearchCardProps) {
 
     const selected = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-
-        selectStock(stock.symbol)
+        selectStock()
     }
 
     return (

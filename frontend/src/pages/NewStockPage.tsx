@@ -1,6 +1,5 @@
-import {ChangeEvent, FormEvent, useEffect, useState} from "react";
+import {FormEvent, useState} from "react";
 import {StockDto} from "../model/StockDto";
-import useStocks from "../hooks/useStocks";
 import {SearchStock} from "../model/SearchStock";
 import SearchCard from "../component/SearchCard";
 
@@ -44,7 +43,7 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
                 <input type="text" value={companyName} onChange={event => setCompanyName(event.target.value)}/>
                 <button type={"submit"}>search</button>
             </form>
-            <div> {stockList.map(stock => <SearchCard stock={stock} selectStock={setSymbol}/>)} </div>
+            <div> {stockList.map(stock => <SearchCard stock={stock} selectStock={() => setSymbol(stock.symbol)}/>)} </div>
 
             <form onSubmit={submit}>
                 <input type="text" placeholder={"symbol"} value={ symbol}
