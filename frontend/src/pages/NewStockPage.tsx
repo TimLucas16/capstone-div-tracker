@@ -58,7 +58,7 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
                 <button type={"submit"}>submit</button>
             </form>
 
-            <div> {stockList.map(stock => <SearchCard stock={stock} selectStock={() => setSymbol(stock.symbol)}/>)} </div>
+            <div> {stockList.map(stock => <SearchCard stock={stock} key={stock.symbol} selectStock={() => setSymbol(stock.symbol)}/>)} </div>
         </div>
     )
 }

@@ -28,6 +28,6 @@ export const getStockBy:(id : string) => Promise<Stock> = (id : string) => {
 }
 
 export const stockSearch = (company : string) => {
-    return axios.get(`api/stock/${company}`)
+    return axios.get(`api/stock/search/${company}`)
         .then(response => response.data)
 }
