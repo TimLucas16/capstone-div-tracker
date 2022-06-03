@@ -34,7 +34,6 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
         updateStock(stockChanges)
     }
 
-
     return (
         <div>
             <a className={"anker"} href={stock.website}>
@@ -46,10 +45,10 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
             <form onSubmit={submit}>
                 <input type="hidden" value={stock.symbol} disabled/>
 
-                <input type="number" id="shares" placeholder={`${stock.shares}`} value={amount}
+                <input type="number" id="shares" placeholder={`${stock.shares}`}
                        onChange={event => setAmount(Number(event.target.value))}/>
 
-                <input type="number" placeholder={"costPrice"} value={costPrice}
+                <input type="number" placeholder={"costPrice"}
                        onChange={event => setCostPrice(Number(event.target.value))}/>
                 <button type={"submit"}>submit</button>
             </form>

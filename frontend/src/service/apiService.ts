@@ -26,3 +26,8 @@ export const getStockBy:(id : string) => Promise<Stock> = (id : string) => {
     return axios.get(`api/stock/${id}`)
         .then(response => response.data)
 }
+
+export const stockSearch = (company : string) => {
+    return axios.get(`api/stock/${company}`)
+        .then(response => response.data)
+}

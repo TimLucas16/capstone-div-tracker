@@ -1,9 +1,8 @@
 import {Stock} from "../model/Stock";
-import {getAllStocks, getPortfolioValues, getStockBy, postStock, putStock} from "../service/apiService";
+import {getAllStocks, getPortfolioValues, getStockBy, postStock, putStock, stockSearch} from "../service/apiService";
 import {useEffect, useState} from "react";
 import {StockDto} from "../model/StockDto";
 import {Portfolio} from "../model/Portfolio";
-import {stockSearch} from "../service/externalApiService";
 import {SearchStock} from "../model/SearchStock";
 
 export default function useStocks() {
