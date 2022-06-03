@@ -22,7 +22,6 @@ export default function useStocks() {
         website: ""
     })
     const [stockList, setStockList] = useState<SearchStock[]>([])
-    const [selectedStock, setSelectedStock] = useState<SearchStock>({symbol: "", name: ""})
 
     const addStock = (newStock: StockDto) => {
         postStock(newStock)
@@ -66,9 +65,5 @@ export default function useStocks() {
             .catch(console.error)
     }
 
-    const selectStock = (stock: SearchStock) => {
-        setSelectedStock(stock)
-    }
-
-    return {stocks, addStock, pfValues, updateStock, stock, getStockById, searchForStock, stockList, selectedStock, selectStock}
+    return {stocks, addStock, pfValues, updateStock, stock, getStockById, searchForStock, stockList}
 }

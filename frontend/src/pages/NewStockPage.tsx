@@ -8,11 +8,9 @@ type NewStockProps = {
     addStock: (newStock: StockDto) => void
     searchForStock: (companyName: string) => void
     stockList: SearchStock[]
-    selectedStock: SearchStock
-    selectStock: (newStock: SearchStock) => void
 }
 
-export default function NewStockPage({addStock, searchForStock, stockList, selectedStock, selectStock}: NewStockProps) {
+export default function NewStockPage({addStock, searchForStock, stockList}: NewStockProps) {
 
     const [symbol, setSymbol] = useState<string>("")
     const [amount, setAmount] = useState<number>(0)
@@ -46,10 +44,10 @@ export default function NewStockPage({addStock, searchForStock, stockList, selec
                 <input type="text" value={companyName} onChange={event => setCompanyName(event.target.value)}/>
                 <button type={"submit"}>search</button>
             </form>
-            <div> {stockList.map(stock => <SearchCard stock={stock} selectStock={selectStock}/>)} </div>
+            <div> {stockList.map(stock => <SearchCard stock={stock} selectStock={setSymbol}/>)} </div>
 
             <form onSubmit={submit}>
-                <input type="text" placeholder={"symbol"} value={selectedStock.symbol || symbol}
+                <input type="text" placeholder={"symbol"} value={ symbol}
                        onChange={event => setSymbol(event.target.value)}/>
                 <input type="number" placeholder={"amount"}
                        onChange={event => setAmount(Number(event.target.value))}/>
