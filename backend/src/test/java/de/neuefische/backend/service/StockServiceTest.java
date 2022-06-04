@@ -6,7 +6,6 @@ import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
-
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.NoSuchElementException;
