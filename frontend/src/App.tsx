@@ -9,7 +9,7 @@ import UpdateStockPage from './pages/UpdateStockPage';
 
 export default function App() {
 
-    const {stocks, addStock, pfValues, updateStock, stock, getStockById} = useStocks()
+    const {stocks, addStock, pfValues, updateStock, stock, getStockById, searchForStock, stockList} = useStocks()
 
     return (
         <div className="App">
@@ -23,7 +23,9 @@ export default function App() {
 
                 <Route path="/addStock"
                        element={<NewStockPage
-                           addStock={addStock}/>}/>
+                           addStock={addStock}
+                           searchForStock={searchForStock}
+                           stockList={stockList}/>}/>
 
                 <Route path="/updateStock/:id"
                        element={<UpdateStockPage

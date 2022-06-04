@@ -1,5 +1,6 @@
 package de.neuefische.backend.service;
 
+import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,5 +60,17 @@ public class ApiService {
             profileStockList.add(response.getBody()[0]);
         }
         return profileStockList;
+    }
+
+    public List<SearchStock> stockSearchResult(String company) {
+
+        return webClient.get()
+                .uri("/search-name?query=" + company + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve()
+                .toEntityList(SearchStock.class)
+                .block()
+                .getBody();
+
     }
 }

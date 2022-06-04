@@ -1,8 +1,9 @@
 import {Stock} from "../model/Stock";
-import {getAllStocks, getPortfolioValues, getStockBy, postStock, putStock} from "../service/apiService";
+import {getAllStocks, getPortfolioValues, getStockBy, postStock, putStock, stockSearch} from "../service/apiService";
 import {useEffect, useState} from "react";
 import {StockDto} from "../model/StockDto";
 import {Portfolio} from "../model/Portfolio";
+import {SearchStock} from "../model/SearchStock";
 
 export default function useStocks() {
 
@@ -19,6 +20,7 @@ export default function useStocks() {
         image: "",
         website: ""
     })
+    const [stockList, setStockList] = useState<SearchStock[]>([])
 
     const addStock = (newStock: StockDto) => {
         postStock(newStock)
@@ -55,5 +57,12 @@ export default function useStocks() {
             .then(data => setStock(data))
             .catch(console.error)
     }
-    return {stocks, addStock, pfValues, updateStock, stock, getStockById}
+
+    const searchForStock = (company : string) => {
+        return stockSearch(company)
+        .then(allStocks => setStockList(allStocks))
+            .catch(console.error)
+    }
+
+    return {stocks, addStock, pfValues, updateStock, stock, getStockById, searchForStock, stockList}
 }

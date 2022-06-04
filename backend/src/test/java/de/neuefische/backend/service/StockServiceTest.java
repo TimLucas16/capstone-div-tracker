@@ -1,11 +1,13 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.CreateStockDto;
+import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
-
+import java.lang.reflect.Array;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -304,4 +306,37 @@ class StockServiceTest {
         assertNull(actual);
     }
 
+    @Test
+    void stockSearchResult_whenThereIsAResult() {
+        //GIVEN
+        when(apiService.stockSearchResult("weru")).thenReturn(List.of(
+                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUP").build(),
+                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPW").build(),
+                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPU").build()
+        ));
+
+        //WHEN
+        List<SearchStock> actual = stockService.stockSearchResult("weru");
+
+        //THEN
+        List<SearchStock> expected = List.of(
+                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUP").build(),
+                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPW").build(),
+                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPU").build()
+        );
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void stockSearchResult_whenThereIsNotAResult() {
+        //GIVEN
+        when(apiService.stockSearchResult("ggg")).thenReturn(List.of());
+
+        //WHEN
+        List<SearchStock> actual = stockService.stockSearchResult("ggg");
+
+        //THEN
+        List<SearchStock> expected = List.of();
+        assertEquals(expected, actual);
+    }
 }

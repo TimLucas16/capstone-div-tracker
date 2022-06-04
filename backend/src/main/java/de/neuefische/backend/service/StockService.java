@@ -3,6 +3,7 @@ package de.neuefische.backend.service;
 import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.DailyUpdate;
 import de.neuefische.backend.model.Portfolio;
+import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
@@ -79,6 +80,10 @@ public class StockService {
                 .orElseThrow(() -> new NoSuchElementException("Stock with id: " + id + " not found!"));
     }
 
+    public List<SearchStock> stockSearchResult(String company) {
+        return apiService.stockSearchResult(company);
+    }
+
     public Portfolio getPortfolioValues() {
         return Portfolio.builder()
                 .pfValue(calcPortfolioValue())
@@ -142,6 +147,5 @@ public class StockService {
     public double calcPfTotalReturnPercent() {
         return Math.round(((double) calcPfTotalReturnAbs() / (double) repo.findAll().stream().mapToInt(Stock::getCostPrice).sum())*10000)/100.0;
     }
-
 
 }
