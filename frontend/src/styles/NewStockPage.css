@@ -1,0 +1,97 @@
+.add-container {
+    display: flex;
+    justify-content: center;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+}
+
+.addPage-button {
+    margin-left: 5px;
+    background-color: #106964;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 3px #052624;
+}
+
+.addPage-button:hover {
+    background-color: #0B4D49;
+}
+
+.addPage-button:active {
+    box-shadow: 0 2px #052624;
+    transform: translateY(1px);
+}
+
+.add-form {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.add-form > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-form > div > input {
+    margin-top: 10px;
+}
+
+.add-form > button {
+    margin-top: 10px;
+}
+
+.seachCard-form {
+    font-size: .8em;
+    display: flex;
+    flex-direction: column;
+    margin: 15px 5px 0 5px;
+    border-radius: 5px;
+    background-color: #F0F3F0FF;
+    box-shadow: 10px 5px 5px #1A918B;
+    width: 400px;
+}
+
+.seachCard-form > div {
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+    flex-direction: row;
+
+}
+
+.select-button {
+    margin-bottom: 5px;
+}
+
+input:focus {
+    border: 2px solid #1A918B;
+    outline: none;
+    border-radius: 2px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

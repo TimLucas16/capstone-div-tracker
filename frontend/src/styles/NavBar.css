@@ -1,3 +1,15 @@
 .navbar {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+}
+
+.addStock {
+  padding-left: 20px;
+  color: #34d1c9;
 }

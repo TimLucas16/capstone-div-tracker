@@ -14,11 +14,15 @@ export default function SearchCard({stock, selectStock}: SearchCardProps) {
     }
 
     return (
-        <div>
-            <form onSubmit={selected}>
-                <div>{stock.name}</div>
-                <div>{stock.symbol}</div>
-                <button type={"submit"}>select</button>
+        <div className={"add-container"}>
+            <form className={"seachCard-form"} onSubmit={selected}>
+                <div>
+                    <div className={"search-stock"}>{stock.name}</div>
+                </div>
+                <div>
+                    <div className={"search-stock"}>{stock.symbol}</div>
+                    <button className={"addPage-button select-button"} type={"submit"}>select</button>
+                </div>
             </form>
         </div>
     )
