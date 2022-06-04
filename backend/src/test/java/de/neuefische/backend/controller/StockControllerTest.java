@@ -379,7 +379,7 @@ class StockControllerTest {
 
     @Test
     void stockSearchResult_whenThereIsAResult() {
-        //GIVEN    weru
+        //GIVEN
         stubFor(get("/search-name?query=" + "weru" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
                 .willReturn(okJson(searchJson)));
 
@@ -395,7 +395,6 @@ class StockControllerTest {
         //Then
         List<SearchStock> expected = List.of(
                 SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUP").build(),
-                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPW").build(),
                 SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPU").build()
         );
         assertEquals(expected, actual);
@@ -403,9 +402,9 @@ class StockControllerTest {
 
     @Test
     void stockSearchResult_whenThereIsNotAResult() {
-        //GIVEN    ggg
+        //GIVEN
         stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
-                .willReturn(null));
+                .willReturn(okJson(searchJsonEmpty)));
 
         //WHEN
         List<SearchStock> actual = testClient.get()
@@ -466,11 +465,11 @@ class StockControllerTest {
               "symbol" : "PWUP",
               "name" : "PowerUp Acquisition Corp."
             }, {
-              "symbol" : "PWUPW",
-              "name" : "PowerUp Acquisition Corp."
-            }, {
               "symbol" : "PWUPU",
               "name" : "PowerUp Acquisition Corp."
             } ]""";
+
+    String searchJsonEmpty = """
+            []""";
 
 }
