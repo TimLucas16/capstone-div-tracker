@@ -39,7 +39,7 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
 
     useEffect(() => {
         stockList.length = 0
-    },[symbol])
+    },[symbol, stockList])
 
     return (
         <div>
