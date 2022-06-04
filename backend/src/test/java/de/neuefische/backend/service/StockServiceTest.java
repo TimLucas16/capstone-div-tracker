@@ -1,11 +1,13 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.CreateStockDto;
+import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 

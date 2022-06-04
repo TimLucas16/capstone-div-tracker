@@ -80,7 +80,7 @@ public class StockService {
                 .orElseThrow(() -> new NoSuchElementException("Stock with id: " + id + " not found!"));
     }
 
-    public SearchStock[] stockSearchResult(String company) {
+    public List<SearchStock> stockSearchResult(String company) {
         return apiService.stockSearchResult(company);
     }
 

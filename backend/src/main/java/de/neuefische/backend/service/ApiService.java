@@ -62,13 +62,13 @@ public class ApiService {
         return profileStockList;
     }
 
-    public SearchStock[] stockSearchResult(String company) {
+    public List<SearchStock> stockSearchResult(String company) {
 
         return webClient.get()
                 .uri("/search-name?query=" + company + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
-                .toEntity(SearchStock[].class)
+                .toEntityList(SearchStock.class)
                 .block()
                 .getBody();
 

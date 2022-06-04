@@ -47,7 +47,7 @@ public class StockController {
     }
 
     @GetMapping(path = "search/{company}")
-    public SearchStock[] stockSearchResult(@PathVariable String company) {
+    public List<SearchStock> stockSearchResult(@PathVariable String company) {
         return service.stockSearchResult(company);
     }
 }

@@ -3,6 +3,7 @@ package de.neuefische.backend.controller;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.Portfolio;
+import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -376,6 +377,50 @@ class StockControllerTest {
         assertNull(actual);
     }
 
+    @Test
+    void stockSearchResult_whenThereIsAResult() {
+        //GIVEN    weru
+        stubFor(get("/search-name?query=" + "weru" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
+                .willReturn(okJson(searchJson)));
+
+        //WHEN
+        List<SearchStock> actual = testClient.get()
+                .uri("/api/stock/search/" + "weru")
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(SearchStock.class)
+                .returnResult()
+                .getResponseBody();
+
+        //Then
+        List<SearchStock> expected = List.of(
+                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUP").build(),
+                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPW").build(),
+                SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPU").build()
+        );
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void stockSearchResult_whenThereIsNotAResult() {
+        //GIVEN    ggg
+        stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
+                .willReturn(null));
+
+        //WHEN
+        List<SearchStock> actual = testClient.get()
+                .uri("/api/stock/search/" + "ggg")
+                .exchange()
+                .expectStatus().is2xxSuccessful()
+                .expectBodyList(SearchStock.class)
+                .returnResult()
+                .getResponseBody();
+
+        //Then
+        List<SearchStock> expected = List.of();
+        assertEquals(expected, actual);
+    }
+
     String json = """
             [ {
               "symbol" : "AAPL",
@@ -414,6 +459,18 @@ class StockControllerTest {
               "isActivelyTrading" : true,
               "isAdr" : false,
               "isFund" : false
+            } ]""";
+
+    String searchJson = """
+            [ {
+              "symbol" : "PWUP",
+              "name" : "PowerUp Acquisition Corp."
+            }, {
+              "symbol" : "PWUPW",
+              "name" : "PowerUp Acquisition Corp."
+            }, {
+              "symbol" : "PWUPU",
+              "name" : "PowerUp Acquisition Corp."
             } ]""";
 
 }
