@@ -37,47 +37,46 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
 
 
     return (
-        <div>
-
-            <div className={"stock-details-container"}>
-                <div>
-                    <a href={stock.website}>
-                        <img className={"editPage-logo"} src={stock.image} alt={stock.companyName}/>
-                    </a>
-                </div>
-                <div>
-                    <div>{stock.companyName}</div>
+        <div className={"container-edit-info"}>
+            <div className={"container-layout"}>
+                <div className={"stock-details-container"}>
                     <div>
-                        <div className={"editPage-shares"}>{stock.shares} shares</div>
-                        <button onClick={() => setAmount(stock.shares)}
-                                className={"addPage-button editPage-button"}>select all
-                        </button>
+                        <a href={stock.website}>
+                            <img className={"editPage-logo"} src={stock.image} alt={stock.companyName}/>
+                        </a>
+                    </div>
+                    <div>
+                        <div>{stock.companyName}</div>
+                        <div>{stock.shares} shares</div>
                     </div>
                 </div>
             </div>
 
+            <div className={"container-edit-input"}>
+                <div className={"edit-select"}>
+                    <button onClick={() => setAmount(stock.shares)}
+                            className={"addPage-button editPage-button"}>select all
+                    </button>
+                    <div className={"labels"}>
+                        <input id={"buy"} type="radio" name={"action"}/>
+                        <label id={"id"} className={"edit-label"} htmlFor={"buy"}>buy</label>
 
-            <form className={"update-form"} onSubmit={submit}>
-
-                <div>
-                    <input id={"buy"} type="radio" name={"action"}/>
-                    <label className={"edit-label"} htmlFor={"buy"}>buy</label>
-
-                    <input id={"sell"} type="radio" name={"action"}/>
-                    <label className={"edit-label"} htmlFor={"sell"}>sell</label>
+                        <input id={"sell"} type="radio" name={"action"}/>
+                        <label className={"edit-label"} htmlFor={"sell"}>sell</label>
+                    </div>
                 </div>
+                <form className={"update-form"} onSubmit={submit}>
+                    <input type="hidden" value={stock.symbol} disabled/>
 
-                <input type="hidden" value={stock.symbol} disabled/>
+                    <input type="number" placeholder={"amount"} value={amount}
+                           onChange={event => setAmount(Number(event.target.value))}/>
 
-                <input type="number" placeholder={"amount"} value={amount}
-                       onChange={event => setAmount(Number(event.target.value))}/>
-
-                <input type="number" placeholder={"costPrice"}
-                       onChange={event => setCostPrice(Number(event.target.value))}/>
-                <button type={"submit"} className={"addPage-button editPage-button"}>submit</button>
-            </form>
-
-
+                    <input type="number" placeholder={"costPrice"}
+                           onChange={event => setCostPrice(Number(event.target.value))}/>
+                    <button type={"submit"} id={"edit-button"} className={"addPage-button editPage-button"}>submit
+                    </button>
+                </form>
+            </div>
         </div>
     )
 }

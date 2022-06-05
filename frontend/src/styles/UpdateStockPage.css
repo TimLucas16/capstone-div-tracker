@@ -1,3 +1,15 @@
+.container-edit-info {
+    padding: 3px 0;
+    background-color: #f1f0f0;
+}
+
+.container-layout, .container-edit-input {
+    background-color: white;
+    border-radius: 5px;
+    margin: 5px;
+    box-shadow: 2px 1px 1px gainsboro;
+}
+
 .stock-details-container {
     display: flex;
     justify-content: space-around;
@@ -16,39 +28,54 @@
     padding: 0 10px;
 }
 
-.editPage-button {
-    background-color: #24B3AB;
-    margin: 10px 0 0 0;
-    width: 70px;
+.edit-select {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
 }
 
 .update-form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 40px;
+}
+
+.editPage-button {
+    background-color: #24B3AB;
+    margin: 5px;
+    width: 70px;
 }
 
 .edit-label {
-    padding: 0 10px;
-    border-radius: 20px;
+    border-radius: 10px;
     margin: 0 5px;
+}
+
+.edit-select > div:last-child {
+    margin-left: 25px;
 }
 
 #buy, #sell {
     display: none;
 }
 
-.update-form > div > label:nth-child(2) {
-    background-color: #c4e5c4;
+.labels > label {
+    background-color: #f1f0f0;
+    padding: 2px 6px;
 }
 
-.update-form > div > label:last-child {
-    background-color: #e3bdbd;
+.labels > label:hover, input:checked+label {
+    background-color: gainsboro;
+    box-shadow: .5px .5px 5px #949292;
 }
 
 .update-form > input {
     margin-top: 10px;
+}
+
+#edit-button {
+    margin: 10px 5px;
 }
 
 
