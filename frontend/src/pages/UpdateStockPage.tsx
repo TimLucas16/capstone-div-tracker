@@ -25,7 +25,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
 
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (amount === 0 || costPrice === 0) {
+        if (amount <= 0 || costPrice <= 0) {
             alert("Bitte bei Shares oder CostPrice eine Zahl größer 0 eingeben!")
         }
 
@@ -39,16 +39,15 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
                 costPrice: costPrice * 100
             }
             updateStock(stockChanges)
+        } else {
+            const stockChange: StockDto = {
+                symbol: stock.symbol,
+                shares: -amount,
+                costPrice: -costPrice * 100
+            }
+            updateStock(stockChange)
         }
-        const stockChang: StockDto = {
-            symbol: stock.symbol,
-            shares: -amount,
-            costPrice: -costPrice * 100
-        }
-        updateStock(stockChang)
     }
-
-
 
     return (
         <div className={"container-edit-info"}>
