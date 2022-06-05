@@ -12,13 +12,13 @@
 
 .stock-details-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
 }
 
 .stock-details-container > div:last-child {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     padding: 0 10px;
 }
 
@@ -66,8 +66,9 @@
 }
 
 .labels > label:hover, input:checked+label {
-    background-color: gainsboro;
-    box-shadow: .5px .5px 5px #949292;
+    background-color: #2d2c2c;
+    box-shadow: .5px .5px 5px gainsboro;
+    color: white;
 }
 
 .update-form > input {

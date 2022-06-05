@@ -15,6 +15,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
 
     const [amount, setAmount] = useState<number>(0)
     const [costPrice, setCostPrice] = useState<number>(0)
+    const [radio, setRadio] = useState<string>("")
 
     useEffect(() => {
         if (id) {
@@ -27,13 +28,26 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
         if (amount === 0 || costPrice === 0) {
             alert("Bitte bei Shares oder CostPrice eine Zahl größer 0 eingeben!")
         }
-        const stockChanges: StockDto = {
-            symbol: stock.symbol,
-            shares: amount,
-            costPrice: costPrice * 100
+
+        if (!radio) {
+            alert("buy oder sell auswählen!")
         }
-        updateStock(stockChanges)
+        if(radio === "plus") {
+            const stockChanges: StockDto = {
+                symbol: stock.symbol,
+                shares: amount,
+                costPrice: costPrice * 100
+            }
+            updateStock(stockChanges)
+        }
+        const stockChang: StockDto = {
+            symbol: stock.symbol,
+            shares: -amount,
+            costPrice: -costPrice * 100
+        }
+        updateStock(stockChang)
     }
+
 
 
     return (
@@ -58,10 +72,10 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
                             className={"addPage-button editPage-button"}>select all
                     </button>
                     <div className={"labels"}>
-                        <input id={"buy"} type="radio" name={"action"}/>
+                        <input id={"buy"} type="radio" value={"plus"} name={"action"} onChange={event => setRadio(event.target.value)}/>
                         <label id={"id"} className={"edit-label"} htmlFor={"buy"}>buy</label>
 
-                        <input id={"sell"} type="radio" name={"action"}/>
+                        <input id={"sell"} type="radio" value={"minus"} name={"action"} onChange={event => setRadio(event.target.value)}/>
                         <label className={"edit-label"} htmlFor={"sell"}>sell</label>
                     </div>
                 </div>
