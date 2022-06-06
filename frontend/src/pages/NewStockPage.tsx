@@ -3,6 +3,7 @@ import {StockDto} from "../model/StockDto";
 import {SearchStock} from "../model/SearchStock";
 import SearchCard from "../component/SearchCard";
 import "../styles/NewStockPage.css";
+import {useNavigate} from "react-router-dom";
 
 type NewStockProps = {
     addStock: (newStock: StockDto) => void
@@ -11,6 +12,7 @@ type NewStockProps = {
 }
 
 export default function NewStockPage({addStock, searchForStock, stockList}: NewStockProps) {
+    const navigate = useNavigate()
 
     const [symbol, setSymbol] = useState<string>("")
     const [amount, setAmount] = useState<number>(0)
@@ -31,6 +33,7 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
             costPrice: costPrice * 100
         }
         addStock(newStock)
+        navigate("/")
     }
 
     const search = (event: FormEvent<HTMLFormElement>) => {

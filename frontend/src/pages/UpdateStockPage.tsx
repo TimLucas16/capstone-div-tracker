@@ -1,5 +1,5 @@
 import {StockDto} from "../model/StockDto";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
 import {Stock} from "../model/Stock";
 import "../styles/UpdateStockPage.css";
@@ -12,6 +12,7 @@ type UpdateProps = {
 
 export default function UpdateStockPage({updateStock, getStockById, stock}: UpdateProps) {
     const {id} = useParams()
+    const navigate = useNavigate()
 
     const [amount, setAmount] = useState<number>(0)
     const [costPrice, setCostPrice] = useState<number>(0)
@@ -47,6 +48,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
             }
             updateStock(stockChange)
         }
+        navigate("/")
     }
 
     return (
