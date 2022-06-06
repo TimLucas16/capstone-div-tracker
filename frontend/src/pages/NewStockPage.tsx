@@ -64,7 +64,6 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
                 </div>
                 <button className={"addPage-button"} type={"submit"}>submit</button>
             </form>
-
         </div>
     )
 }

@@ -3,7 +3,13 @@
 }
 
 .card-legend {
+    display: flex;
+    justify-content: space-between;
     background-color: gainsboro;
+    height: 35px;
+    align-items: center;
+    min-width: 400px;
+    border-radius: 10px;
 }
 
 .card-container {
@@ -14,41 +20,61 @@
 
 .card-details {
     display: flex;
-    justify-content: space-between;
-    background-color: rgba(243, 239, 239, 0.78);
+    flex-direction: column;
+    min-width: 400px;
 }
 
-.card-details, .card-legend {
+.card-details > div:first-child {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    width: 750px;
-    height: 40px;
-    border-radius: 10px;
-}
-
-.anker {
-    width: 50px;
-    padding-left: 10px;
-}
-
-.logo {
-    padding-top: 4px;
-    width: 30px;
-    height: auto;
-    border-radius: 50%;
+    height: 35px;
+    background-color: #f1f0f0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .name {
-    display: flex;
-    justify-content: flex-start;
-    width: 150px;
+    align-items: stretch;
     flex-grow: 1;
+    padding-left: 10px;
 }
 
-.value, .allocation, .total-return, .price, .shares {
+.shares {
+    display: flex;
+    width: 55px;
+    justify-content: flex-end;
+    padding-right: 5px;
+}
+
+.allocation {
     display: flex;
     justify-content: flex-end;
-    padding-right: 10px;
-    width: 50px;
-    flex-grow: 1;
 }
+
+.startpage-logo {
+    padding-top: 4px;
+    width: 25px;
+    height: auto;
+    border-radius: 50%;
+    padding-left: 5px;
+}
+
+.card-details > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 35px;
+    background-color: #f1f0f0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.price {
+    padding-left: 5px;
+}
+
+.button-editPage {
+    padding-right: 5px;
+}
+
