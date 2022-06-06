@@ -4,6 +4,21 @@
     margin-bottom: 10px;
 }
 
+.card-legend {
+    display: grid;
+    width: 400px;
+    grid-template-columns: 80px 40px 190px 35px 55px;
+    grid-template-rows: 20px 20px;
+    grid-template-areas:
+    "price . . . allocation"
+    "value . totalReturn . shares";
+    padding: 5px 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #93cbc8;
+    box-shadow: 2px 1px 1px gainsboro;
+}
+
 .card-details {
     display: grid;
     width: 400px;
