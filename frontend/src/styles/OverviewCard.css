@@ -5,7 +5,40 @@
 
 .chartValueContainer > div {
     display: flex;
-    justify-content: space-around;
-    width: 50%;
+    justify-content: space-between;
+    width: 400px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 2px 1px 1px gainsboro;
+    margin: 10px 0;
+}
 
+#donutchart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    padding-bottom: 5px;
+}
+
+.pfValues-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: center;
+    padding-right: 15px;
+}
+
+.pfTitel {
+    font-size: .8em;
+    margin-bottom: 5px;
+    padding: 2px;
+}
+
+.pfValues {
+    font-weight: 600;
+}
+
+.pfValues-container > div:last-child > div:last-child {
+    margin-top: 5px;
 }
