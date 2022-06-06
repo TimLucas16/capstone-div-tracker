@@ -10,15 +10,15 @@
 
 .addPage-button {
     margin-left: 5px;
-    background-color: #106964;
+    background-color: #1A918B;
     color: white;
     border-radius: 5px;
     border: none;
-    box-shadow: 0 3px #052624;
+    box-shadow: 2px 3px #0B4D49;
 }
 
 .addPage-button:hover {
-    background-color: #0B4D49;
+    background-color: #106964;
 }
 
 .addPage-button:active {
@@ -52,7 +52,7 @@
     margin: 15px 5px 0 5px;
     border-radius: 5px;
     background-color: #F0F3F0FF;
-    box-shadow: 10px 5px 5px #1A918B;
+    box-shadow: 2px 2px 3px #1A918B;
     width: 400px;
 }
 
@@ -61,7 +61,6 @@
     justify-content: center;
     padding: 2px;
     flex-direction: row;
-
 }
 
 .select-button {
