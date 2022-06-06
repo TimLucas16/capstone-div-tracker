@@ -1,5 +1,5 @@
-import {Doughnut} from "react-chartjs-2";
-import "../styles/DonutChart.css";
+import {Pie} from "react-chartjs-2";
+import "../styles/OverviewCard.css";
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -30,19 +30,11 @@ export default function DonutChart({values}: DonutProps) {
                 ],
             }
         ],
-        title: {
-            display: true,
-            text: "Donut Titel"
-        },
-    }
-
-    const options = {
-        cutout: "70%",
     }
 
     return (
         <div id={"donutchart"}>
-            <Doughnut data={data} options={options}/>
+            <Pie data={data}/>
         </div>
     )
 }

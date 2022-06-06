@@ -1,54 +1,95 @@
-.card-legend {
-    font-size: 80%;
-}
-
-.card-legend {
-    background-color: gainsboro;
-}
-
 .card-container {
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
 }
 
+.card-legend {
+    display: grid;
+    width: 400px;
+    grid-template-columns: 80px 40px 190px 35px 55px;
+    grid-template-rows: 20px 20px;
+    grid-template-areas:
+    "price . . . allocation"
+    "value . totalReturn . shares";
+    padding: 5px 0;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #93cbc8;
+    box-shadow: 2px 1px 1px gainsboro;
+}
+
 .card-details {
-    display: flex;
-    justify-content: space-between;
-    background-color: rgba(243, 239, 239, 0.78);
-}
-
-.card-details, .card-legend {
-    display: flex;
+    display: grid;
+    width: 400px;
+    grid-template-columns: 80px 40px 190px 35px 55px;
+    grid-template-rows: 35px 20px 10px 20px 35px;
+    grid-template-areas:
+    "logo name name allocation allocation"
+    "logo isin isin shares shares"
+    "none none none none none"
+    "price price price price editButton"
+    "value value totalReturn totalReturn editButton";
     align-items: center;
-    width: 750px;
-    height: 40px;
-    border-radius: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 2px 1px 1px gainsboro;
 }
-
-.anker {
+.startpage-logo {
     width: 50px;
-    padding-left: 10px;
-}
-
-.logo {
-    padding-top: 4px;
-    width: 30px;
-    height: auto;
     border-radius: 50%;
+    padding-top: 5px;
+}
+.anker {
+    grid-area: logo;
+    justify-self: center;
 }
 
 .name {
-    display: flex;
-    justify-content: flex-start;
-    width: 150px;
-    flex-grow: 1;
+    grid-area: name;
+    padding-left: 10px;
+    font-weight: 600;
 }
 
-.value, .allocation, .total-return, .price, .shares {
-    display: flex;
-    justify-content: flex-end;
+.isin {
+    grid-area: isin;
+    padding-left: 10px;
+    font-size: .8em;
+}
+
+.button-editPage {
+    grid-area: editButton;
+    justify-self: center;
+}
+
+.price {
+    grid-area: price;
+    padding-left: 10px;
+    font-size: .8em;
+}
+
+.value {
+    grid-area: value;
+    padding-left: 10px;
+    font-weight: 600;
+}
+
+.total-return {
+    grid-area: totalReturn;
+    padding-left: 10px;
+    font-weight: 600;
+}
+
+.allocation {
+    grid-area: allocation;
+    justify-self: end;
     padding-right: 10px;
-    width: 50px;
-    flex-grow: 1;
+    font-weight: 600;
+}
+
+.shares {
+    grid-area: shares;
+    justify-self: end;
+    padding-right: 10px;
+    font-size: .8em;
 }

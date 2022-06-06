@@ -78,6 +78,7 @@ class StockControllerTest {
                 .totalReturn(317)
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .isin("US0378331005")
                 .build();
 
         assertEquals(24, actual.getId().length());
