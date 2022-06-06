@@ -42,6 +42,7 @@ public class StockService {
                 .website(apiStock.getWebsite())
                 .image(apiStock.getImage())
                 .price(apiStock.getPrice())
+                .isin(apiStock.getIsin())
                 .totalReturn(calcTotalReturn((calcValue(apiStock.getPrice(), newStock.getShares())), newStock.getCostPrice()))
                 .build();
         return repo.insert(stock);

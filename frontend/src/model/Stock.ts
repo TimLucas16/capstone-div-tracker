@@ -8,4 +8,5 @@ export type Stock = {
     totalReturn : number
     image : string
     website : string
+    isin: string
 }

@@ -26,5 +26,6 @@ public class Stock {
     private double allocation;
     private String website;
     private String image;
+    private String isin;
 
 }

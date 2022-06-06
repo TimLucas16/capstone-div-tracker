@@ -18,7 +18,8 @@ export default function useStocks() {
         value: 0,
         totalReturn: 0,
         image: "",
-        website: ""
+        website: "",
+        isin: ""
     })
     const [stockList, setStockList] = useState<SearchStock[]>([])
 
