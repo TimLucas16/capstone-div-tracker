@@ -29,6 +29,11 @@
     padding-right: 15px;
 }
 
+.pfValues-container > div > div{
+    display: flex;
+    justify-content: flex-end;
+}
+
 .pfTitel {
     font-size: .8em;
     margin-bottom: 5px;

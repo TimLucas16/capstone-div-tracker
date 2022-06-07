@@ -28,7 +28,7 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
             alert("Bitte bei Amount oder Course eine Zahl größer 0 eingeben!")
         }
         const newStock: StockDto = {
-            symbol: symbol,
+            symbol: symbol.toUpperCase(),
             shares: amount,
             costPrice: costPrice * 100
         }
