@@ -33,7 +33,7 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
             costPrice: costPrice * 100
         }
         addStock(newStock)
-        navigate("/")
+        navigate(-1)
     }
 
     const search = (event: FormEvent<HTMLFormElement>) => {

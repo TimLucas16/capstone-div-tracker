@@ -48,7 +48,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
             }
             updateStock(stockChange)
         }
-        navigate("/")
+        navigate(-1)
     }
 
     return (
