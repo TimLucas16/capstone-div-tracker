@@ -45,6 +45,7 @@
     background-color: #24B3AB;
     margin: 5px;
     width: 70px;
+    cursor:pointer;
 }
 
 .edit-label {

@@ -1,5 +1,5 @@
 import {StockDto} from "../model/StockDto";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
 import {Stock} from "../model/Stock";
 import "../styles/UpdateStockPage.css";
@@ -12,6 +12,7 @@ type UpdateProps = {
 
 export default function UpdateStockPage({updateStock, getStockById, stock}: UpdateProps) {
     const {id} = useParams()
+    const navigate = useNavigate()
 
     const [amount, setAmount] = useState<number>(0)
     const [costPrice, setCostPrice] = useState<number>(0)
@@ -25,28 +26,29 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
 
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (amount <= 0 || costPrice <= 0) {
-            alert("Bitte bei Shares oder CostPrice eine Zahl größer 0 eingeben!")
-        }
-
-        if (!radio) {
-            alert("buy oder sell auswählen!")
-        }
-        if(radio === "plus") {
-            const stockChanges: StockDto = {
-                symbol: stock.symbol,
-                shares: amount,
-                costPrice: costPrice * 100
-            }
-            updateStock(stockChanges)
-        } else {
-            const stockChange: StockDto = {
-                symbol: stock.symbol,
-                shares: -amount,
-                costPrice: -costPrice * 100
-            }
-            updateStock(stockChange)
-        }
+        if (amount <= 0 || costPrice <= 0 || !radio) {
+            alert("please correct input!")
+        } else
+            if (radio === "plus") {
+                const stockChanges: StockDto = {
+                    symbol: stock.symbol,
+                    shares: amount,
+                    costPrice: costPrice * 100
+                }
+                updateStock(stockChanges)
+                navigate(-1)
+            } else
+                if (amount > stock.shares) {
+                    alert(`you just have ${stock.shares} shares, but you want sell ${amount} shares!`)
+                } else {
+                    const stockChange: StockDto = {
+                        symbol: stock.symbol,
+                        shares: -amount,
+                        costPrice: -costPrice * 100
+                    }
+                    updateStock(stockChange)
+                    navigate(-1)
+                }
     }
 
     return (
@@ -71,10 +73,12 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
                             className={"addPage-button editPage-button"}>select all
                     </button>
                     <div className={"labels"}>
-                        <input id={"buy"} type="radio" value={"plus"} name={"action"} onChange={event => setRadio(event.target.value)}/>
+                        <input id={"buy"} type="radio" value={"plus"} name={"action"}
+                               onChange={event => setRadio(event.target.value)}/>
                         <label id={"id"} className={"edit-label"} htmlFor={"buy"}>buy</label>
 
-                        <input id={"sell"} type="radio" value={"minus"} name={"action"} onChange={event => setRadio(event.target.value)}/>
+                        <input id={"sell"} type="radio" value={"minus"} name={"action"}
+                               onChange={event => setRadio(event.target.value)}/>
                         <label className={"edit-label"} htmlFor={"sell"}>sell</label>
                     </div>
                 </div>
@@ -84,7 +88,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
                     <input type="number" placeholder={"amount"} value={amount}
                            onChange={event => setAmount(Number(event.target.value))}/>
 
-                    <input type="number" placeholder={"costPrice"}
+                    <input type="number" step="0.01" placeholder={"costPrice"}
                            onChange={event => setCostPrice(Number(event.target.value))}/>
                     <button type={"submit"} id={"edit-button"} className={"addPage-button editPage-button"}>submit
                     </button>

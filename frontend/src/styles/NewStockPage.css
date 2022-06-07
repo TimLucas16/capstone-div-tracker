@@ -15,6 +15,7 @@
     border-radius: 5px;
     border: none;
     box-shadow: 2px 3px #0B4D49;
+    cursor:pointer;
 }
 
 .addPage-button:hover {

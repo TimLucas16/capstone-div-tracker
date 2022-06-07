@@ -3,6 +3,7 @@ import {StockDto} from "../model/StockDto";
 import {SearchStock} from "../model/SearchStock";
 import SearchCard from "../component/SearchCard";
 import "../styles/NewStockPage.css";
+import {useNavigate} from "react-router-dom";
 
 type NewStockProps = {
     addStock: (newStock: StockDto) => void
@@ -11,6 +12,7 @@ type NewStockProps = {
 }
 
 export default function NewStockPage({addStock, searchForStock, stockList}: NewStockProps) {
+    const navigate = useNavigate()
 
     const [symbol, setSymbol] = useState<string>("")
     const [amount, setAmount] = useState<number>(0)
@@ -26,11 +28,12 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
             alert("Bitte bei Amount oder Course eine Zahl größer 0 eingeben!")
         }
         const newStock: StockDto = {
-            symbol: symbol,
+            symbol: symbol.toUpperCase(),
             shares: amount,
             costPrice: costPrice * 100
         }
         addStock(newStock)
+        navigate(-1)
     }
 
     const search = (event: FormEvent<HTMLFormElement>) => {
@@ -59,7 +62,7 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
                            onChange={event => setSymbol(event.target.value)}/>
                     <input type="number" placeholder={"amount"}
                            onChange={event => setAmount(Number(event.target.value))}/>
-                    <input type="number" placeholder={"costPrice"}
+                    <input type="number" step="0.01" placeholder={"costPrice"}
                            onChange={event => setCostPrice(Number(event.target.value))}/>
                 </div>
                 <button className={"addPage-button"} type={"submit"}>submit</button>

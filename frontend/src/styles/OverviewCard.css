@@ -29,6 +29,11 @@
     padding-right: 15px;
 }
 
+.pfTitel, .pfValues {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .pfTitel {
     font-size: .8em;
     margin-bottom: 5px;
@@ -39,6 +44,6 @@
     font-weight: 600;
 }
 
-.pfValues-container > div:last-child > div:last-child {
+.pfValues-container > div > div:last-child > div:last-child {
     margin-top: 5px;
 }
