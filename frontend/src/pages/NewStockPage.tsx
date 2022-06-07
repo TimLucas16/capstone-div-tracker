@@ -62,7 +62,7 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
                            onChange={event => setSymbol(event.target.value)}/>
                     <input type="number" placeholder={"amount"}
                            onChange={event => setAmount(Number(event.target.value))}/>
-                    <input type="number" placeholder={"costPrice"}
+                    <input type="number" step="0.01" placeholder={"costPrice"}
                            onChange={event => setCostPrice(Number(event.target.value))}/>
                 </div>
                 <button className={"addPage-button"} type={"submit"}>submit</button>

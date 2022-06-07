@@ -86,7 +86,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
                     <input type="number" placeholder={"amount"} value={amount}
                            onChange={event => setAmount(Number(event.target.value))}/>
 
-                    <input type="number" placeholder={"costPrice"}
+                    <input type="number" step="0.01" placeholder={"costPrice"}
                            onChange={event => setCostPrice(Number(event.target.value))}/>
                     <button type={"submit"} id={"edit-button"} className={"addPage-button editPage-button"}>submit
                     </button>
