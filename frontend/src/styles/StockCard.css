@@ -74,8 +74,11 @@
     font-weight: 600;
 }
 
-.total-return {
+.total-return-container {
     grid-area: totalReturn;
+}
+
+.total-return {
     padding-left: 10px;
     font-weight: 600;
 }
