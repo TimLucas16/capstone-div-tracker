@@ -29,7 +29,6 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
         if (amount <= 0 || costPrice <= 0) {
             alert("Bitte bei Shares oder CostPrice eine Zahl größer 0 eingeben!")
         }
-
         if (!radio) {
             alert("buy oder sell auswählen!")
         }
@@ -41,12 +40,16 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
             }
             updateStock(stockChanges)
         } else {
-            const stockChange: StockDto = {
-                symbol: stock.symbol,
-                shares: -amount,
-                costPrice: -costPrice * 100
+            if(amount > stock.shares) {
+                alert(`you just have ${stock.shares} shares, but you want sell ${amount} shares!`)
+            } else {
+                const stockChange: StockDto = {
+                    symbol: stock.symbol,
+                    shares: -amount,
+                    costPrice: -costPrice * 100
+                }
+                updateStock(stockChange)
             }
-            updateStock(stockChange)
         }
         navigate(-1)
     }
