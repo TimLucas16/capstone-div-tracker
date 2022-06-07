@@ -4,6 +4,7 @@ import {SearchStock} from "../model/SearchStock";
 import SearchCard from "../component/SearchCard";
 import "../styles/NewStockPage.css";
 import {useNavigate} from "react-router-dom";
+import useStocks from "../hooks/useStocks";
 
 type NewStockProps = {
     addStock: (newStock: StockDto) => void
