@@ -26,32 +26,29 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
 
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (amount <= 0 || costPrice <= 0) {
-            alert("Bitte bei Shares oder CostPrice eine Zahl größer 0 eingeben!")
-        }
-        if (!radio) {
-            alert("buy oder sell auswählen!")
-        }
-        if(radio === "plus") {
-            const stockChanges: StockDto = {
-                symbol: stock.symbol,
-                shares: amount,
-                costPrice: costPrice * 100
-            }
-            updateStock(stockChanges)
-        } else {
-            if(amount > stock.shares) {
-                alert(`you just have ${stock.shares} shares, but you want sell ${amount} shares!`)
-            } else {
-                const stockChange: StockDto = {
+        if (amount <= 0 || costPrice <= 0 || !radio) {
+            alert("please correct input!")
+        } else
+            if (radio === "plus") {
+                const stockChanges: StockDto = {
                     symbol: stock.symbol,
-                    shares: -amount,
-                    costPrice: -costPrice * 100
+                    shares: amount,
+                    costPrice: costPrice * 100
                 }
-                updateStock(stockChange)
-            }
-        }
-        navigate(-1)
+                updateStock(stockChanges)
+                navigate(-1)
+            } else
+                if (amount > stock.shares) {
+                    alert(`you just have ${stock.shares} shares, but you want sell ${amount} shares!`)
+                } else {
+                    const stockChange: StockDto = {
+                        symbol: stock.symbol,
+                        shares: -amount,
+                        costPrice: -costPrice * 100
+                    }
+                    updateStock(stockChange)
+                    navigate(-1)
+                }
     }
 
     return (
@@ -76,10 +73,12 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
                             className={"addPage-button editPage-button"}>select all
                     </button>
                     <div className={"labels"}>
-                        <input id={"buy"} type="radio" value={"plus"} name={"action"} onChange={event => setRadio(event.target.value)}/>
+                        <input id={"buy"} type="radio" value={"plus"} name={"action"}
+                               onChange={event => setRadio(event.target.value)}/>
                         <label id={"id"} className={"edit-label"} htmlFor={"buy"}>buy</label>
 
-                        <input id={"sell"} type="radio" value={"minus"} name={"action"} onChange={event => setRadio(event.target.value)}/>
+                        <input id={"sell"} type="radio" value={"minus"} name={"action"}
+                               onChange={event => setRadio(event.target.value)}/>
                         <label className={"edit-label"} htmlFor={"sell"}>sell</label>
                     </div>
                 </div>
