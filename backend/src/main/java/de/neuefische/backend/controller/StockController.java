@@ -50,10 +50,4 @@ public class StockController {
     public List<SearchStock> stockSearchResult(@PathVariable String company) {
         return service.stockSearchResult(company);
     }
-
-    @GetMapping(path = "symbol/{symbol}")
-    public boolean existBysymbol(String symbol) {
-        return service.existsBySymbol(symbol);
-    }
 }
-

@@ -59,10 +59,6 @@ public class StockService {
                 .toList();
     }
 
-    public boolean existsBySymbol(String symbol) {
-        return repo.existsBySymbol(symbol);
-    }
-
     public Stock updateStock(CreateStockDto updatedStock) {
         Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
 

@@ -31,8 +31,3 @@ export const stockSearch = (company : string) => {
     return axios.get(`api/stock/search/${company}`)
         .then(response => response.data)
 }
-
-export const existBy:(symbol : string) => Promise<boolean> = (symbol : string) => {
-    return axios.get(`api/stock/symbol/${symbol}`)
-        .then(response => response.data)
-}

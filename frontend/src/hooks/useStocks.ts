@@ -1,6 +1,5 @@
 import {Stock} from "../model/Stock";
 import {
-    existBy,
     getAllStocks,
     getPortfolioValues,
     getStockBy,
@@ -70,11 +69,6 @@ export default function useStocks() {
     const searchForStock = (company: string) => {
         return stockSearch(company)
             .then(allStocks => setStockList(allStocks))
-            .catch(console.error)
-    }
-
-    const existBysymbol = (symbol: string) => {
-        return existBy(symbol)
             .catch(console.error)
     }
 

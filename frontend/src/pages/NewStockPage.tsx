@@ -4,15 +4,17 @@ import {SearchStock} from "../model/SearchStock";
 import SearchCard from "../component/SearchCard";
 import "../styles/NewStockPage.css";
 import {useNavigate} from "react-router-dom";
-import useStocks from "../hooks/useStocks";
+import {Stock} from "../model/Stock";
 
 type NewStockProps = {
     addStock: (newStock: StockDto) => void
     searchForStock: (companyName: string) => void
     stockList: SearchStock[]
+    updateStock: (updateStock: StockDto) => void
+    stocks: Stock[]
 }
 
-export default function NewStockPage({addStock, searchForStock, stockList}: NewStockProps) {
+export default function NewStockPage({addStock, searchForStock, stockList, updateStock, stocks}: NewStockProps) {
     const navigate = useNavigate()
 
     const [symbol, setSymbol] = useState<string>("")
@@ -28,13 +30,24 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
         if (amount <= 0 || costPrice <= 0) {
             alert("Bitte bei Amount oder Course eine Zahl größer 0 eingeben!")
         }
-        const newStock: StockDto = {
-            symbol: symbol.toUpperCase(),
-            shares: amount,
-            costPrice: costPrice * 100
+
+        if (!stocks.map(item => item.symbol).includes(symbol)) {
+            const newStock: StockDto = {
+                symbol: symbol.toUpperCase(),
+                shares: amount,
+                costPrice: costPrice * 100
+            }
+            addStock(newStock)
+            navigate(-1)
+        } else {
+            const stockChanges: StockDto = {
+                symbol: symbol,
+                shares: amount,
+                costPrice: costPrice * 100
+            }
+            updateStock(stockChanges)
+            navigate(-1)
         }
-        addStock(newStock)
-        navigate(-1)
     }
 
     const search = (event: FormEvent<HTMLFormElement>) => {
@@ -60,7 +73,7 @@ export default function NewStockPage({addStock, searchForStock, stockList}: NewS
             <form className={"add-form"} onSubmit={submit}>
                 <div>
                     <input type="text" placeholder={"symbol"} value={symbol}
-                           onChange={event => setSymbol(event.target.value)}/>
+                           onChange={event => setSymbol(event.target.value) }/>
                     <input type="number" placeholder={"amount"}
                            onChange={event => setAmount(Number(event.target.value))}/>
                     <input type="number" step="0.01" placeholder={"costPrice"}

@@ -25,7 +25,9 @@ export default function App() {
                        element={<NewStockPage
                            addStock={addStock}
                            searchForStock={searchForStock}
-                           stockList={stockList}/>}/>
+                           stockList={stockList}
+                           updateStock={updateStock}
+                           stocks={stocks}/>}/>
 
                 <Route path="/updateStock/:id"
                        element={<UpdateStockPage
