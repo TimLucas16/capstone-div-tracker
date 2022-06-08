@@ -33,13 +33,13 @@ export default function StockCard({stock, pfValue}: StockProp) {
                     <button onClick={() => navigate(`/updateStock/${stock.id}`)}><FcComboChart/></button>
                 </div>
                 <div className={"price"}> {(stock.price).toFixed(2).replace(".", ",")} $</div>
-                <div className={"value"}> {(stock.value / 100).toFixed(2).replace(".", ",")} $</div>
+                <div className={"value"}> {(stock.value).toFixed(2).replace(".", ",")} $</div>
                 {stock.totalReturn < 0
                     ? <div className={"total-return-container"}>
-                        <div className={"total-return negative"}> {(stock.totalReturn / 100).toFixed(2).replace(".", ",")} $</div>
+                        <div className={"total-return negative"}> {(stock.totalReturn).toFixed(2).replace(".", ",")} $</div>
                     </div>
                     : <div className={"total-return-container"}>
-                        <div className={"total-return"}> {(stock.totalReturn / 100).toFixed(2).replace(".", ",")} $</div>
+                        <div className={"total-return"}> {(stock.totalReturn).toFixed(2).replace(".", ",")} $</div>
                     </div>
                 }
                 <div className={"allocation"}> {allocation.toFixed(2).replace(".", ",")} %</div>

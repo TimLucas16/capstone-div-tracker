@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,7 +31,7 @@ public class StockService {
     }
 
     public Stock addNewStock(CreateStockDto newStock) {
-        if (newStock.getShares().min(new BigDecimal("0")).equals(new BigDecimal("0"))  || newStock.getCostPrice().min(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getSymbol() == null) {
+        if (newStock.getShares().max(new BigDecimal("0")).equals(new BigDecimal("0"))  || newStock.getCostPrice().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getSymbol() == null) {
             throw new IllegalArgumentException("shares or course can´t be 0 or less");
         }
         Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol());
@@ -138,16 +139,21 @@ public class StockService {
     }
 
     public BigDecimal calcPortfolioValue() {
-        return repo.findAll().stream().map(Stock::getValue).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal a = repo.findAll().stream().map(Stock::getValue).reduce(new BigDecimal("0"), BigDecimal::add);
+        return a;
     }
 
     public BigDecimal calcPfTotalReturnAbs() {
-        return calcTotalReturn(repo.findAll().stream().map(Stock::getValue).reduce(BigDecimal.ZERO, BigDecimal::add),
-                repo.findAll().stream().map(Stock::getCostPrice).reduce(BigDecimal.ZERO, BigDecimal::add));
+        BigDecimal a = repo.findAll().stream().map(Stock::getValue).reduce(new BigDecimal("0"), BigDecimal::add);
+        BigDecimal b = repo.findAll().stream().map(Stock::getCostPrice).reduce(new BigDecimal("0"), BigDecimal::add);
+        return calcTotalReturn(a , b);
     }
 
     public BigDecimal calcPfTotalReturnPercent() {
-        return calcPfTotalReturnAbs().divide(repo.findAll().stream().map(Stock::getCostPrice).reduce(BigDecimal.ZERO, BigDecimal::add));
+        BigDecimal b = repo.findAll().stream().map(Stock::getCostPrice).reduce(new BigDecimal("0"), BigDecimal::add);
+        BigDecimal c = calcPfTotalReturnAbs().divide(b, 2, RoundingMode.HALF_DOWN);
+        BigDecimal d = c.multiply(new BigDecimal("100"));
+        return d;
     }
 
 }
