@@ -32,17 +32,17 @@ export default function StockCard({stock, pfValue}: StockProp) {
                 <div className={"button-editPage"}>
                     <button onClick={() => navigate(`/updateStock/${stock.id}`)}><FcComboChart/></button>
                 </div>
-                <div className={"price"}> {stock.price} $</div>
-                <div className={"value"}> {(stock.value / 100).toFixed(2)} $</div>
+                <div className={"price"}> {(stock.price).toFixed(2).replace(".", ",")} $</div>
+                <div className={"value"}> {(stock.value / 100).toFixed(2).replace(".", ",")} $</div>
                 {stock.totalReturn < 0
                     ? <div className={"total-return-container"}>
-                        <div className={"total-return negative"}> {(stock.totalReturn / 100).toFixed(2)} $</div>
+                        <div className={"total-return negative"}> {(stock.totalReturn / 100).toFixed(2).replace(".", ",")} $</div>
                     </div>
                     : <div className={"total-return-container"}>
-                        <div className={"total-return"}> {(stock.totalReturn / 100).toFixed(2)} $</div>
+                        <div className={"total-return"}> {(stock.totalReturn / 100).toFixed(2).replace(".", ",")} $</div>
                     </div>
                 }
-                <div className={"allocation"}> {allocation.toFixed(2)} %</div>
+                <div className={"allocation"}> {allocation.toFixed(2).replace(".", ",")} %</div>
                 <div className={"shares"}> {stock.shares} x</div>
             </div>
 

@@ -25,9 +25,6 @@ export default function DonutChart({values}: DonutProps) {
                     '#518AA7',
                     '#B56B45',
                 ],
-                hoverBackgroundColor: [
-                    "#FF6283",
-                ],
             }
         ],
     }
