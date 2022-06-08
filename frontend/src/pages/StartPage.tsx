@@ -28,7 +28,7 @@ export default function StartPage({stocks, pfValues}: StartPageProps) {
                           pfValues={pfValues}/>
             <div className={"grid-container"}>
                 <StockCardLegend/>
-                <div> {stocks.map(stock => <StockCard key={stock.symbol} stock={stock}
+                <div> {stocks.map(stock => <StockCard key={stock.id} stock={stock}
                                                       pfValue={pfValues.pfValue}/>)} </div>
             </div>
         </div>

@@ -33,7 +33,7 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
 
         if (!stocks.map(item => item.symbol).includes(symbol)) {
             const newStock: StockDto = {
-                symbol: symbol.toUpperCase(),
+                symbol: symbol,
                 shares: amount,
                 costPrice: costPrice * 100
             }
@@ -73,7 +73,7 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
             <form className={"add-form"} onSubmit={submit}>
                 <div>
                     <input type="text" placeholder={"symbol"} value={symbol}
-                           onChange={event => setSymbol(event.target.value) }/>
+                           onChange={event => setSymbol(event.target.value.toUpperCase()) }/>
                     <input type="number" placeholder={"amount"}
                            onChange={event => setAmount(Number(event.target.value))}/>
                     <input type="number" step="0.01" placeholder={"costPrice"}
