@@ -5,13 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Portfolio {
 
-    private int pfValue;
-    private int pfTotalReturnAbsolute;
-    private double pfTotalReturnPercent;
+    private BigDecimal pfValue;
+    private BigDecimal pfTotalReturnAbsolute;
+    private BigDecimal pfTotalReturnPercent;
 }

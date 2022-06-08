@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,12 +20,12 @@ public class Stock {
     private String id;
     private String symbol;
     private String companyName;
-    private int shares;
-    private int costPrice;
-    private int value;
-    private double price;
-    private int totalReturn;
-    private double allocation;
+    private BigDecimal shares;
+    private BigDecimal costPrice;
+    private BigDecimal value;
+    private BigDecimal price;
+    private BigDecimal totalReturn;
+    private BigDecimal allocation;
     private String website;
     private String image;
     private String isin;
