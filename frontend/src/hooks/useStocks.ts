@@ -1,5 +1,12 @@
 import {Stock} from "../model/Stock";
-import {getAllStocks, getPortfolioValues, getStockBy, postStock, putStock, stockSearch} from "../service/apiService";
+import {
+    getAllStocks,
+    getPortfolioValues,
+    getStockBy,
+    postStock,
+    putStock,
+    stockSearch
+} from "../service/apiService";
 import {useEffect, useState} from "react";
 import {StockDto} from "../model/StockDto";
 import {Portfolio} from "../model/Portfolio";
@@ -59,9 +66,9 @@ export default function useStocks() {
             .catch(console.error)
     }
 
-    const searchForStock = (company : string) => {
+    const searchForStock = (company: string) => {
         return stockSearch(company)
-        .then(allStocks => setStockList(allStocks))
+            .then(allStocks => setStockList(allStocks))
             .catch(console.error)
     }
 

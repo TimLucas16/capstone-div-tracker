@@ -51,4 +51,3 @@ public class StockController {
         return service.stockSearchResult(company);
     }
 }
-
