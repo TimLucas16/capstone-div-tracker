@@ -383,6 +383,8 @@ class StockControllerTest {
         //GIVEN
         stubFor(get("/search-name?query=" + "weru" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
                 .willReturn(okJson(searchJson)));
+        stubFor(get("/search-name?query=" + "weru" + "&limit=10&exchange=NYSE&apikey=" + API_KEY)
+                .willReturn(okJson(searchJson)));
 
         //WHEN
         List<SearchStock> actual = testClient.get()
@@ -405,6 +407,8 @@ class StockControllerTest {
     void stockSearchResult_whenThereIsNotAResult() {
         //GIVEN
         stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
+                .willReturn(okJson(searchJsonEmpty)));
+        stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NYSE&apikey=" + API_KEY)
                 .willReturn(okJson(searchJsonEmpty)));
 
         //WHEN

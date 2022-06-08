@@ -10,8 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ApiService {
@@ -64,7 +63,7 @@ public class ApiService {
 
     public List<SearchStock> stockSearchResult(String company) {
 
-        return webClient.get()
+        List<SearchStock> listNasdaq =  webClient.get()
                 .uri("/search-name?query=" + company + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
@@ -72,5 +71,17 @@ public class ApiService {
                 .block()
                 .getBody();
 
+        List<SearchStock> listNyse =  webClient.get()
+                .uri("/search-name?query=" + company + "&limit=10&exchange=NYSE&apikey=" + API_KEY)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .retrieve()
+                .toEntityList(SearchStock.class)
+                .block()
+                .getBody();
+
+        Set<SearchStock> setList = new HashSet<>(listNasdaq);
+        setList.addAll(listNyse);
+
+        return new ArrayList<>(setList);
     }
 }
