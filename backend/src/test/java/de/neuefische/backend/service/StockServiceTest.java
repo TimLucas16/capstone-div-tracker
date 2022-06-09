@@ -7,6 +7,7 @@ import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -27,32 +28,32 @@ class StockServiceTest {
         //GIVEN
         Stock stockToInsert = Stock.builder()
                 .symbol("AAPL")
-                .shares(10)
-                .costPrice(28056)
-                .value(28030)
+                .shares(BigDecimal.TEN)
+                .costPrice(new BigDecimal("280.56"))
+                .value(new BigDecimal("280.30"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .price(28.03)
-                .totalReturn(-26)
+                .price(new BigDecimal("28.03"))
+                .totalReturn(new BigDecimal("-0.26"))
                 .build();
 
         when(stockRepo.insert(stockToInsert)).thenReturn(Stock.builder()
                 .id("123456")
                 .symbol("AAPL")
-                .shares(10)
-                .costPrice(28056)
-                .value(28030)
+                .shares(BigDecimal.TEN)
+                .costPrice(new BigDecimal("280.56"))
+                .value(new BigDecimal("280.30"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .price(28.03)
-                .totalReturn(-26)
+                .price(new BigDecimal("28.03"))
+                .totalReturn(new BigDecimal("-0.26"))
                 .build());
 
         when(apiService.getProfileBySymbol("AAPL")).thenReturn(Stock.builder()
                 .companyName("Apple Inc.")
-                .price(28.03)
+                .price(new BigDecimal("28.03"))
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .build());
@@ -60,8 +61,8 @@ class StockServiceTest {
         //WHEN
         CreateStockDto newStock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .costPrice(28056)
-                .shares(10)
+                .costPrice(new BigDecimal("280.56"))
+                .shares(BigDecimal.TEN)
                 .build();
         Stock actual = stockService.addNewStock(newStock);
 
@@ -69,14 +70,14 @@ class StockServiceTest {
         Stock expected = Stock.builder()
                 .id("123456")
                 .symbol("AAPL")
-                .costPrice(28056)
-                .shares(10)
-                .value(28030)
+                .costPrice(new BigDecimal("280.56"))
+                .shares(BigDecimal.TEN)
+                .value(new BigDecimal("280.30"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .price(28.03)
-                .totalReturn(-26)
+                .price(new BigDecimal("28.03"))
+                .totalReturn(new BigDecimal("-0.26"))
                 .build();
         verify(stockRepo).insert(stockToInsert);
         assertEquals(expected, actual);
@@ -87,8 +88,8 @@ class StockServiceTest {
         //GIVEN + WHEN
         CreateStockDto newStock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .costPrice(10)
-                .shares(0).build();
+                .costPrice(BigDecimal.TEN)
+                .shares(BigDecimal.ZERO).build();
 
         //THEN
         assertThrows(IllegalArgumentException.class, () -> stockService.addNewStock(newStock));
@@ -100,14 +101,14 @@ class StockServiceTest {
         when(stockRepo.findById("123")).thenReturn(Optional.of(Stock.builder()
                 .id("123")
                 .symbol("AAPL")
-                .shares(10)
-                .costPrice(28056)
-                .value(28030)
+                .shares(BigDecimal.TEN)
+                .costPrice(new BigDecimal("280.56"))
+                .value(new BigDecimal("280.30"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .price(28.03)
-                .totalReturn(-26)
+                .price(new BigDecimal("28.03"))
+                .totalReturn(new BigDecimal("-0.26"))
                 .build()));
 
         //WHEN
@@ -117,14 +118,14 @@ class StockServiceTest {
         Stock expected = Stock.builder()
                 .id("123")
                 .symbol("AAPL")
-                .shares(10)
-                .costPrice(28056)
-                .value(28030)
+                .shares(BigDecimal.TEN)
+                .costPrice(new BigDecimal("280.56"))
+                .value(new BigDecimal("280.30"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .price(28.03)
-                .totalReturn(-26)
+                .price(new BigDecimal("28.03"))
+                .totalReturn(new BigDecimal("-0.26"))
                 .build();
 
         verify(stockRepo).findById("123");
@@ -148,43 +149,43 @@ class StockServiceTest {
         Stock updatedStock = Stock.builder()
                 .id("234")
                 .symbol("AAPL")
-                .costPrice(420616)
-                .shares(20)
-                .value(280720)
-                .price(140.36)
+                .costPrice(new BigDecimal("4206.16"))
+                .shares(new BigDecimal("20"))
+                .value(new BigDecimal("2807.20"))
+                .price(new BigDecimal("140.36"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(-139896)
+                .totalReturn(new BigDecimal("-1398.96"))
                 .build();
         CreateStockDto newStock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .costPrice(280560)
-                .shares(10)
+                .costPrice(new BigDecimal("2805.60"))
+                .shares(BigDecimal.TEN)
                 .build();
         when(stockRepo.save(updatedStock)).thenReturn(Stock.builder()
                 .id("234")
                 .symbol("AAPL")
-                .costPrice(420616)
-                .shares(20)
-                .value(280720)
-                .price(140.36)
+                .costPrice(new BigDecimal("4206.16"))
+                .shares(new BigDecimal("20"))
+                .value(new BigDecimal("2807.20"))
+                .price(new BigDecimal("140.36"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(-139896)
+                .totalReturn(new BigDecimal("-1398.96"))
                 .build());
         when(stockRepo.findBySymbol(newStock.getSymbol())).thenReturn(Stock.builder()
                 .id("234")
                 .symbol("AAPL")
-                .costPrice(140056)
-                .shares(10)
-                .value(140360)
-                .price(140.36)
+                .costPrice(new BigDecimal("1400.56"))
+                .shares(BigDecimal.TEN)
+                .value(new BigDecimal("1403.60"))
+                .price(new BigDecimal("140.36"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(304)
+                .totalReturn(new BigDecimal("0.304"))
                 .build());
 
         //WHEN
@@ -194,14 +195,14 @@ class StockServiceTest {
         Stock expected = Stock.builder()
                 .id("234")
                 .symbol("AAPL")
-                .costPrice(420616)
-                .shares(20)
-                .value(280720)
-                .price(140.36)
+                .costPrice(new BigDecimal("4206.16"))
+                .shares(new BigDecimal("20"))
+                .value(new BigDecimal("2807.20"))
+                .price(new BigDecimal("140.36"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(-139896)
+                .totalReturn(new BigDecimal("-1398.96"))
                 .build();
 
         verify(stockRepo).findBySymbol("AAPL");
@@ -215,43 +216,43 @@ class StockServiceTest {
         Stock updatedStock = Stock.builder()
                 .id("234")
                 .symbol("AAPL")
-                .costPrice(-140504)
-                .shares(5)
-                .value(70180)
-                .price(140.36)
+                .costPrice(new BigDecimal("-1405.04"))
+                .shares(new BigDecimal("5"))
+                .value(new BigDecimal("701.80"))
+                .price(new BigDecimal("140.36"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(210684)
+                .totalReturn(new BigDecimal("2106.84"))
                 .build();
         CreateStockDto newStock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .costPrice(-280560)
-                .shares(-5)
+                .costPrice(new BigDecimal("-2805.60"))
+                .shares(new BigDecimal("-5"))
                 .build();
         when(stockRepo.save(updatedStock)).thenReturn(Stock.builder()
                 .id("234")
                 .symbol("AAPL")
-                .costPrice(-140504)
-                .shares(5)
-                .value(70180)
-                .price(140.36)
+                .costPrice(new BigDecimal("-1405.04"))
+                .shares(new BigDecimal("5"))
+                .value(new BigDecimal("701.80"))
+                .price(new BigDecimal("140.36"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(210684)
+                .totalReturn(new BigDecimal("2106.84"))
                 .build());
         when(stockRepo.findBySymbol(newStock.getSymbol())).thenReturn(Stock.builder()
                 .id("234")
                 .symbol("AAPL")
-                .costPrice(140056)
-                .shares(10)
-                .value(140360)
-                .price(140.36)
+                .costPrice(new BigDecimal("1400.56"))
+                .shares(BigDecimal.TEN)
+                .value(new BigDecimal("1403.60"))
+                .price(new BigDecimal("140.36"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(304)
+                .totalReturn(new BigDecimal("3.04"))
                 .build());
 
         //WHEN
@@ -261,14 +262,14 @@ class StockServiceTest {
         Stock expected = Stock.builder()
                 .id("234")
                 .symbol("AAPL")
-                .costPrice(-140504)
-                .shares(5)
-                .value(70180)
-                .price(140.36)
+                .costPrice(new BigDecimal("-1405.04"))
+                .shares(new BigDecimal("5"))
+                .value(new BigDecimal("701.80"))
+                .price(new BigDecimal("140.36"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(210684)
+                .totalReturn(new BigDecimal("2106.84"))
                 .build();
 
         verify(stockRepo).findBySymbol("AAPL");
@@ -281,20 +282,20 @@ class StockServiceTest {
         //GIVEN
         CreateStockDto newStock = CreateStockDto.builder()
                 .symbol("AAPL")
-                .costPrice(-280560)
-                .shares(-10)
+                .costPrice(new BigDecimal("-2805.60"))
+                .shares(new BigDecimal("-10"))
                 .build();
         when(stockRepo.findBySymbol(newStock.getSymbol())).thenReturn(Stock.builder()
                 .id("234")
                 .symbol("AAPL")
-                .costPrice(140056)
-                .shares(10)
-                .value(140360)
-                .price(140.36)
+                .costPrice(new BigDecimal("1400.56"))
+                .shares(BigDecimal.TEN)
+                .value(new BigDecimal("1403.60"))
+                .price(new BigDecimal("140.36"))
                 .companyName("Apple Inc.")
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
-                .totalReturn(304)
+                .totalReturn(new BigDecimal("3.04"))
                 .build());
 
         //WHEN
@@ -338,5 +339,25 @@ class StockServiceTest {
         //THEN
         List<SearchStock> expected = List.of();
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void calcPfTotalReturnPercent() {
+        //GIVEN
+        when(stockRepo.findAll()).thenReturn(List.of(Stock.builder()
+                .id("123")
+                .symbol("AAPL")
+                .costPrice(new BigDecimal("1400.56"))
+                .shares(new BigDecimal("10"))
+                .value(new BigDecimal("1403.60"))
+                .price(new BigDecimal("140.36"))
+                .totalReturn(new BigDecimal("3.04"))
+                .build()));
+
+        //WHEN
+        BigDecimal actual = stockService.calcPfTotalReturnPercent();
+
+        //THEN
+        assertEquals(new BigDecimal("0.2200"), actual);
     }
 }

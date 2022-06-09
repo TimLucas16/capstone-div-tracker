@@ -35,7 +35,7 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
             const newStock: StockDto = {
                 symbol: symbol,
                 shares: amount,
-                costPrice: costPrice * 100
+                costPrice: costPrice
             }
             addStock(newStock)
             navigate(-1)
@@ -43,7 +43,7 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
             const stockChanges: StockDto = {
                 symbol: symbol,
                 shares: amount,
-                costPrice: costPrice * 100
+                costPrice: costPrice
             }
             updateStock(stockChanges)
             navigate(-1)

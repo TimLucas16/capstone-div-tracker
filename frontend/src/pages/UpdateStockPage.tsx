@@ -33,7 +33,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
                 const stockChanges: StockDto = {
                     symbol: stock.symbol,
                     shares: amount,
-                    costPrice: costPrice * 100
+                    costPrice: costPrice
                 }
                 updateStock(stockChanges)
                 navigate(-1)
@@ -44,7 +44,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
                     const stockChange: StockDto = {
                         symbol: stock.symbol,
                         shares: -amount,
-                        costPrice: -costPrice * 100
+                        costPrice: -costPrice
                     }
                     updateStock(stockChange)
                     navigate(-1)
