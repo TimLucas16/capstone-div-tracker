@@ -31,7 +31,7 @@ public class StockService {
     }
 
     public Stock addNewStock(CreateStockDto newStock) {
-        if (newStock.getShares().max(new BigDecimal("0")).equals(new BigDecimal("0"))  || newStock.getCostPrice().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getSymbol() == null) {
+        if (newStock.getShares().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getCostPrice().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getSymbol() == null) {
             throw new IllegalArgumentException("shares or course can´t be 0 or less");
         }
         Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol());
@@ -64,14 +64,14 @@ public class StockService {
     public Stock updateStock(CreateStockDto updatedStock) {
         Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
 
-        if(toUpdateStock.getShares().add(updatedStock.getShares()).equals(new BigDecimal("0"))) {
+        if (toUpdateStock.getShares().add(updatedStock.getShares()).equals(new BigDecimal("0"))) {
             repo.deleteById(toUpdateStock.getId());
             return null;
         }
 
         toUpdateStock.setShares(toUpdateStock.getShares().add(updatedStock.getShares()));
         toUpdateStock.setCostPrice(toUpdateStock.getCostPrice().add(updatedStock.getCostPrice()));
-        toUpdateStock.setValue(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares() ));
+        toUpdateStock.setValue(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares()));
         toUpdateStock.setTotalReturn(calcTotalReturn(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares()), toUpdateStock.getCostPrice()));
         repo.save(toUpdateStock);
 
@@ -113,16 +113,16 @@ public class StockService {
 
     public void checkForDailyUpdate() {
         String name = "Portfolio";
-        if(!dURepo.existsByName(name)) {
+        if (!dURepo.existsByName(name)) {
             dURepo.save(DailyUpdate.builder()
                     .name(name)
-                    .updateDay(LocalDate.of(2022,5,25))
+                    .updateDay(LocalDate.of(2022, 5, 25))
                     .build());
         }
 
         LocalDate dateTimer = dURepo.findByName(name).getUpdateDay();
 
-        if(!dateTimer.isEqual(LocalDate.now())) {
+        if (!dateTimer.isEqual(LocalDate.now())) {
             refreshStockDatas(getUpdatedStock());
             DailyUpdate newDate = dURepo.findByName(name);
             newDate.setUpdateDay(LocalDate.now());
@@ -139,21 +139,26 @@ public class StockService {
     }
 
     public BigDecimal calcPortfolioValue() {
-        BigDecimal a = repo.findAll().stream().map(Stock::getValue).reduce(new BigDecimal("0"), BigDecimal::add);
-        return a;
+        return repo.findAll().stream().map(Stock::getValue).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public BigDecimal calcPfTotalReturnAbs() {
-        BigDecimal a = repo.findAll().stream().map(Stock::getValue).reduce(new BigDecimal("0"), BigDecimal::add);
-        BigDecimal b = repo.findAll().stream().map(Stock::getCostPrice).reduce(new BigDecimal("0"), BigDecimal::add);
-        return calcTotalReturn(a , b);
+        List<Stock> stockList = repo.findAll();
+        return calcTotalReturn(
+                stockList.stream()
+                        .map(Stock::getValue)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add),
+                stockList.stream()
+                        .map(Stock::getCostPrice)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add));
     }
 
     public BigDecimal calcPfTotalReturnPercent() {
-        BigDecimal b = repo.findAll().stream().map(Stock::getCostPrice).reduce(new BigDecimal("0"), BigDecimal::add);
-        BigDecimal c = calcPfTotalReturnAbs().divide(b, 2, RoundingMode.HALF_DOWN);
-        BigDecimal d = c.multiply(new BigDecimal("100"));
-        return d;
+        return calcPfTotalReturnAbs().
+                divide(repo.findAll().stream()
+                        .map(Stock::getCostPrice)
+                        .reduce(BigDecimal.ZERO, BigDecimal::add), 4, RoundingMode.HALF_DOWN)
+                .multiply(new BigDecimal("100"));
     }
 
 }
