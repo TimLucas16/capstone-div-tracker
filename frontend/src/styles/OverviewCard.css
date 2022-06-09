@@ -44,6 +44,6 @@
     font-weight: 600;
 }
 
-.pfValues-container > div > div:last-child > div:last-child {
+.pfValues-container > div:last-child > div:last-child {
     margin-top: 5px;
 }

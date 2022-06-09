@@ -6,31 +6,25 @@ type PortfolioProps = {
 
 export default function PortfolioValues({pfValues}: PortfolioProps) {
 
+    const negativeClassName = (pfValues.pfTotalReturnAbsolute < 0) && " negative";
+
     return (
         <div className={"pfValues-container"}>
             <div>
                 <div className={"pfTitel"}>Portfolio Value</div>
                 <div className={"pfValues"}>
-                    {(pfValues.pfValue).toFixed(2).replace(".", ",")} $</div>
+                    {(pfValues.pfValue / 100).toFixed(2).replace(".", ",")} $
+                </div>
             </div>
             <div>
                 <div className={"pfTitel"}>Total Return</div>
 
-                {pfValues.pfTotalReturnAbsolute < 0
-                    ? <div>
-                        <div className={"pfValues negative"}>
-                            {(pfValues.pfTotalReturnAbsolute).toFixed(2).replace(".", ",")} $</div>
-                        <div className={"pfValues negative"}>
-                            {(pfValues.pfTotalReturnPercent).toFixed(2).replace(".", ",")} %</div>
-                    </div>
-
-                    : <div>
-                        <div className={"pfValues"}>
-                            {(pfValues.pfTotalReturnAbsolute).toFixed(2).replace(".", ",")} $</div>
-                        <div className={"pfValues"}>
-                            {(pfValues.pfTotalReturnPercent).toFixed(2).replace(".", ",")} %</div>
-                    </div>
-                }
+                <div className={"pfValues" + negativeClassName}>
+                    {(pfValues.pfTotalReturnAbsolute / 100).toFixed(2).replace(".", ",")} $
+                </div>
+                <div className={"pfValues" + negativeClassName}>
+                    {(pfValues.pfTotalReturnPercent).toFixed(2).replace(".", ",")} %
+                </div>
 
             </div>
         </div>
