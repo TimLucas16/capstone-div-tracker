@@ -25,6 +25,7 @@ public class Stock {
     private BigDecimal value;
     private BigDecimal price;
     private BigDecimal totalReturn;
+    private BigDecimal totalReturnPercent;
     private String website;
     private String image;
     private String isin;

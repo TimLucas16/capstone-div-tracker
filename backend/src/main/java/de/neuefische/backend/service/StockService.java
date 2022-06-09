@@ -46,6 +46,11 @@ public class StockService {
                 .price(apiStock.getPrice())
                 .isin(apiStock.getIsin())
                 .totalReturn(calcTotalReturn((calcValue(apiStock.getPrice(), newStock.getShares())), newStock.getCostPrice()))
+                .totalReturnPercent(calcTotalReturnPercent
+                        (calcTotalReturn(
+                        (calcValue(apiStock.getPrice(), newStock.getShares())),
+                                newStock.getCostPrice()),
+                                newStock.getCostPrice()))
                 .build();
         return repo.insert(stock);
     }
@@ -136,6 +141,10 @@ public class StockService {
 
     public static BigDecimal calcTotalReturn(BigDecimal value, BigDecimal costPrice) {
         return value.subtract(costPrice);
+    }
+
+    public BigDecimal calcTotalReturnPercent(BigDecimal totalReturn, BigDecimal costPrice) {
+        return totalReturn.divide(costPrice, 4, RoundingMode.HALF_DOWN).multiply(new BigDecimal("100"));
     }
 
     public BigDecimal calcPortfolioValue() {
