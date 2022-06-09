@@ -13,7 +13,7 @@ export default function PortfolioValues({pfValues}: PortfolioProps) {
             <div>
                 <div className={"pfTitel"}>Portfolio Value</div>
                 <div className={"pfValues"}>
-                    {(pfValues.pfValue / 100).toFixed(2).replace(".", ",")} $
+                    {(pfValues.pfValue).toFixed(2).replace(".", ",")} $
                 </div>
             </div>
             <div>
