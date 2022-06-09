@@ -10,7 +10,7 @@ type StockProp = {
 }
 
 export default function StockCard({stock, pfValue}: StockProp) {
-    const negativeClassName = stock.totalReturn < 0 && " negative"
+    const negativeClassName = (stock.totalReturn < 0) && " negative"
     const navigate = useNavigate()
 
     const [allocation, setAllocation] = useState<number>(0)
