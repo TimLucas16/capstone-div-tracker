@@ -1,6 +1,22 @@
 .add-container {
     display: flex;
     justify-content: center;
+    background-color: #f1f0f0;
+}
+
+.add-container > div {
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 2px 1px 1px gainsboro;
+    width: 380px;
+    padding: 10px 10px;
+    background-color: white;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    background-color: white;
 }
 
 .search-form {
@@ -14,7 +30,7 @@
     color: white;
     border-radius: 5px;
     border: none;
-    box-shadow: 2px 3px #0B4D49;
+    box-shadow: 1px 2px #0B4D49;
     cursor:pointer;
 }
 
@@ -31,6 +47,7 @@
     margin-top: 10px;
     display: flex;
     justify-content: center;
+    background-color: white;
 }
 
 .add-form > div {
@@ -62,10 +79,13 @@
     justify-content: center;
     padding: 2px;
     flex-direction: row;
+    align-content: stretch;
+    align-items: baseline;
 }
 
 .select-button {
     margin-bottom: 5px;
+    margin-left: 20px;
 }
 
 input:focus {

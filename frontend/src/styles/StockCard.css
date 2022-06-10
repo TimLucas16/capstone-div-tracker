@@ -7,11 +7,11 @@
 .card-legend {
     display: grid;
     width: 400px;
-    grid-template-columns: 80px 40px 190px 35px 55px;
+    grid-template-columns: 80px 45px 110px 75px 35px 55px;
     grid-template-rows: 20px 20px;
     grid-template-areas:
-    "price . . . allocation"
-    "value . totalReturn . shares";
+    "price . tRPercent . . allocation"
+    "value . totalReturn . . shares";
     padding: 5px 0;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -22,14 +22,14 @@
 .card-details {
     display: grid;
     width: 400px;
-    grid-template-columns: 80px 40px 190px 35px 55px;
+    grid-template-columns: 80px 45px 110px 75px 35px 55px;
     grid-template-rows: 35px 20px 10px 20px 35px;
     grid-template-areas:
-    "logo name name allocation allocation"
-    "logo isin isin shares shares"
-    "none none none none none"
-    "price price price price editButton"
-    "value value totalReturn totalReturn editButton";
+    "logo name name name allocation allocation"
+    "logo isin isin isin shares shares"
+    "none none none none none none"
+    "price price tRPercent . . editButton"
+    "value value totalReturn . . editButton";
     align-items: center;
     background-color: white;
     border-radius: 5px;
@@ -76,11 +76,20 @@
 
 .total-return-container {
     grid-area: totalReturn;
+    justify-self: end;
 }
 
-.total-return {
-    padding-left: 10px;
+.total-return, .card-legend > div:nth-child(4) {
     font-weight: 600;
+}
+
+.total-return-Percent-container {
+    grid-area: tRPercent;
+    justify-self: end;
+}
+
+.total-return-Percent, .card-legend > div:nth-child(3) {
+    font-size: .8em;
 }
 
 .allocation {

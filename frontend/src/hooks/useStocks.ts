@@ -24,6 +24,7 @@ export default function useStocks() {
         price: 0,
         value: 0,
         totalReturn: 0,
+        totalReturnPercent: 0,
         image: "",
         website: "",
         isin: ""

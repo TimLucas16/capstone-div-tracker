@@ -36,6 +36,7 @@ class StockServiceTest {
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .price(new BigDecimal("28.03"))
                 .totalReturn(new BigDecimal("-0.26"))
+                .totalReturnPercent(new BigDecimal("-0.0900"))
                 .build();
 
         when(stockRepo.insert(stockToInsert)).thenReturn(Stock.builder()
@@ -49,6 +50,7 @@ class StockServiceTest {
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .price(new BigDecimal("28.03"))
                 .totalReturn(new BigDecimal("-0.26"))
+                .totalReturnPercent(new BigDecimal("-0.0900"))
                 .build());
 
         when(apiService.getProfileBySymbol("AAPL")).thenReturn(Stock.builder()
@@ -78,6 +80,7 @@ class StockServiceTest {
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .price(new BigDecimal("28.03"))
                 .totalReturn(new BigDecimal("-0.26"))
+                .totalReturnPercent(new BigDecimal("-0.0900"))
                 .build();
         verify(stockRepo).insert(stockToInsert);
         assertEquals(expected, actual);
