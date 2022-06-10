@@ -1,6 +1,16 @@
 .add-container {
     display: flex;
     justify-content: center;
+    background-color: #f1f0f0;
+}
+
+.add-container > div {
+    margin: 5px;
+    border-radius: 5px;
+    box-shadow: 2px 1px 1px gainsboro;
+    width: 380px;
+    padding: 10px 10px;
+    background-color: white;
 }
 
 .search-form {
