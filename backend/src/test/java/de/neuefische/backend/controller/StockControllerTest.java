@@ -77,6 +77,7 @@ class StockControllerTest {
                 .value(new BigDecimal("1403.60"))
                 .price(new BigDecimal("140.36"))
                 .totalReturn(new BigDecimal("3.17"))
+                .totalReturnPercent(new BigDecimal("0.2300"))
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .isin("US0378331005")
