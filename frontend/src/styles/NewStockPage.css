@@ -24,7 +24,7 @@
     color: white;
     border-radius: 5px;
     border: none;
-    box-shadow: 2px 3px #0B4D49;
+    box-shadow: 1px 2px #0B4D49;
     cursor:pointer;
 }
 
@@ -72,10 +72,13 @@
     justify-content: center;
     padding: 2px;
     flex-direction: row;
+    align-content: stretch;
+    align-items: baseline;
 }
 
 .select-button {
     margin-bottom: 5px;
+    margin-left: 20px;
 }
 
 input:focus {
