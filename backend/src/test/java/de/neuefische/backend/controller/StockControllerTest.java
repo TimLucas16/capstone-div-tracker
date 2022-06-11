@@ -267,6 +267,7 @@ class StockControllerTest {
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .totalReturn(new BigDecimal("3.04"))
+                .totalReturnPercent(new BigDecimal("0.2200"))
                 .build();
         stockRepo.insert(stockDB);
 
@@ -292,6 +293,7 @@ class StockControllerTest {
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .totalReturn(new BigDecimal("-93.36"))
+                .totalReturnPercent(new BigDecimal("-3.2200"))
                 .build();
         assertEquals(expected, actual);
     }
@@ -315,6 +317,7 @@ class StockControllerTest {
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .totalReturn(new BigDecimal("3.04"))
+                .totalReturnPercent(new BigDecimal("0.2200"))
                 .build();
         stockRepo.insert(stockDB);
 
@@ -340,6 +343,7 @@ class StockControllerTest {
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .totalReturn(new BigDecimal("801.24"))
+                .totalReturnPercent(new BigDecimal("-805.7500"))
                 .build();
         assertEquals(expected, actual);
     }
