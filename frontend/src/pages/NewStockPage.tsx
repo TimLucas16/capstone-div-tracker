@@ -50,6 +50,12 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
         }
     }
 
+    // useEffect(() => {
+    //     if(stockList.length === 0) {
+    //         alert("nix gefunden!")
+    //     }
+    // },[searchForStock])
+
     const search = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         searchForStock(companyName)
@@ -68,7 +74,7 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
                     <button className={"addPage-button search-button"} type={"submit"}>search</button>
                 </form>
 
-                <div> {stockList.map(stock => <SearchCard stock={stock} key={stock.symbol}
+                <div>{stockList && stockList.map(stock => <SearchCard stock={stock} key={stock.symbol}
                                                           selectStock={() => setSymbol(stock.symbol)}/>)} </div>
 
                 <form className={"add-form"} onSubmit={submit}>

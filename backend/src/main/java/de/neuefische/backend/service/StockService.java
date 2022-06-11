@@ -78,6 +78,7 @@ public class StockService {
         toUpdateStock.setCostPrice(toUpdateStock.getCostPrice().add(updatedStock.getCostPrice()));
         toUpdateStock.setValue(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares()));
         toUpdateStock.setTotalReturn(calcTotalReturn(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares()), toUpdateStock.getCostPrice()));
+        toUpdateStock.setTotalReturnPercent(calcTotalReturnPercent(toUpdateStock.getTotalReturn(), toUpdateStock.getCostPrice()));
         repo.save(toUpdateStock);
 
         return toUpdateStock;

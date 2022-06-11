@@ -69,7 +69,13 @@ export default function useStocks() {
 
     const searchForStock = (company: string) => {
         return stockSearch(company)
-            .then(allStocks => setStockList(allStocks))
+            .then(allStocks => {
+                if(!allStocks) {
+                    alert("nix da")
+                }else {
+                    setStockList(allStocks)
+                }
+            })
             .catch(console.error)
     }
 
