@@ -25,7 +25,7 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
 
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (!symbol || amount <= 0 || costPrice <= 0) {
+        if (!symbol ||amount <= 0 || costPrice <= 0) {
             toast.error("please correct input!")
         } else
         if (!stocks.map(item => item.symbol).includes(symbol)) {
@@ -49,7 +49,11 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
 
     const search = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        searchForStock(companyName)
+        if(!companyName) {
+            toast.error("fill up search field")
+        } else {
+            searchForStock(companyName)
+        }
     }
 
     useEffect(() => {
@@ -61,7 +65,7 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
             <div>
                 <form className={"search-form"} onSubmit={search}>
                     <input type="text" placeholder={"company"} value={companyName}
-                           onChange={event => setCompanyName(event.target.value)}/>
+                           onChange={event => setCompanyName(event.target.value.trim())}/>
                     <button className={"addPage-button search-button"} type={"submit"}>search</button>
                 </form>
 
@@ -71,7 +75,7 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
                 <form className={"add-form"} onSubmit={submit}>
                     <div>
                         <input type="text" placeholder={"symbol"} value={symbol}
-                               onChange={event => setSymbol(event.target.value.toUpperCase())}/>
+                               onChange={event => setSymbol(event.target.value.toUpperCase().trim())}/>
                         <input type="number" placeholder={"amount"}
                                onChange={event => setAmount(Number(event.target.value))}/>
                         <input type="number" step="0.01" placeholder={"costPrice"}

@@ -44,7 +44,9 @@ export default function StockCard({stock, pfValue}: StockProp) {
                     <div className={"total-return " + negativeClassName}> {(stock.totalReturn).toFixed(2).replace(".", ",")} $</div>
                 </div>
 
-                <div className={"allocation"}> {allocation.toFixed(2).replace(".", ",")} %</div>
+                <div className={"allocation"}> {allocation === 100
+                    ? allocation
+                    : allocation.toFixed(2).replace(".", ",")} %</div>
                 <div className={"shares"}> {stock.shares} x</div>
             </div>
 

@@ -69,7 +69,7 @@ public class StockService {
     public Stock updateStock(CreateStockDto updatedStock) {
         Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
 
-        if (toUpdateStock.getShares().add(updatedStock.getShares()).equals(new BigDecimal("0"))) {
+        if (toUpdateStock.getShares().add(updatedStock.getShares()).equals(BigDecimal.ZERO)) {
             repo.deleteById(toUpdateStock.getId());
             return null;
         }
@@ -164,11 +164,18 @@ public class StockService {
     }
 
     public BigDecimal calcPfTotalReturnPercent() {
-        return calcPfTotalReturnAbs().
-                divide(repo.findAll().stream()
-                        .map(Stock::getCostPrice)
-                        .reduce(BigDecimal.ZERO, BigDecimal::add), 4, RoundingMode.HALF_DOWN)
-                .multiply(new BigDecimal("100"));
+        BigDecimal a = repo.findAll().stream()
+                .map(Stock::getCostPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        if(a.equals(BigDecimal.ZERO)) {
+            return BigDecimal.ZERO;
+        } else {
+            return calcPfTotalReturnAbs().
+                    divide(repo.findAll().stream()
+                            .map(Stock::getCostPrice)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add), 4, RoundingMode.HALF_DOWN)
+                    .multiply(new BigDecimal("100"));
+        }
     }
 
 }

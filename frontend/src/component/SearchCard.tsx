@@ -20,11 +20,10 @@ export default function SearchCard({stock, selectStock}: SearchCardProps) {
                     <div className={"search-stock"}>{stock.name}</div>
                 </div>
                 <div>
-<div>
-                    <div className={"search-stock"}>{stock.symbol}</div>
-
-                    <button className={"addPage-button select-button"} type={"submit"}>select</button>
-</div>
+                    <div>
+                        <div className={"search-stock"}>{stock.symbol}</div>
+                        <button className={"addPage-button select-button"} type={"submit"}>select</button>
+                    </div>
                 </div>
             </form>
         </div>
