@@ -6,6 +6,7 @@ import NewStockPage from "./pages/NewStockPage";
 import useStocks from "./hooks/useStocks";
 import NavBar from "./component/NavBar";
 import UpdateStockPage from './pages/UpdateStockPage';
+import {Toaster} from "react-hot-toast";
 
 export default function App() {
 
@@ -13,6 +14,7 @@ export default function App() {
 
     return (
         <div className="App">
+            <Toaster/>
             <NavBar/>
             <Routes>
 

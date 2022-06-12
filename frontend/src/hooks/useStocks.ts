@@ -11,6 +11,7 @@ import {useEffect, useState} from "react";
 import {StockDto} from "../model/StockDto";
 import {Portfolio} from "../model/Portfolio";
 import {SearchStock} from "../model/SearchStock";
+import toast from 'react-hot-toast';
 
 export default function useStocks() {
 
@@ -33,20 +34,21 @@ export default function useStocks() {
 
     const addStock = (newStock: StockDto) => {
         postStock(newStock)
-            .then(addedStock => setStocks([...stocks, addedStock]))
-            .catch(console.error)
+            .then(addedStock => {setStocks([...stocks, addedStock])})
+            .then(() => toast.success(`Stock with Symbol ${newStock.symbol} added`))
+            .catch(() => toast.error(`Adding Stock with Symbol: ${newStock.symbol} failed`))
     }
 
     useEffect(() => {
         getAllStocks()
             .then(allStocks => setStocks(allStocks))
-            .catch(console.error)
+            .catch(() => toast.error(`Connection failed. Please try again!`))
     }, [])
 
     useEffect(() => {
         getPortfolioValues()
             .then(pfData => setPfValues(pfData))
-            .catch(console.error)
+            .catch(() => toast.error(`Connection failed. Please try again!`))
     }, [stocks])
 
     const updateStock = (updatedStock: StockDto) => {
@@ -54,23 +56,31 @@ export default function useStocks() {
             .then(changedStock => {
                 if (!changedStock) {
                     setStocks(stocks.filter((item: Stock) => (item.symbol !== updatedStock.symbol)))
+                    toast.success("Stock deleted")
                 } else {
                     setStocks(stocks.map((item: Stock) => (item.symbol === changedStock.symbol ? changedStock : item)))
+                    toast.success("Stock updated")
                 }
             })
-            .catch(console.error)
+            .catch(() => toast.error(`Updating Stock with Symbol: ${updatedStock.symbol} failed`))
     }
 
     const getStockById = (id: string) => {
         return getStockBy(id)
             .then(data => setStock(data))
-            .catch(console.error)
+            .catch(() => toast.error(`Connection failed. Please try again!`))
     }
 
     const searchForStock = (company: string) => {
         return stockSearch(company)
-            .then(allStocks => setStockList(allStocks))
-            .catch(console.error)
+            .then(allStocks => {
+                if(allStocks.length === 0) {
+                toast("search was without result")
+                } else {
+                    setStockList(allStocks)
+                }
+            })
+            .catch(() => toast.error(`Connection failed. Please try again!`))
     }
 
     return {stocks, addStock, pfValues, updateStock, stock, getStockById, searchForStock, stockList}

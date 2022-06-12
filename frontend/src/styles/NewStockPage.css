@@ -78,14 +78,28 @@
     display: flex;
     justify-content: center;
     padding: 2px;
-    flex-direction: row;
     align-content: stretch;
     align-items: baseline;
 }
 
+.seachCard-form > div:last-child > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 25px;
+    grid-template-areas:
+    "symbol button";
+}
+
+.search-stock {
+    grid-area: symbol;
+    align-self: center;
+    justify-self: end;
+}
+
 .select-button {
-    margin-bottom: 5px;
-    margin-left: 20px;
+    grid-area: button;
+    align-self: center;
+    margin-left: 10px;
 }
 
 input:focus {
