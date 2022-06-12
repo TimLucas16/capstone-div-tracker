@@ -5,6 +5,7 @@ import SearchCard from "../component/SearchCard";
 import "../styles/NewStockPage.css";
 import {useNavigate} from "react-router-dom";
 import {Stock} from "../model/Stock";
+import {toast} from "react-hot-toast";
 
 type NewStockProps = {
     addStock: (newStock: StockDto) => void
@@ -24,13 +25,9 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
 
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        if (!symbol) {
-            alert("kein Symbol eingeben!")
-        }
-        if (amount <= 0 || costPrice <= 0) {
-            alert("Bitte bei Amount oder Course eine Zahl größer 0 eingeben!")
-        }
-
+        if (!symbol || amount <= 0 || costPrice <= 0) {
+            toast.error("please correct input!")
+        } else
         if (!stocks.map(item => item.symbol).includes(symbol)) {
             const newStock: StockDto = {
                 symbol: symbol,
@@ -49,12 +46,6 @@ export default function NewStockPage({addStock, searchForStock, stockList, updat
             navigate(-1)
         }
     }
-
-    // useEffect(() => {
-    //     if(stockList.length === 0) {
-    //         alert("nix gefunden!")
-    //     }
-    // },[searchForStock])
 
     const search = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()

@@ -1,6 +1,7 @@
 import axios from "axios";
 import {StockDto} from "../model/StockDto";
 import {Stock} from "../model/Stock";
+import {SearchStock} from "../model/SearchStock";
 
 export const getAllStocks = () => {
     return axios.get("/api/stock")
@@ -27,7 +28,7 @@ export const getStockBy:(id : string) => Promise<Stock> = (id : string) => {
         .then(response => response.data)
 }
 
-export const stockSearch = (company : string) => {
+export const stockSearch: (company : string) => Promise<SearchStock[]> = (company : string) => {
     return axios.get(`api/stock/search/${company}`)
         .then(response => response.data)
 }

@@ -3,6 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {FormEvent, useEffect, useState} from "react";
 import {Stock} from "../model/Stock";
 import "../styles/UpdateStockPage.css";
+import toast from 'react-hot-toast';
 
 type UpdateProps = {
     updateStock: (updateStock: StockDto) => void
@@ -27,7 +28,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         if (amount <= 0 || costPrice <= 0 || !radio) {
-            alert("please correct input!")
+            toast.error("please correct input!")
         } else
             if (radio === "plus") {
                 const stockChanges: StockDto = {
@@ -39,7 +40,7 @@ export default function UpdateStockPage({updateStock, getStockById, stock}: Upda
                 navigate(-1)
             } else
                 if (amount > stock.shares) {
-                    alert(`you just have ${stock.shares} shares, but you want sell ${amount} shares!`)
+                    toast(`you just have ${stock.shares} shares`)
                 } else {
                     const stockChange: StockDto = {
                         symbol: stock.symbol,
