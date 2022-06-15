@@ -32,7 +32,7 @@ public class StockService {
 
     public Stock addNewStock(CreateStockDto newStock) {
         if (newStock.getShares().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getCostPrice().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getSymbol() == null) {
-            throw new IllegalArgumentException("shares or course can´t be 0 or less");
+            throw new IllegalArgumentException("shares or coastPrice was 0 or less");
         }
         Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol());
         Stock stock = Stock.builder()
@@ -145,6 +145,9 @@ public class StockService {
     }
 
     public BigDecimal calcTotalReturnPercent(BigDecimal totalReturn, BigDecimal costPrice) {
+        if(costPrice.equals(BigDecimal.ZERO)) {
+            return new BigDecimal("100");
+        }
         return totalReturn.divide(costPrice, 4, RoundingMode.HALF_DOWN).multiply(new BigDecimal("100"));
     }
 
@@ -164,16 +167,14 @@ public class StockService {
     }
 
     public BigDecimal calcPfTotalReturnPercent() {
-        BigDecimal a = repo.findAll().stream()
+        BigDecimal calculatedCostPrice = repo.findAll().stream()
                 .map(Stock::getCostPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        if(a.equals(BigDecimal.ZERO)) {
+        if(calculatedCostPrice.equals(BigDecimal.ZERO)) {
             return BigDecimal.ZERO;
         } else {
             return calcPfTotalReturnAbs().
-                    divide(repo.findAll().stream()
-                            .map(Stock::getCostPrice)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add), 4, RoundingMode.HALF_DOWN)
+                    divide(calculatedCostPrice, 4, RoundingMode.HALF_DOWN)
                     .multiply(new BigDecimal("100"));
         }
     }
