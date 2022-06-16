@@ -1,9 +1,10 @@
 package de.neuefische.backend.service;
 
-import de.neuefische.backend.controller.errorhandling.ApiNotResponseException;
+import de.neuefische.backend.controller.errorhandling.ApiUnexpectedResponseException;
 import de.neuefische.backend.controller.errorhandling.InvalidApiResponseException;
 import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -12,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
+@Slf4j
 @Service
 public class ApiService {
 
@@ -37,11 +40,11 @@ public class ApiService {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .toEntity(Stock[].class)
-                .onErrorMap(err -> new ApiNotResponseException("Error at getProfileBySymbol(): " + err))
+                .onErrorMap(err -> new InvalidApiResponseException("Error at getProfileBySymbol(): " + err))
                 .block();
 
         if(response == null || response.getBody() == null) {
-            throw new ApiNotResponseException("Connection to Api failed!");
+            throw new ApiUnexpectedResponseException("unexpected Api response!");
         }
         if(response.getBody().length == 0) {
             throw new NoSuchElementException("Stock with symbol: " + symbol + " does not exist");
@@ -57,11 +60,11 @@ public class ApiService {
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntity(Stock[].class)
-                    .onErrorMap(err -> new ApiNotResponseException("Error at getPrice(): " + err))
+                    .onErrorMap(err -> new InvalidApiResponseException("Error at getPrice(): " + err))
                     .block();
 
             if (response == null || response.getBody() == null) {
-                throw new ApiNotResponseException("Connection to Api failed!");
+                throw new ApiUnexpectedResponseException("unexpected Api response!");
             }
             profileStockList.add(response.getBody()[0]);
         }
@@ -77,14 +80,14 @@ public class ApiService {
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntityList(SearchStock.class)
-                    .onErrorMap(err -> new ApiNotResponseException("Error at stockSearchResult(): " + err))
+                    .onErrorMap(err -> new InvalidApiResponseException("Error at stockSearchResult(): " + err))
                     .block();
 
             if(response == null || response.getBody() == null) {
-                throw new ApiNotResponseException("Connection to Api failed!");
+                throw new ApiUnexpectedResponseException("unexpected Api response!");
             }
             if(response.getBody().isEmpty()) {
-                throw new NoSuchElementException("Stock with symbol: " + company + " does not exist");
+                log.info("search for " + company + " was without result");
             }
             // special case for invalid Apikeys return null values
             if(response.getBody().size() == 1

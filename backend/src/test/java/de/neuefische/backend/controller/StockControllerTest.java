@@ -51,7 +51,7 @@ class StockControllerTest {
                 .build();
 
         // Mock FMP API
-        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY2)
+        stubFor(get("/profile/" + "AAPL" + "?apikey=" + API_KEY)
                 .willReturn(okJson(json)));
 
         //WHEN
@@ -101,7 +101,7 @@ class StockControllerTest {
                 .uri("api/stock")
                 .bodyValue(stock)
                 .exchange()
-                .expectStatus().is5xxServerError();
+                .expectStatus().is4xxClientError();
     }
 
     @Test
@@ -245,7 +245,7 @@ class StockControllerTest {
                 .uri("/api/stock/" + "123")
                 .exchange()
                 //THEN
-                .expectStatus().is5xxServerError();
+                .expectStatus().is4xxClientError();
     }
 
     @Test
