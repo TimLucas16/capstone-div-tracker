@@ -6,7 +6,6 @@ import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -340,7 +339,7 @@ class StockServiceTest {
     }
 
     @Test
-    void stockSearchResult_whenThereIsNotAResult() {
+    void stockSearchResult_whenThereIsNoResult() {
         //GIVEN
         when(apiService.stockSearchResult("ggg")).thenReturn(List.of());
 

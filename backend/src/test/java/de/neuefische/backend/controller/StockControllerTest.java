@@ -1,6 +1,7 @@
 package de.neuefische.backend.controller;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import de.neuefische.backend.controller.errorhandling.InvalidApiResponseException;
 import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.Portfolio;
 import de.neuefische.backend.model.SearchStock;
@@ -19,6 +20,7 @@ import java.util.List;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 @WireMockTest(httpPort = 8484)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -410,7 +412,7 @@ class StockControllerTest {
     }
 
     @Test
-    void stockSearchResult_whenThereIsNotAResult() {
+    void stockSearchResult_whenThereIsNoResult() {
         //GIVEN
         stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
                 .willReturn(okJson(searchJsonEmpty)));
@@ -429,6 +431,19 @@ class StockControllerTest {
         //Then
         List<SearchStock> expected = List.of();
         assertEquals(expected, actual);
+    }
+
+    @Test
+    void stockSearchResult_withInvalidApikey() {
+        //GIVEN
+        stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY + "q")
+                .willReturn(okJson(searchJsonInvalidApikey)));
+
+        //WHEN
+        testClient.get()
+                .uri("/api/stock/search/" + "ggg")
+                .exchange()
+                .expectStatus().is5xxServerError();
     }
 
     String json = """
@@ -452,5 +467,11 @@ class StockControllerTest {
 
     String searchJsonEmpty = """
             []""";
+
+    String searchJsonInvalidApikey = """
+            [ {
+              "symbol" : null
+              "name" : null
+            } ]""";
 
 }
