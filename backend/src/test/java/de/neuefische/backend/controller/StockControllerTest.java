@@ -1,7 +1,6 @@
 package de.neuefische.backend.controller;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import de.neuefische.backend.controller.errorhandling.InvalidApiResponseException;
 import de.neuefische.backend.dto.CreateStockDto;
 import de.neuefische.backend.model.Portfolio;
 import de.neuefische.backend.model.SearchStock;
@@ -20,7 +19,6 @@ import java.util.List;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @WireMockTest(httpPort = 8484)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -438,6 +436,19 @@ class StockControllerTest {
         //GIVEN
         stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY + "q")
                 .willReturn(okJson(searchJsonInvalidApikey)));
+
+        //WHEN
+        testClient.get()
+                .uri("/api/stock/search/" + "ggg")
+                .exchange()
+                .expectStatus().is5xxServerError();
+    }
+
+    @Test
+    void stockSearchResult_withUnexpectedResponse() {
+        //GIVEN
+        stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
+                .willReturn(null));
 
         //WHEN
         testClient.get()
