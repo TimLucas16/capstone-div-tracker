@@ -438,19 +438,11 @@ class StockControllerTest {
                 .willReturn(okJson(searchJsonInvalidApikey)));
 
         //WHEN
-        List<SearchStock> actual = testClient.get()
+        testClient.get()
                 .uri("/api/stock/search/" + "ggg")
                 .exchange()
-                .expectStatus().is2xxSuccessful()
-                .expectBodyList(SearchStock.class)
-                .returnResult()
-                .getResponseBody();
-
-
+                .expectStatus().is5xxServerError();
     }
-
-
-
 
     String json = """
             [ {
