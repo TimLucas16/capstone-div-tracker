@@ -45,21 +45,6 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(value = { ApiUnexpectedResponseException.class })
-    protected ResponseEntity<Object> handleConflict(ApiUnexpectedResponseException ex, WebRequest request) {
-
-        ErrorResponse bodyOfResponse = ErrorResponse.builder()
-                .error(HttpStatus.BAD_GATEWAY)
-                .errorMessage(ex.toString())
-                .timestamp(LocalDateTime.now())
-                .requestUri(request.getDescription(false))
-                .build();
-
-        log.error("There was a ApiNotResponseException: " + ex);
-
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_GATEWAY, request);
-    }
-
     @ExceptionHandler(value = { ApiNoResponseException.class })
     protected ResponseEntity<Object> handleConflict(ApiNoResponseException ex, WebRequest request) {
 

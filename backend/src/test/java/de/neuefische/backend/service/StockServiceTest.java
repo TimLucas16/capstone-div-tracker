@@ -141,7 +141,6 @@ class StockServiceTest {
 
         //WHEN THEN
         assertThrows(NoSuchElementException.class, () -> stockService.getStockById("123"));
-
         verify(stockRepo).findById("123");
     }
 
@@ -335,6 +334,7 @@ class StockServiceTest {
                 SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPW").build(),
                 SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPU").build()
         );
+        verify(apiService).stockSearchResult("weru");
         assertEquals(expected, actual);
     }
 
@@ -348,6 +348,7 @@ class StockServiceTest {
 
         //THEN
         List<SearchStock> expected = List.of();
+        verify(apiService).stockSearchResult("ggg");
         assertEquals(expected, actual);
     }
 

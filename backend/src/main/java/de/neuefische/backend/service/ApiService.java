@@ -1,6 +1,5 @@
 package de.neuefische.backend.service;
 
-import de.neuefische.backend.controller.errorhandling.ApiUnexpectedResponseException;
 import de.neuefische.backend.controller.errorhandling.ApiNoResponseException;
 import de.neuefische.backend.controller.errorhandling.InvalidApiKeyException;
 import de.neuefische.backend.model.SearchStock;
@@ -40,11 +39,10 @@ public class ApiService {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .toEntity(Stock[].class)
-                .onErrorMap(err -> new ApiNoResponseException("Error: " + err))
                 .block();
 
         if(response == null || response.getBody() == null) {
-            throw new ApiUnexpectedResponseException("unexpected Api response!");
+            throw new ApiNoResponseException("unexpected Api response!");
         }
         if(response.getBody().length == 0) {
             throw new NoSuchElementException("Stock with symbol: " + symbol + " does not exist");
@@ -60,11 +58,10 @@ public class ApiService {
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntity(Stock[].class)
-                    .onErrorMap(err -> new ApiNoResponseException("Error: " + err))
                     .block();
 
             if (response == null || response.getBody() == null) {
-                throw new ApiUnexpectedResponseException("unexpected Api response!");
+                throw new ApiNoResponseException("unexpected Api response!");
             }
             profileStockList.add(response.getBody()[0]);
         }
@@ -80,11 +77,10 @@ public class ApiService {
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntityList(SearchStock.class)
-                    .onErrorMap(err -> new ApiNoResponseException("Error: " + err))
                     .block();
 
             if(response == null || response.getBody() == null) {
-                throw new ApiUnexpectedResponseException("unexpected Api response!");
+                throw new ApiNoResponseException("unexpected Api response!");
             }
             if(response.getBody().isEmpty()) {
                 log.info("search for " + company + " was without result");

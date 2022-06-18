@@ -441,15 +441,16 @@ class StockControllerTest {
         List<SearchStock> actual = testClient.get()
                 .uri("/api/stock/search/" + "ggg")
                 .exchange()
-                .expectStatus().is5xxServerError()
+                .expectStatus().is2xxSuccessful()
                 .expectBodyList(SearchStock.class)
                 .returnResult()
                 .getResponseBody();
 
-        //THEN
-        List<SearchStock> expected = List.of(SearchStock.builder().name(null).symbol(null).build());
-        assertEquals(expected, actual);
+
     }
+
+
+
 
     String json = """
             [ {
