@@ -1,12 +1,14 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.dto.CreateStockDto;
+import de.neuefische.backend.model.DailyUpdate;
 import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -95,6 +97,77 @@ class StockServiceTest {
 
         //THEN
         assertThrows(IllegalArgumentException.class, () -> stockService.addNewStock(newStock));
+    }
+
+    @Test
+    void getAllStocks() {
+        //GIVEN
+        Stock stock1 = Stock.builder()
+                .id("123456")
+                .symbol("AAPL")
+                .costPrice(new BigDecimal("280.56"))
+                .shares(BigDecimal.TEN)
+                .value(new BigDecimal("280.30"))
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .price(new BigDecimal("28.03"))
+                .totalReturn(new BigDecimal("-0.26"))
+                .totalReturnPercent(new BigDecimal("-0.0900"))
+                .build();
+
+        Stock stock2 = Stock.builder()
+                .id("789")
+                .symbol("MSFT")
+                .costPrice(new BigDecimal("2300"))
+                .shares(BigDecimal.TEN)
+                .value(new BigDecimal("2476.5"))
+                .companyName("Microsoft Corporation")
+                .website("https://www.microsoft.com")
+                .image("https://financialmodelingprep.com/image-stock/MSFT.png")
+                .price(new BigDecimal("247.65"))
+                .totalReturn(new BigDecimal("176.50"))
+                .totalReturnPercent(new BigDecimal("7.67"))
+                .build();
+        when(stockRepo.findAll()).thenReturn(List.of(stock1, stock2));
+        when(dURepo.findByName("Portfolio")).thenReturn(DailyUpdate.builder()
+                .name("Portfolio")
+                .updateDay(LocalDate.now())
+                .build());
+
+        //WHEN
+        List<Stock> actual = stockService.getAllStocks();
+
+        //THEN
+        List<Stock> expected = List.of(
+                Stock.builder()
+                        .id("123456")
+                        .symbol("AAPL")
+                        .costPrice(new BigDecimal("280.56"))
+                        .shares(BigDecimal.TEN)
+                        .value(new BigDecimal("280.30"))
+                        .companyName("Apple Inc.")
+                        .website("https://www.apple.com")
+                        .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                        .price(new BigDecimal("28.03"))
+                        .totalReturn(new BigDecimal("-0.26"))
+                        .totalReturnPercent(new BigDecimal("-0.0900"))
+                        .build(),
+                Stock.builder()
+                        .id("789")
+                        .symbol("MSFT")
+                        .costPrice(new BigDecimal("2300"))
+                        .shares(BigDecimal.TEN)
+                        .value(new BigDecimal("2476.5"))
+                        .companyName("Microsoft Corporation")
+                        .website("https://www.microsoft.com")
+                        .image("https://financialmodelingprep.com/image-stock/MSFT.png")
+                        .price(new BigDecimal("247.65"))
+                        .totalReturn(new BigDecimal("176.50"))
+                        .totalReturnPercent(new BigDecimal("7.67"))
+                        .build());
+        verify(stockRepo).findAll();
+        assertEquals(expected, actual);
     }
 
     @Test
