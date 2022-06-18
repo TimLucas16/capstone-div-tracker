@@ -171,6 +171,47 @@ class StockServiceTest {
     }
 
     @Test
+    void getAllSymbols() {
+        //GIVEN
+        Stock stock1 = Stock.builder()
+                .id("123456")
+                .symbol("AAPL")
+                .costPrice(new BigDecimal("280.56"))
+                .shares(BigDecimal.TEN)
+                .value(new BigDecimal("280.30"))
+                .companyName("Apple Inc.")
+                .website("https://www.apple.com")
+                .image("https://financialmodelingprep.com/image-stock/AAPL.png")
+                .price(new BigDecimal("28.03"))
+                .totalReturn(new BigDecimal("-0.26"))
+                .totalReturnPercent(new BigDecimal("-0.0900"))
+                .build();
+
+        Stock stock2 = Stock.builder()
+                .id("789")
+                .symbol("MSFT")
+                .costPrice(new BigDecimal("2300"))
+                .shares(BigDecimal.TEN)
+                .value(new BigDecimal("2476.5"))
+                .companyName("Microsoft Corporation")
+                .website("https://www.microsoft.com")
+                .image("https://financialmodelingprep.com/image-stock/MSFT.png")
+                .price(new BigDecimal("247.65"))
+                .totalReturn(new BigDecimal("176.50"))
+                .totalReturnPercent(new BigDecimal("7.67"))
+                .build();
+        when(stockRepo.findAll()).thenReturn(List.of(stock1, stock2));
+
+        //WHEN
+        List<String> actual = stockService.getAllSymbols();
+
+        //THEN
+        List<String> expected = List.of("AAPL", "MSFT");
+        verify(stockRepo).findAll();
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void getStockById_whenIdIsValid() {
         //GIVEN
         when(stockRepo.findById("123")).thenReturn(Optional.of(Stock.builder()
