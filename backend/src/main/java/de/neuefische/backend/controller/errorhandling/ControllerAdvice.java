@@ -60,8 +60,8 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_GATEWAY, request);
     }
 
-    @ExceptionHandler(value = { InvalidApiResponseException.class })
-    protected ResponseEntity<Object> handleConflict(InvalidApiResponseException ex, WebRequest request) {
+    @ExceptionHandler(value = { ApiNoResponseException.class })
+    protected ResponseEntity<Object> handleConflict(ApiNoResponseException ex, WebRequest request) {
 
         ErrorResponse bodyOfResponse = ErrorResponse.builder()
                 .error(HttpStatus.BAD_GATEWAY)
@@ -73,5 +73,20 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         log.error("There was a InvalidApiResponseException: " + ex);
 
         return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_GATEWAY, request);
+    }
+
+    @ExceptionHandler(value = { InvalidApiKeyException.class })
+    protected ResponseEntity<Object> handleConflict(InvalidApiKeyException ex, WebRequest request) {
+
+        ErrorResponse bodyOfResponse = ErrorResponse.builder()
+                .error(HttpStatus.BAD_REQUEST)
+                .errorMessage(ex.toString())
+                .timestamp(LocalDateTime.now())
+                .requestUri(request.getDescription(false))
+                .build();
+
+        log.error("There was a InvalidApiResponseException: " + ex);
+
+        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 }

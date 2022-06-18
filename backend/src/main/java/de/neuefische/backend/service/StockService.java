@@ -33,8 +33,14 @@ public class StockService {
     }
 
     public Stock addNewStock(CreateStockDto newStock) {
-        if (newStock.getShares().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getCostPrice().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getSymbol() == null) {
-            throw new IllegalArgumentException("shares or coastPrice was 0 or less");
+        if (newStock.getShares() == null || newStock.getShares().max(new BigDecimal("0")).equals(new BigDecimal("0"))) {
+            throw new IllegalArgumentException("shares was 0 or less or null");
+        }
+        if (newStock.getCostPrice() == null || newStock.getCostPrice().max(new BigDecimal("0")).equals(new BigDecimal("0"))) {
+            throw new IllegalArgumentException("coastPrice was 0 or less or null");
+        }
+        if (newStock.getSymbol() == null || newStock.getSymbol().trim().isEmpty()) {
+            throw new IllegalArgumentException("symbol was empty or null");
         }
         Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol());
         Stock stock = Stock.builder()
@@ -150,7 +156,7 @@ public class StockService {
     }
 
     public BigDecimal calcTotalReturnPercent(BigDecimal totalReturn, BigDecimal costPrice) {
-        if(costPrice.equals(BigDecimal.ZERO)) {
+        if(costPrice.max(BigDecimal.ZERO).equals(BigDecimal.ZERO)) {
             return new BigDecimal("100");
         }
         return totalReturn.divide(costPrice, 4, RoundingMode.HALF_DOWN).multiply(new BigDecimal("100"));

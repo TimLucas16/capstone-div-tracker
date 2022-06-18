@@ -343,7 +343,7 @@ class StockControllerTest {
                 .website("https://www.apple.com")
                 .image("https://financialmodelingprep.com/image-stock/AAPL.png")
                 .totalReturn(new BigDecimal("801.24"))
-                .totalReturnPercent(new BigDecimal("-805.7500"))
+                .totalReturnPercent(new BigDecimal("100"))
                 .build();
         assertEquals(expected, actual);
     }
@@ -434,27 +434,21 @@ class StockControllerTest {
     @Test
     void stockSearchResult_withInvalidApikey() {
         //GIVEN
-        stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY + "q")
+        stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + "Invalid_API_KEY")
                 .willReturn(okJson(searchJsonInvalidApikey)));
 
         //WHEN
-        testClient.get()
+        List<SearchStock> actual = testClient.get()
                 .uri("/api/stock/search/" + "ggg")
                 .exchange()
-                .expectStatus().is5xxServerError();
-    }
+                .expectStatus().is5xxServerError()
+                .expectBodyList(SearchStock.class)
+                .returnResult()
+                .getResponseBody();
 
-    @Test
-    void stockSearchResult_withUnexpectedResponse() {
-        //GIVEN
-        stubFor(get("/search-name?query=" + "ggg" + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
-                .willReturn(null));
-
-        //WHEN
-        testClient.get()
-                .uri("/api/stock/search/" + "ggg")
-                .exchange()
-                .expectStatus().is5xxServerError();
+        //THEN
+        List<SearchStock> expected = List.of(SearchStock.builder().name(null).symbol(null).build());
+        assertEquals(expected, actual);
     }
 
     String json = """

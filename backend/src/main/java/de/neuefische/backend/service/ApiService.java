@@ -1,7 +1,8 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.controller.errorhandling.ApiUnexpectedResponseException;
-import de.neuefische.backend.controller.errorhandling.InvalidApiResponseException;
+import de.neuefische.backend.controller.errorhandling.ApiNoResponseException;
+import de.neuefische.backend.controller.errorhandling.InvalidApiKeyException;
 import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 
 @Slf4j
@@ -40,7 +40,7 @@ public class ApiService {
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .toEntity(Stock[].class)
-                .onErrorMap(err -> new InvalidApiResponseException("Error at getProfileBySymbol(): " + err))
+                .onErrorMap(err -> new ApiNoResponseException("Error: " + err))
                 .block();
 
         if(response == null || response.getBody() == null) {
@@ -60,7 +60,7 @@ public class ApiService {
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntity(Stock[].class)
-                    .onErrorMap(err -> new InvalidApiResponseException("Error at getPrice(): " + err))
+                    .onErrorMap(err -> new ApiNoResponseException("Error: " + err))
                     .block();
 
             if (response == null || response.getBody() == null) {
@@ -80,7 +80,7 @@ public class ApiService {
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .retrieve()
                     .toEntityList(SearchStock.class)
-                    .onErrorMap(err -> new InvalidApiResponseException("Error at stockSearchResult(): " + err))
+                    .onErrorMap(err -> new ApiNoResponseException("Error: " + err))
                     .block();
 
             if(response == null || response.getBody() == null) {
@@ -93,7 +93,7 @@ public class ApiService {
             if(response.getBody().size() == 1
                     && response.getBody().get(0).getName() == null
                     && response.getBody().get(0).getSymbol() == null) {
-                throw new InvalidApiResponseException("Invalid ApiKey, Body: " + response.getBody());
+                throw new InvalidApiKeyException("Invalid ApiKey, Body: " + response.getBody());
             }
             setList.addAll(response.getBody());
         }
