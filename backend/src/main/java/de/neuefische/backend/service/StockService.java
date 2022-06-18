@@ -124,8 +124,7 @@ public class StockService {
     }
 
     public List<Stock> getUpdatedStock() {
-        List<String> symbolList = getAllSymbols();
-        return apiService.getPrice(symbolList);
+        return apiService.getPrice(getAllSymbols());
     }
 
     public void checkForDailyUpdate() {
