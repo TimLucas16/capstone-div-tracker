@@ -41,9 +41,14 @@ public class ApiService {
                 .toEntity(Stock[].class)
                 .block();
 
-        if(response == null || response.getBody() == null) {
-            throw new ApiNoResponseException("unexpected Api response!");
+        if(response == null) {
+            throw new ApiNoResponseException("Api not available!");
         }
+
+        if(response.getBody() == null) {
+            throw new ApiNoResponseException("Response is null!");
+        }
+
         if(response.getBody().length == 0) {
             throw new NoSuchElementException("Stock with symbol: " + symbol + " does not exist");
         }
@@ -60,9 +65,14 @@ public class ApiService {
                     .toEntity(Stock[].class)
                     .block();
 
-            if (response == null || response.getBody() == null) {
-                throw new ApiNoResponseException("unexpected Api response!");
+            if(response == null) {
+                throw new ApiNoResponseException("Api not available!");
             }
+
+            if(response.getBody() == null) {
+                throw new ApiNoResponseException("Response is null!");
+            }
+
             profileStockList.add(response.getBody()[0]);
         }
         return profileStockList;
@@ -79,9 +89,14 @@ public class ApiService {
                     .toEntityList(SearchStock.class)
                     .block();
 
-            if(response == null || response.getBody() == null) {
-                throw new ApiNoResponseException("unexpected Api response!");
+            if(response == null) {
+                throw new ApiNoResponseException("Api not available!");
             }
+
+            if(response.getBody() == null) {
+                throw new ApiNoResponseException("Response is null!");
+            }
+
             if(response.getBody().isEmpty()) {
                 log.info("search for " + company + " was without result");
             }
