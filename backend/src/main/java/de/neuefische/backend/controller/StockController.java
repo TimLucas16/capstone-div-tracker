@@ -5,11 +5,13 @@ import de.neuefische.backend.model.Portfolio;
 import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.service.StockService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/stock")
 public class StockController {
@@ -23,6 +25,7 @@ public class StockController {
 
     @PostMapping
     public Stock addNewStock(@RequestBody CreateStockDto newStock) {
+        log.info("Post new stock was called with body: " + newStock);
         return service.addNewStock(newStock);
     }
 
@@ -37,8 +40,9 @@ public class StockController {
     }
 
     @PutMapping
-    public Stock updateStock(@RequestBody CreateStockDto updatedstock) {
-        return service.updateStock(updatedstock);
+    public Stock updateStock(@RequestBody CreateStockDto updatedStock) {
+        log.info("Put update stock was called with body: " + updatedStock);
+        return service.updateStock(updatedStock);
     }
 
     @GetMapping("{id}")

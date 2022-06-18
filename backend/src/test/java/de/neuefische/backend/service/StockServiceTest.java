@@ -6,7 +6,6 @@ import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
 import org.junit.jupiter.api.Test;
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -142,7 +141,6 @@ class StockServiceTest {
 
         //WHEN THEN
         assertThrows(NoSuchElementException.class, () -> stockService.getStockById("123"));
-
         verify(stockRepo).findById("123");
     }
 
@@ -336,11 +334,12 @@ class StockServiceTest {
                 SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPW").build(),
                 SearchStock.builder().name("PowerUp Acquisition Corp.").symbol("PWUPU").build()
         );
+        verify(apiService).stockSearchResult("weru");
         assertEquals(expected, actual);
     }
 
     @Test
-    void stockSearchResult_whenThereIsNotAResult() {
+    void stockSearchResult_whenThereIsNoResult() {
         //GIVEN
         when(apiService.stockSearchResult("ggg")).thenReturn(List.of());
 
@@ -349,6 +348,7 @@ class StockServiceTest {
 
         //THEN
         List<SearchStock> expected = List.of();
+        verify(apiService).stockSearchResult("ggg");
         assertEquals(expected, actual);
     }
 

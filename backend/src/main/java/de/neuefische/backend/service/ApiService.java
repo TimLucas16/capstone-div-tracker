@@ -1,7 +1,10 @@
 package de.neuefische.backend.service;
 
+import de.neuefische.backend.controller.errorhandling.ApiNoResponseException;
+import de.neuefische.backend.controller.errorhandling.InvalidApiKeyException;
 import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -12,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.*;
 
+@Slf4j
 @Service
 public class ApiService {
 
@@ -31,14 +35,17 @@ public class ApiService {
     public Stock getProfileBySymbol(String symbol) {
 
         ResponseEntity<Stock[]> response = webClient.get()
-                .uri("/profile/" + symbol + "?apikey=" + API_KEY2)
+                .uri("/profile/" + symbol + "?apikey=" + API_KEY)
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .retrieve()
                 .toEntity(Stock[].class)
                 .block();
 
         if(response == null || response.getBody() == null) {
-            throw new RuntimeException("API-ERROR");
+            throw new ApiNoResponseException("unexpected Api response!");
+        }
+        if(response.getBody().length == 0) {
+            throw new NoSuchElementException("Stock with symbol: " + symbol + " does not exist");
         }
         return response.getBody()[0];
     }
@@ -54,7 +61,7 @@ public class ApiService {
                     .block();
 
             if (response == null || response.getBody() == null) {
-                throw new RuntimeException("API-ERROR");
+                throw new ApiNoResponseException("unexpected Api response!");
             }
             profileStockList.add(response.getBody()[0]);
         }
@@ -62,26 +69,30 @@ public class ApiService {
     }
 
     public List<SearchStock> stockSearchResult(String company) {
+        String[] exchangeList = {"NASDAQ", "NYSE"};
+        Set<SearchStock> setList = new HashSet<>();
+        for (String exchange : exchangeList) {
+            ResponseEntity<List<SearchStock>> response =  webClient.get()
+                    .uri("/search-name?query=" + company + "&limit=10&exchange=" + exchange + "&apikey=" + API_KEY)
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .retrieve()
+                    .toEntityList(SearchStock.class)
+                    .block();
 
-        List<SearchStock> listNasdaq =  webClient.get()
-                .uri("/search-name?query=" + company + "&limit=10&exchange=NASDAQ&apikey=" + API_KEY)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .retrieve()
-                .toEntityList(SearchStock.class)
-                .block()
-                .getBody();
-
-        List<SearchStock> listNyse =  webClient.get()
-                .uri("/search-name?query=" + company + "&limit=10&exchange=NYSE&apikey=" + API_KEY)
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .retrieve()
-                .toEntityList(SearchStock.class)
-                .block()
-                .getBody();
-
-        Set<SearchStock> setList = new HashSet<>(listNasdaq);
-        setList.addAll(listNyse);
-
+            if(response == null || response.getBody() == null) {
+                throw new ApiNoResponseException("unexpected Api response!");
+            }
+            if(response.getBody().isEmpty()) {
+                log.info("search for " + company + " was without result");
+            }
+            // special case for invalid Apikeys return null values
+            if(response.getBody().size() == 1
+                    && response.getBody().get(0).getName() == null
+                    && response.getBody().get(0).getSymbol() == null) {
+                throw new InvalidApiKeyException("Invalid ApiKey, Body: " + response.getBody());
+            }
+            setList.addAll(response.getBody());
+        }
         return new ArrayList<>(setList);
     }
 }

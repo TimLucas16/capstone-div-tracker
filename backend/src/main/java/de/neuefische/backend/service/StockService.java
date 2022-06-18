@@ -7,6 +7,7 @@ import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import de.neuefische.backend.repository.DailyUpdateRepo;
 import de.neuefische.backend.repository.StockRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Service
 public class StockService {
 
@@ -31,8 +33,14 @@ public class StockService {
     }
 
     public Stock addNewStock(CreateStockDto newStock) {
-        if (newStock.getShares().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getCostPrice().max(new BigDecimal("0")).equals(new BigDecimal("0")) || newStock.getSymbol() == null) {
-            throw new IllegalArgumentException("shares or course can´t be 0 or less");
+        if (newStock.getShares() == null || newStock.getShares().max(new BigDecimal("0")).equals(new BigDecimal("0"))) {
+            throw new IllegalArgumentException("shares was 0 or less or null");
+        }
+        if (newStock.getCostPrice() == null || newStock.getCostPrice().max(new BigDecimal("0")).equals(new BigDecimal("0"))) {
+            throw new IllegalArgumentException("coastPrice was 0 or less or null");
+        }
+        if (newStock.getSymbol() == null || newStock.getSymbol().trim().isEmpty()) {
+            throw new IllegalArgumentException("symbol was empty or null");
         }
         Stock apiStock = apiService.getProfileBySymbol(newStock.getSymbol());
         Stock stock = Stock.builder()
@@ -52,7 +60,10 @@ public class StockService {
                                 newStock.getCostPrice()),
                                 newStock.getCostPrice()))
                 .build();
-        return repo.insert(stock);
+
+        Stock insertedStock = repo.insert(stock);
+        log.info("Added new stock: " + insertedStock);
+        return insertedStock;
     }
 
     public List<Stock> getAllStocks() {
@@ -66,21 +77,21 @@ public class StockService {
                 .toList();
     }
 
-    public Stock updateStock(CreateStockDto updatedStock) {
-        Stock toUpdateStock = repo.findBySymbol(updatedStock.getSymbol());
+    public Stock updateStock(CreateStockDto stockChanges) {
+        Stock toUpdateStock = repo.findBySymbol(stockChanges.getSymbol());
 
-        if (toUpdateStock.getShares().add(updatedStock.getShares()).equals(BigDecimal.ZERO)) {
+        if (toUpdateStock.getShares().add(stockChanges.getShares()).equals(BigDecimal.ZERO)) {
             repo.deleteById(toUpdateStock.getId());
             return null;
         }
 
-        toUpdateStock.setShares(toUpdateStock.getShares().add(updatedStock.getShares()));
-        toUpdateStock.setCostPrice(toUpdateStock.getCostPrice().add(updatedStock.getCostPrice()));
+        toUpdateStock.setShares(toUpdateStock.getShares().add(stockChanges.getShares()));
+        toUpdateStock.setCostPrice(toUpdateStock.getCostPrice().add(stockChanges.getCostPrice()));
         toUpdateStock.setValue(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares()));
         toUpdateStock.setTotalReturn(calcTotalReturn(calcValue(toUpdateStock.getPrice(), toUpdateStock.getShares()), toUpdateStock.getCostPrice()));
         toUpdateStock.setTotalReturnPercent(calcTotalReturnPercent(toUpdateStock.getTotalReturn(), toUpdateStock.getCostPrice()));
         repo.save(toUpdateStock);
-
+        log.info("updated stock: " + toUpdateStock);
         return toUpdateStock;
     }
 
@@ -90,7 +101,7 @@ public class StockService {
     }
 
     public List<SearchStock> stockSearchResult(String company) {
-        return apiService.stockSearchResult(company);
+            return apiService.stockSearchResult(company);
     }
 
     public Portfolio getPortfolioValues() {
@@ -145,6 +156,9 @@ public class StockService {
     }
 
     public BigDecimal calcTotalReturnPercent(BigDecimal totalReturn, BigDecimal costPrice) {
+        if(costPrice.max(BigDecimal.ZERO).equals(BigDecimal.ZERO)) {
+            return new BigDecimal("100");
+        }
         return totalReturn.divide(costPrice, 4, RoundingMode.HALF_DOWN).multiply(new BigDecimal("100"));
     }
 
@@ -164,16 +178,14 @@ public class StockService {
     }
 
     public BigDecimal calcPfTotalReturnPercent() {
-        BigDecimal a = repo.findAll().stream()
+        BigDecimal calculatedCostPrice = repo.findAll().stream()
                 .map(Stock::getCostPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        if(a.equals(BigDecimal.ZERO)) {
+        if(calculatedCostPrice.equals(BigDecimal.ZERO)) {
             return BigDecimal.ZERO;
         } else {
             return calcPfTotalReturnAbs().
-                    divide(repo.findAll().stream()
-                            .map(Stock::getCostPrice)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add), 4, RoundingMode.HALF_DOWN)
+                    divide(calculatedCostPrice, 4, RoundingMode.HALF_DOWN)
                     .multiply(new BigDecimal("100"));
         }
     }
