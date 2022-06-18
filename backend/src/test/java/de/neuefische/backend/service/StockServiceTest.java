@@ -485,4 +485,24 @@ class StockServiceTest {
         //THEN
         assertEquals(new BigDecimal("0.2200"), actual);
     }
+
+    @Test
+    void calcPfTotalReturnAbs() {
+        //GIVEN
+        when(stockRepo.findAll()).thenReturn(List.of(Stock.builder()
+                .id("123")
+                .symbol("AAPL")
+                .costPrice(new BigDecimal("1400.56"))
+                .shares(new BigDecimal("10"))
+                .value(new BigDecimal("1403.60"))
+                .price(new BigDecimal("140.36"))
+                .totalReturn(new BigDecimal("3.04"))
+                .build()));
+
+        //WHEN
+        BigDecimal actual = stockService.calcPfTotalReturnAbs();
+
+        //THEN
+        assertEquals(new BigDecimal("3.04"), actual);
+    }
 }
