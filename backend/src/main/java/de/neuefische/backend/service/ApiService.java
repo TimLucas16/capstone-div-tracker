@@ -1,7 +1,6 @@
 package de.neuefische.backend.service;
 
 import de.neuefische.backend.controller.errorhandling.ApiNoResponseException;
-import de.neuefische.backend.controller.errorhandling.InvalidApiKeyException;
 import de.neuefische.backend.model.SearchStock;
 import de.neuefische.backend.model.Stock;
 import lombok.extern.slf4j.Slf4j;
@@ -99,12 +98,6 @@ public class ApiService {
 
             if(response.getBody().isEmpty()) {
                 log.info("search for " + company + " was without result");
-            }
-            // special case for invalid Apikeys return null values
-            if(response.getBody().size() == 1
-                    && response.getBody().get(0).getName() == null
-                    && response.getBody().get(0).getSymbol() == null) {
-                throw new InvalidApiKeyException("Invalid ApiKey, Body: " + response.getBody());
             }
             setList.addAll(response.getBody());
         }
